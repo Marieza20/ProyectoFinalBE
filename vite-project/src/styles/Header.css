@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.nav{
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #EAA9C2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.menu{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.IMG{
+    width: 60px;
+}
+
+.IMG img{
+    width: 100%;
+}
+
+.elementosMenu{
+    display: none;
+}
+
+.bi-list{
+    color: #fff;
+    font-size: 70px;
+    display: block;
+}
+
+.bi-person{
+    color: #fff;
+    font-size: 50px;
+    display: none;
+}
+
+
+
+.navLateral{
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #EAA9C2;
+    display: flex;
+    justify-content: center;
+}
+
+.menuLateral{
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    width: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.menuLateral h3{
+    font-size: 30px;
+    color: #fff;
+}
+
+.bi-chevron-left{
+    color: #fff;
+    font-size: 50px;
+}
+
+
+
+
+
+
+@media (min-width: 1000px) {
+    .elementosMenu{
+        display: block;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        color: #fff;
+    }
+
+    .bi-list{
+        display: none;
+    }
+
+    .bi-person{
+        display: block;
+    }
+}

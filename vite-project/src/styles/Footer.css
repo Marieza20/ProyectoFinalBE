@@ -5,9 +5,10 @@
 }
 
 .footer{
+    
     width: 100%;
-    position: relative;
-    bottom: 0;
+    position: absolute;
+    bottom: 0px;
 }
 
 .footer img{
@@ -15,7 +16,20 @@
 }
 
 .textoFooter{
+    display: flex;
+    justify-content: center;
+}
+
+.textoFooter p{
     z-index: 1;
     position: absolute;
     bottom: 20px;
+    color: #fff;
+}
+
+
+@media (max-width: 500px) {
+    .textoFooter p{
+        font-size: 10px;
+    }
 }
