@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.nav{
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #EAA9C2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.menu{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.IMG{
+    width: 60px;
+}
+
+.IMG img{
+    width: 100%;
+}
+
+.elementosMenu{
+    display: none;
+}
+
+.bi-list{
+    color: #fff;
+    font-size: 70px;
+    display: block;
+}
+
+.iconos .bi-person{
+    color: #fff;
+    font-size: 50px;
+    display: none;
+}
+
+
+
+.navLateral{
+    z-index: 3;
+    position: fixed;
+    top: -100%;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #EAA9C2;
+}
+
+.menuLateral{
+    position: absolute;
+    top: 0;
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.menuLateral h3{
+    font-size: 30px;
+    color: #fff;
+}
+
+.bi-chevron-left{
+    color: #fff;
+    font-size: 50px;
+}
+
+.elementosMenuLateral{
+    height: 100vh;
+    list-style: none;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.elementosMenuLateral .bi-person{
+    color: #fff;
+    font-size: 120px;
+    display: block;
+}
+
+.elementosMenuLateral p{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.elementosMenuLateral .lista{
+    list-style: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.elementosMenuLateral .lista li{
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+
+
+@media (min-width: 1000px) {
+    .elementosMenu{
+        display: block;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        color: #fff;
+    }
+
+    .bi-list{
+        display: none;
+    }
+
+    .bi-person{
+        display: block;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    
+    .navLateral{
+        top: -100;
+    }
+}
