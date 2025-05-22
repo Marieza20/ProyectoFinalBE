@@ -1,20 +1,18 @@
 import React from 'react'
-import Header from '../components/Header'
 import Nav from '../components/Nav'
 import NavLateral from '../components/NavLateral'
-import PaletaColores from '../components/PaletaColores'
+import RegisterPyme from '../components/RegisterPyme'
 import Footer from '../components/Footer'
 
-function Inicio() {
+function RegistroPyme() {
   return (
     <div>
-        <Header />
         <Nav />
         <NavLateral />
-        <PaletaColores />
+        <RegisterPyme />
         <Footer />
     </div>
   )
 }
 
-export default Inicio
+export default RegistroPyme

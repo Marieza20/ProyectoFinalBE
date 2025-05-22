@@ -1,42 +1,31 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Nav() {
+
+    function abrirMenu(){
+
+    }
+    
   return (
-    <div>
+    <div className='div'>
         <nav className="nav scroll">
             <div className='menu'>
-            <div className='IMG'>
-                <img src={Pastelito} alt="" />
-            </div>
-            <ul className='elementosMenu'>
-                <li>Inicio</li> 
-                <li>Nosotros</li>
-                <li>Contactos</li>
-            </ul>
-            <div className='iconos'>
-                <i className="bi bi-list"></i>
-                <i className="bi bi-person"></i>
-            </div>
-            </div>
-        </nav>
-
-
-        <nav className="navLateral">
-            <div className='menuLateral'>
-            <i className="bi bi-chevron-left"></i>
-            <h3>Menú</h3>
-            </div>
-            <div className="elementosMenuLateral">
-            <i className="bi bi-person"></i>
-            <p>Mi perfil</p>
-            <ul className='lista'>
-                <li>Inicio</li>
-                <li>Nosotros</li>
-                <li>Contactos</li>
-            </ul>
+                <div className='IMG'>
+                    <Link className='Link' to={"/"}><img src={Pastelito} alt="" /></Link>
+                </div>
+                <ul className='elementosMenu'>
+                    <li><Link className='Link' to={"/"}>Inicio</Link></li> 
+                    <li><Link className='Link' to={"/"}>Nosotros</Link></li>
+                    <li><Link className='Link' to={"/"}>Contactos</Link></li>
+                </ul>
+                <div className='iconos'>
+                    <i className="bi bi-list" onClick={abrirMenu}></i>
+                    <Link className='Link' to={"/"}><i className="bi bi-person"></i></Link>
+                </div>
             </div>
         </nav>
     </div>
