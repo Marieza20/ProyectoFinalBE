@@ -9,11 +9,13 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: 100px;
-    background-color: #EAA9C2;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     justify-content: center;
+}
+
+.scroll{
+    background-color: #EAA9C2;
 }
 
 .menu{
@@ -24,7 +26,7 @@
 }
 
 .IMG{
-    width: 60px;
+    width: 50px;
 }
 
 .IMG img{
@@ -128,7 +130,7 @@
         display: none;
     }
 
-    .bi-person{
+    .iconos .bi-person{
         display: block;
     }
 

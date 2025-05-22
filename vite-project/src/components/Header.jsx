@@ -1,15 +1,15 @@
 import React from 'react'
-import Pastelito from '../img/Pastelito.png'
+import logoPastelito from '../img/logoPastelito.png'
 import '../styles/Header.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Header() {
   return (
     <div>
-        <div className="fondoHeader">
           <div className='logo'>
-            <img src={Pastelito} alt="" />
+            <img src={logoPastelito} alt="" />
           </div>
+        <div className="fondoHeader blur">
         </div>
     </div>
   )

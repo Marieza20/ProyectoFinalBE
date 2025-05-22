@@ -6,7 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 function Nav() {
   return (
     <div>
-        <nav className="nav">
+        <nav className="nav scroll">
             <div className='menu'>
             <div className='IMG'>
                 <img src={Pastelito} alt="" />
