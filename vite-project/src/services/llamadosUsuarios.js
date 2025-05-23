@@ -8,13 +8,13 @@ async function getUsuarios() {
         });
 
         if (!response.ok) {
-            throw new Error('Error fetching Usuarios');
+            throw new Error('Error fetching usuarios');
         }
 
-        const categorias = await response.json();
-        return categorias;
+        const usuarios = await response.json();
+        return usuarios;
     } catch (error) {
-        console.error('Error fetching Usuarios:', error);
+        console.error('Error fetching usuarios:', error);
         throw error;
     }
 }

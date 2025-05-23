@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import '../styles/Registro.css'
 import llamadosUsuarios from '../services/llamadosUsuarios'
 
 function RegisterUser() {
@@ -25,21 +26,19 @@ function RegisterUser() {
 
   return (
     <div>
-        <h1 className=''>Registro de Usuario</h1>
+      <div className='margen form'>
+        <h1>Registro de Usuario</h1>
 
-        <label htmlFor="nombre">Nombre</label>
-        <input id='nombre' type="text" placeholder='Nombre' value={nombre} onChange={e => setNombre(e.target.value)} />
+        <input id='nombre' type="text" placeholder='Nombre de Usuario:' value={nombre} onChange={e => setNombre(e.target.value)} />
         
-        <label htmlFor="correo">Correo</label>
-        <input id='correo' type="mail" placeholder='Correo' value={correo} onChange={e => setCorreo(e.target.value)}  />
+        <input id='correo' type="mail" placeholder='Correo Electrónico:' value={correo} onChange={e => setCorreo(e.target.value)}  />
         
-        <label htmlFor="telefono">Telefóno</label>
-        <input id='telefono' type="number" placeholder='Teléfono' value={telefono} onChange={e => setTelefono(e.target.value)}/>
+        <input id='telefono' type="number" placeholder='Número de Teléfono:' value={telefono} onChange={e => setTelefono(e.target.value)}/>
         
-        <label htmlFor="contrasena">Contraseña</label>
-        <input id='contrasena' type="password" placeholder='Contraseña' value={contrasena} onChange={e => setContrasena(e.target.value)} />
+        <input id='contrasena' type="password" placeholder='Contraseña:' value={contrasena} onChange={e => setContrasena(e.target.value)} />
 
-        <button onClick={registrar}>Registrar</button>
+        <button onClick={registrar} className='btn'>Registrar</button>
+      </div>
     </div>
   )
 }
