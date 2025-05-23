@@ -1,73 +1,140 @@
-
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Libros, Autor, Categorias, LibrosCategorias
-from .serializers import LibrosSerializer, AutorSerializer, CategoriasSerializer, LibrosCategoriasSerializer
+from .models import *
+from .serializers import *
+from django.contrib.auth.models import User
+from .permission import IsAdminUserGroup, IsNormalUserGroup, IsPymeUserGroup
+from rest_framework.permissions import BasePermission
 
-from rest_framework.permissions import BasePermission, IsAuthenticated
 
-
-
-
-class IsAdminUserGroup(BasePermission):
+class IsAuthenticatedUser(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="admin").exists()
+        return request.user and request.user.is_authenticated
 
+# Usuario
+class UsuarioListCreateView(ListCreateAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-class IsLectorUserGroup(BasePermission):
-    def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="lector").exists()
+class UsuarioRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = [IsAuthenticatedUser, IsNormalUserGroup]
 
+# Pymes
+class PymesListCreateView(ListCreateAPIView):
+    queryset = Pymes.objects.all()
+    serializer_class = PymesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-class IsBibliotecarioUserGroup(BasePermission):
-    def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="bibliotecario").exists()
+class PymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Pymes.objects.all()
+    serializer_class = PymesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-
-class LibrosListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,IsLectorUserGroup]
-    queryset = Libros.objects.all()
-    serializer_class = LibrosSerializer
-
-
-class LibrosDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = Libros.objects.all()
-    serializer_class = LibrosSerializer
-
-
-class AutorListCreateView (ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,
-                          IsLectorUserGroup, IsBibliotecarioUserGroup]
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
-
-
-class AutorDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
-
-
+# Categorias
 class CategoriasListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,
-                          IsLectorUserGroup, IsBibliotecarioUserGroup]
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-
-class CategoriasDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated, IsLectorUserGroup]
+class CategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
+# RedesSociales
+class RedesSocialesListCreateView(ListCreateAPIView):
+    queryset = RedesSociales.objects.all()
+    serializer_class = RedesSocialesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-class LibrosCategoriasListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated, IsLectorUserGroup]
-    queryset = LibrosCategorias.objects.all()
-    serializer_class = LibrosCategoriasSerializer
+class RedesSocialesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = RedesSociales.objects.all()
+    serializer_class = RedesSocialesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
+# Seguidores
+class SeguidoresListCreateView(ListCreateAPIView):
+    queryset = Seguidores.objects.all()
+    serializer_class = SeguidoresSerializer
+    ##permission_classes = [IsAuthenticatedUser]
 
-class LibrosCategoriasDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = LibrosCategorias.objects.all()
-    serializer_class = LibrosCategoriasSerializer
+class SeguidoresRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Seguidores.objects.all()
+    serializer_class = SeguidoresSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# PerfilPymes
+class PerfilPymesListCreateView(ListCreateAPIView):
+    queryset = PerfilPymes.objects.all()
+    serializer_class = PerfilPymesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class PerfilPymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = PerfilPymes.objects.all()
+    serializer_class = PerfilPymesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# PerfilRedes
+class PerfilRedesListCreateView(ListCreateAPIView):
+    queryset = PerfilRedes.objects.all()
+    serializer_class = PerfilRedesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class PerfilRedesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = PerfilRedes.objects.all()
+    serializer_class = PerfilRedesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# Publicaciones
+class PublicacionesListCreateView(ListCreateAPIView):
+    queryset = Publicaciones.objects.all()
+    serializer_class = PublicacionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class PublicacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Publicaciones.objects.all()
+    serializer_class = PublicacionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# Publi_Categorias
+class PubliCategoriasListCreateView(ListCreateAPIView):
+    queryset = Publi_Categorias.objects.all()
+    serializer_class = PubliCategoriasSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class PubliCategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Publi_Categorias.objects.all()
+    serializer_class = PubliCategoriasSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# Reacciones
+class ReaccionesListCreateView(ListCreateAPIView):
+    queryset = Reacciones.objects.all()
+    serializer_class = ReaccionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class ReaccionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Reacciones.objects.all()
+    serializer_class = ReaccionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+# Calificaciones
+class CalificacionesListCreateView(ListCreateAPIView):
+    queryset = Calificaciones.objects.all()
+    serializer_class = CalificacionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+
+class CalificacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Calificaciones.objects.all()
+    serializer_class = CalificacionesSerializer
+    ##permission_classes = [IsAuthenticatedUser]
+    
+class UsersListCreateView(ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsersSerializers
+
+class UsersRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsersSerializers
