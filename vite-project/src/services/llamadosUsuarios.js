@@ -1,6 +1,8 @@
+import { sha256 } from 'js-sha256'; 
+
 async function getUsuarios() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
+        const response = await fetch("http://127.0.0.1:8000/api/users/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,9 +23,17 @@ async function getUsuarios() {
 
 
 //////////LLAMADO POST//////////
-async function postUsuarios(obj) {
+async function postUsuarios(username, email, password) {
+    const obj = {
+        'username': username,
+        'email': email,
+        'password': sha256(password)
+    }
+
+    console.log(obj);
+    
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
+        const response = await fetch("http://127.0.0.1:8000/api/users/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -32,12 +42,12 @@ async function postUsuarios(obj) {
         });
      
         if (!response.ok) {
-            throw new Error('Error fetching Usuarios');
+            throw new Error('Error fetching users');
         }
         
         return await response.json();
     } catch (error) {
-        console.error('Error posting Usuario:', error);
+        console.error('Error posting user:', error);
         throw error;
     }
 }
@@ -52,7 +62,7 @@ async function updateUsuarios(nombre, id)
             nombre
         };
 
-        const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +85,7 @@ async function updateUsuarios(nombre, id)
 //////////////LLAMADO DELETE/////////////
 async function deleteUsuarios(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

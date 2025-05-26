@@ -3,39 +3,29 @@ import { useState } from 'react'
 import '../styles/Registro.css'
 import llamadosUsuarios from '../services/llamadosUsuarios'
 
+
 function RegisterUser() {
 
-  const [nombre, setNombre] = useState('')
-  const [correo, setCorreo] = useState('')
-  const [telefono, setTelefono] = useState('')
-  const [contrasena, setContrasena] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
 
 
   async function registrar() {
-    const obj ={
-        nombre: nombre,
-        correo: correo,
-        telefono: telefono,
-        contrasena: contrasena
-    }
-    const respuestaServer = await llamadosUsuarios.postUsuarios(obj)
-
+    const respuestaServer = await llamadosUsuarios.postUsuarios(username, email, password)
     console.log(respuestaServer);  
   }
 
   return (
-    <div>
-      <div className='margen form'>
-        <h1>Registro de Usuario</h1>
+    <div className='margen'>
+      <h1 className='titulo'>Registro de Usuario</h1>
+      <div className='form'>
+        <input type="text" placeholder='Nombre de Usuario:' value={username} onChange={e => setUsername(e.target.value)} />
 
-        <input id='nombre' type="text" placeholder='Nombre de Usuario:' value={nombre} onChange={e => setNombre(e.target.value)} />
+        <input type="email" placeholder='Correo Electrónico:' value={email} onChange={e => setEmail(e.target.value)}  />
         
-        <input id='correo' type="mail" placeholder='Correo Electrónico:' value={correo} onChange={e => setCorreo(e.target.value)}  />
-        
-        <input id='telefono' type="number" placeholder='Número de Teléfono:' value={telefono} onChange={e => setTelefono(e.target.value)}/>
-        
-        <input id='contrasena' type="password" placeholder='Contraseña:' value={contrasena} onChange={e => setContrasena(e.target.value)} />
+        <input type="password" placeholder='Contraseña:' value={password} onChange={e => setPassword(e.target.value)} />
 
         <button onClick={registrar} className='btn'>Registrar</button>
       </div>

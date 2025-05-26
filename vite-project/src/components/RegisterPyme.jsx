@@ -2,26 +2,22 @@ import React from 'react'
 
 function RegisterPyme() {
   return (
-    <div>
-        <h1>Registro de Pyme</h1>
-        <label> Nombre de la pyme
+    <div className='margen'>
+      <h1 className='titulo'>Registro de Pyme</h1>
+      <div className="form">
         <input type="text" placeholder="Nombre" />
-        </label>
-        <label> Correo
-        <input type="email" placeholder="Correo" />
-        </label>
-        <label> Teléfono
-        <input type="tel" placeholder="Teléfono" />  
-        </label>
-        <label> Carnet 
-        <input type="text" placeholder="Carnet" />
-        </label>
-        <label> Contraseña
-        <input type="password" placeholder="Contraseña" />
-        </label>
 
-        <button>Registrar Pyme</button>
-        
+        <input type="email" placeholder="Correo" />
+
+        <input type="tel" placeholder="Teléfono" />  
+
+        <input type="file" placeholder="Carnet" id="fileInput" hidden/>
+        <label for="fileInput" class="label">Seleccionar archivo</label>
+
+        <input type="password" placeholder="Contraseña" />
+
+        <button className='btn'>Registrar Pyme</button>
+      </div>
     </div>
   )
 }

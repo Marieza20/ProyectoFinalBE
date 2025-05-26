@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -19,12 +20,12 @@ function Nav() {
                 </div>
                 <ul className='elementosMenu'>
                     <li><Link className='Link' to={"/"}>Inicio</Link></li> 
-                    <li><Link className='Link' to={"/"}>Nosotros</Link></li>
+                    <li><Link className='Link' to={"/sobreNosotros"}>Nosotros</Link></li>
                     <li><Link className='Link' to={"/"}>Contactos</Link></li>
                 </ul>
                 <div className='iconos'>
                     <i className="bi bi-list" onClick={abrirMenu}></i>
-                    <Link className='Link' to={"/"}><i className="bi bi-person"></i></Link>
+                    <Link className='Link' to={"/login"}><i className="bi bi-person"></i></Link>
                 </div>
             </div>
         </nav>

@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+.titulo{
+    text-align: center;
+    color: #5E070A;
+    margin-bottom: 30px;
+}
+
 .form{
     margin: auto;
     width: 300px;
@@ -12,11 +18,6 @@
     justify-content: center;
     align-items: center;
     gap: 30px;
-}
-
-.form h1{
-    text-align: center;
-    color: #5E070A;
 }
 
 .form input{
@@ -31,6 +32,22 @@
 .form input::placeholder{
     color: #5E070A;
 }
+
+.form .label{
+    display: inline-block;
+    width: 100%;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: #FFDFEA;
+    color: #5E070A;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form .custom-file-label:hover {
+    background-color: #f7c6d8;
+}
+
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
