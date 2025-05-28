@@ -1,4 +1,4 @@
-import { sha256 } from 'js-sha256'; 
+/* import { sha256 } from 'js-sha256';  */
 
 async function getUsuarios() {
     try {
@@ -25,9 +25,9 @@ async function getUsuarios() {
 //////////LLAMADO POST//////////
 async function postUsuarios(username, email, password) {
     const obj = {
-        'username': username,
-        'email': email,
-        'password': sha256(password)
+        username,
+        email,
+        password
     }
 
     console.log(obj);
@@ -45,7 +45,10 @@ async function postUsuarios(username, email, password) {
             throw new Error('Error fetching users');
         }
         
-        return await response.json();
+        const prueba = await response.json();
+        console.log(prueba);
+        return prueba
+        
     } catch (error) {
         console.error('Error posting user:', error);
         throw error;

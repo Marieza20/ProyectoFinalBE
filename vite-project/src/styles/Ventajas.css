@@ -1,63 +1,100 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.margencito{
-    margin-top: 80px;
+.margen {
+  margin-top: 150px;
 }
 
-.ventajas{
-    margin: auto;
+.titulo {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #5E070A;
+}
+
+.carrusel-contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.carrusel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  width: 300px;
+  border-radius: 15px;
+  background-color: #5E070A;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carrusel::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel section {
+  flex-shrink: 0;
+  width: 300px;
+  padding: 30px;
+  border-radius: 15px;
+  color: #fff;
+  background-color: #5E070A;
+  scroll-snap-align: start;
+  text-align: justify;
+}
+
+.titulito {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.flechita {
+  font-size: 2.5rem;
+  color: #5E070A;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.5s;
+}
+
+.flechita:hover{
+    transform: scale(0.9);
+}
+
+
+@media (min-width: 769px) {
+  .carrusel-contenedor {
+    flex-direction: column;
+  }
+
+  .ventajas {
     width: 900px;
     display: flex;
     justify-content: center;
     text-align: justify;
     border-radius: 15px;
     background-color: #5E070A;
-}
+  }
 
-.ventajas section{
+  .ventajas section {
     width: 300px;
     padding: 30px;
     border-radius: 15px;
-    background-color: #5E070A;
     color: #fff;
-    transition: 0.5s;
-}
+    background-color: #5E070A;
+    transition: transform 0.5s;
+  }
 
-.ventajas section:hover{
+  .ventajas section:hover {
     transform: scale(1.1);
-}
+  }
 
-.titulito{
-    text-align: center;
-    margin-bottom: 8px;
-}
-
-
-
-.about{
-    margin: auto;
-    width: 300px;
-    text-align: justify;
-    border-radius: 15px;
-    color: #5E070A;
-    display: grid;
-    gap: 10px;
-}
-
-.aboutForm{
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    padding: 30px;
-    gap: 20px;
-    text-align: justify;
-    border-radius: 15px;
-    background-color: #FFDFEA;
-    color: #5E070A;
+  .flechita {
+    display: none !important;
+  }
 }

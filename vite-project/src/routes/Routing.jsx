@@ -5,6 +5,7 @@ import SobreNosotros from '../pages/SobreNosotros';
 import RegistroPyme from '../pages/RegistroPyme';
 import RegistroUser from '../pages/RegistroUser';
 import Login from '../pages/Login';
+import PagContactos from '../pages/PagContactos';
 
 function Routing() {
   return (
@@ -15,6 +16,7 @@ function Routing() {
         <Route path='/registroPyme' element={<RegistroPyme/>}></Route>
         <Route path='/registroUser' element={<RegistroUser/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
+        <Route path='/contactos' element={<PagContactos/>}></Route>
       </Routes>
     </Router>
   )

@@ -21,7 +21,7 @@ function Nav() {
                 <ul className='elementosMenu'>
                     <li><Link className='Link' to={"/"}>Inicio</Link></li> 
                     <li><Link className='Link' to={"/sobreNosotros"}>Nosotros</Link></li>
-                    <li><Link className='Link' to={"/"}>Contactos</Link></li>
+                    <li><Link className='Link' to={"/contactos"}>Contactos</Link></li>
                 </ul>
                 <div className='iconos'>
                     <i className="bi bi-list" onClick={abrirMenu}></i>

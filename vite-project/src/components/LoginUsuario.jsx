@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import llamadosUsuarios from '../services/llamadosUsuarios';
-import { sha256 } from 'js-sha256'; 
+/* import { sha256 } from 'js-sha256';  */
 
 
 function LoginUsuario() {
