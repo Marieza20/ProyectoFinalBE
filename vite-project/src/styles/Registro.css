@@ -34,7 +34,10 @@
 }
 
 .form textarea{
-    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 50px;
+    height: 70px;
     border-radius: 20px;
     padding: 15px;
     border: none;

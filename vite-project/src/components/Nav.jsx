@@ -1,18 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Nav() {
-
-    function abrirMenu(){
-
-    }
-    
+function Nav({ abrirMenu }) {
   return (
-    <div className='div'>
+    <div>
         <nav className="nav scroll">
             <div className='menu'>
                 <div className='IMG'>

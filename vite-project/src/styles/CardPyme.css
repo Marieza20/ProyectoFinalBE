@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pymes{
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.cardP{
+    padding: 30px;
+    width: 300px;
+    border-radius: 15px;
+    background-color: #FFDFEA;
+    color: #BB2C64;
+    display: grid;
+    gap: 15px;
+}
+.cardP h3{
+    text-align: center;
+}
+
+.cardP .btn{
+    margin: auto;
+}

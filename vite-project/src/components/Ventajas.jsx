@@ -27,7 +27,7 @@ function Ventajas() {
   
 
   return (
-    <div className='margen'>
+    <div className='margen margenb'>
       <h1 className='titulo'>¿Qué ventajas te ofrece Pastelito?</h1>
 
       <div className={`carrusel-contenedor ${isMobile ? 'activo' : ''}`}>

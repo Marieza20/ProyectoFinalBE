@@ -1,18 +1,11 @@
 import React from 'react'
 import Header from '../components/Header'
-import Nav from '../components/Nav'
-import NavLateral from '../components/NavLateral'
-import PaletaColores from '../components/PaletaColores'
-import Footer from '../components/Footer'
-
+import CardPyme from '../components/CardPyme'
 function Inicio() {
   return (
     <div>
         <Header />
-        <Nav />
-        <NavLateral />
-        <PaletaColores />
-        <Footer />
+        <CardPyme />
     </div>
   )
 }

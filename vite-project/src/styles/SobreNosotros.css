@@ -8,65 +8,27 @@
   margin-top: 50px;
 }
 
-/* O una altura suficiente
-
-.about {
+.parallax-section {
   position: relative;
-  z-index: 1;
-  margin: auto;
-  padding: 30px;
-  width: 300px;
-  text-align: justify;
-  border-radius: 15px;
-  background-color: #fff;
-  color: #5E070A;
-  display: grid;
-  gap: 15px;
-}
-
-.parallax-container {
-  position: relative;
-  height: 300px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.parallax{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 250px;
-  background-image: url('../img/parallax.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  background-color: rgba(255, 255, 255, 0.326);
-  background-blend-mode: lighten;
-  z-index: -1;
-}
- */
-
-.parallax-container {
-  position: relative;
-  height: 250px; /* O una altura suficiente */
-  background-image: url('../img/parallax.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: visible;
+
+  background-image: url('../img/parallax.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
 }
 
 .about {
   position: relative;
   z-index: 1;
-  margin: auto;
   padding: 30px;
   width: 300px;
+  height: 450px;
   text-align: justify;
   border-radius: 15px;
   background-color: #fff;
@@ -78,9 +40,16 @@
 
 
 
-.AForm {
+.aboutForm {
+  margin: auto;
+  padding: 30px;
+  width: 300px;
+  text-align: justify;
+  border-radius: 15px;
   background-color: #FFDFEA;
+  color: #5E070A;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
 }

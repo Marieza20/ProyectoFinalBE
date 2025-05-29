@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 function InfoForm() {
   return (
-    <div className='margencito'>
+    <div className='margencito margen'>
         <h1 className='titulo'>¿Querés formar parte de nosotros?</h1>
-        <div className='about AForm'>
+        <div className='aboutForm'>
             <h2 className='titulito'>¡Llená el formulario!</h2>
             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
                 Officiis quasi perferendis tempora dignissimos ab, 
                 aliquam quaerat nemo. Similique, porro quae repudiandae libero rem, 
                 quam laboriosam officia non, fuga sit aliquam?</p>
-            <button className='btn'><Link className='Link' to="/">Ir al formulario</Link></button>
+            <button className='btn'><Link className='Link' to="/registroPyme">Ir al formulario</Link></button>
         </div>
     </div>
   )

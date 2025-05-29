@@ -61,7 +61,14 @@
     display: none;
 }
 
+.bi{
+    cursor: pointer;
+    transition: 0.3s;
+}
 
+.bi:hover{
+    transform: scale(1.1);
+}
 
 @media (min-width: 1000px) {
     .elementosMenu{
