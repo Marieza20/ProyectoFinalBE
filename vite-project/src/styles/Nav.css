@@ -42,28 +42,29 @@
     text-decoration: none;
     cursor: pointer;
     color: #fff;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .Link:hover{
     transform: scale(1.1);
 }
 
-.iconos .bi-list{
+.iconos .bi{
     color: #fff;
     font-size: 50px;
+}
+
+.iconos .bi-list{
     display: block;
 }
 
 .iconos .bi-person{
-    color: #fff;
-    font-size: 50px;
     display: none;
 }
 
 .bi{
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.5s;
 }
 
 .bi:hover{

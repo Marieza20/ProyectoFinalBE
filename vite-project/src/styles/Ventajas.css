@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+@font-face { 
+    font-family: 'Magnolia';
+    src: url('../fonts/MagnoliaScript.otf') format('opentype'); 
+}
+
 .margen {
   margin-top: 150px;
 }
@@ -16,6 +21,7 @@
   text-align: center;
   margin-bottom: 20px;
   color: #5E070A;
+  font-family: "Magnolia";
 }
 
 .carrusel-contenedor {

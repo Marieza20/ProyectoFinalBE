@@ -1,16 +1,19 @@
 import React, { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import llamadosUsuarios from '../services/llamadosUsuarios';
-/* import { sha256 } from 'js-sha256';  */
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function LoginUsuario() {
 
   
   const [nombre, setNombre] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const navigate = useNavigate();
 
+  const toggleMostrarContrasena = () => {
+    setMostrarContrasena(prev => !prev);
+  };
   
   async function iniciar(e) {
     e.preventDefault();
@@ -46,11 +49,14 @@ function LoginUsuario() {
           
           <input type="text" placeholder="Nombre de Usuario" value={nombre} onChange={e => setNombre(e.target.value)}/>
 
-          <input type="password" placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)}/>
+          <div className="input-password-container">
+            <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
+            <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
+          </div>
           
+            <p>¿No tienes una cuenta? <Link className='LinkR' to={"/RegistroUser"}>Registrate Gratis</Link></p>
           <div className='btnLogin'>
             <button onClick={iniciar} className='btn'>Iniciar Sesión</button>
-            <p>¿No tienes una cuenta? <Link className='LinkR' to={"/RegistroUser"}>Registrate Gratis</Link></p>
           </div>
         </div>
 

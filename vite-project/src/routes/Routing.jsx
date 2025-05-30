@@ -9,6 +9,7 @@ import Login from '../pages/Login';
 import PagContactos from '../pages/PagContactos';
 import Footer from '../components/Footer';
 import Perfil from '../components/Perfil';
+import PerfilPyme from '../components/PerfilPyme';
 
 function Routing() {
   return (
@@ -22,6 +23,7 @@ function Routing() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/contactos' element={<PagContactos/>}></Route>
         <Route path='/perfil' element={<Perfil/>}></Route>
+        <Route path='/perfilPyme' element={<PerfilPyme/>}></Route>
       </Routes>
       <Footer />
     </Router>

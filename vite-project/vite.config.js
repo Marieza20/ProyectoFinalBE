@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
 })
 
-export default {
+/* export default {
   server: {
     proxy: {
       '/firebase-storage': {
@@ -17,3 +17,4 @@ export default {
     },
   },
 };
+ */

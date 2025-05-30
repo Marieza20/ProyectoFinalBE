@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import llamadosPymes from '../services/llamadosPymes'
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function RegisterPyme() {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [telefono, setTelefono] = useState(''); 
   const [contrasena, setContrasena] = useState('');
+  const [mostrarContrasena, setMostrarContrasena] = useState(false);
+
+
+  const toggleMostrarContrasena = () => {
+    setMostrarContrasena(prev => !prev);
+  };
 
   const RegistrarPyme = async () => {
     llamadosPymes.registrarPyme(nombre, correo, telefono, contrasena)
@@ -23,11 +29,14 @@ function RegisterPyme() {
         
         <input type="tel" placeholder="Teléfono" value={telefono} onChange={e => setTelefono(e.target.value)} />  
         
-        <input type="file" id="fileInput" hidden/>
+        <input type="file" id="fileInput" hidden />
         <label htmlFor="fileInput" className="label">Seleccionar archivo</label>
         
-        <input type="password" placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} />
-        
+        <div className="input-password-container">
+          <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
+          <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
+        </div>
+
         <button className='btn' onClick={RegistrarPyme}>Registrar Pyme</button>
       </div>
     </div>

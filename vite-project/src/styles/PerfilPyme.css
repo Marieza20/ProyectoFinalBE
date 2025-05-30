@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.perfil-container {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+
+}
+
+.portada{
+    height: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+.portada img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.perfilIMG{
+    position: absolute;
+    left: 50%;
+    bottom: -100px;
+    transform: translateX(-50%);
+    z-index: 1;
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+    border: 8px solid #BB2C64;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.infoPyme{
+    margin: auto;
+    padding: 130px 30px 30px 30px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    background-color: #FFDFEA;
+    color: #BB2C64;
+}
+
+.infoPyme .bloque{
+    margin: auto;
+    width: 70%;
+    display: grid;
+    gap: 10px;
+}
+
+.infoPyme .bloque p{
+    text-align: justify;
+}
+
+.infoPyme .bloque .titulito{
+    color: #5E070A;
+}
+
+.infoPyme .bloque .bi{
+    font-size: 25px;
+}
+
+.infoPyme .bloque .flex{
+    display: flex;
+    align-items: center;
+}
+
+.infoPyme .bloque .links{
+    display: flex;
+    gap: 20px;
+}
+

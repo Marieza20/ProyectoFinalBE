@@ -19,7 +19,7 @@ function Nav({ abrirMenu }) {
                 </ul>
                 <div className='iconos'>
                     <i className="bi bi-list" onClick={abrirMenu}></i>
-                    <Link className='Link' to={"/login"}><i className="bi bi-person"></i></Link>
+                    <i className="bi bi-person"><Link className='Link' to={"/login"}></Link></i>
                 </div>
             </div>
         </nav>
