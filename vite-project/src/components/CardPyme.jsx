@@ -9,9 +9,6 @@ function CardPyme() {
 
 
 
-
-
-  
   return (
     <div className='margencito'>
         <div className='pymes'>

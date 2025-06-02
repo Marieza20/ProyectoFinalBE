@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from 'react-router-dom';
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Nav({ abrirMenu }) {
+    const location = useLocation();
+    const [lineaEstilo, setLineaEstilo] = useState({});
+    const menuRef = useRef();
+
+    useEffect(() => {
+        const links = menuRef.current.querySelectorAll(".Link");
+        const activeLink = Array.from(links).find(
+        (link) => link.pathname === location.pathname
+        );
+
+        if (activeLink) {
+            const { offsetLeft, offsetWidth } = activeLink;
+            setLineaEstilo({
+            left: offsetLeft,
+            width: offsetWidth,
+        });
+        }
+    }, [location]);
+
   return (
     <div>
         <nav className="nav scroll">
@@ -12,14 +31,15 @@ function Nav({ abrirMenu }) {
                 <div className='IMG'>
                     <Link className='Link' to={"/"}><img src={Pastelito} alt="" /></Link>
                 </div>
-                <ul className='elementosMenu'>
-                    <li><Link className='Link' to={"/"}>Inicio</Link></li> 
-                    <li><Link className='Link' to={"/sobreNosotros"}>Nosotros</Link></li>
-                    <li><Link className='Link' to={"/contactos"}>Contactos</Link></li>
+                <ul className='elementosMenu' ref={menuRef}>
+                    <Link className="Link" to={"/"}>Inicio</Link>
+                    <Link className="Link" to={"/sobreNosotros"}>Nosotros</Link>
+                    <Link className="Link" to={"/contactos"}>Contactos</Link>
+                    <div className="linea" style={lineaEstilo}></div>
                 </ul>
                 <div className='iconos'>
                     <i className="bi bi-list" onClick={abrirMenu}></i>
-                    <i className="bi bi-person"><Link className='Link' to={"/login"}></Link></i>
+                    <Link className='Link' to={"/login"}><i className="bi bi-person"></i></Link>
                 </div>
             </div>
         </nav>

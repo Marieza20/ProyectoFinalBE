@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/BarraBusqueda.css'
 import llamadosPymes from '../services/llamadosPymes';
 
 function BarrraDeBúsqueda() {
@@ -30,18 +31,21 @@ function BarrraDeBúsqueda() {
   }, [busqueda, todasLasPymes]);
 
   return (
-    <div >
-      <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>
+    <div className='margencito'>
+      <div className="barra">
+        <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>
+        
+        <ul>
+          {resultados.length > 0 ? (
+            resultados.map(pyme => (
+              <li key={pyme.id}></li>
+            ))
+          ) : (
+            busqueda && <li>No hay resultados para esta búsqueda.</li>
+          )}
+        </ul>
+      </div>
 
-      <ul>
-        {resultados.length > 0 ? (
-          resultados.map(pyme => (
-            <li key={pyme.id}>{pyme.nombre}</li>
-          ))
-        ) : (
-          <li>No hay resultados para esta búsqueda.</li>
-        )}
-      </ul>
     </div>
   );
 }

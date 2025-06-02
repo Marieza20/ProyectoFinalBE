@@ -1,8 +1,8 @@
 import React from 'react'
 import Header from '../components/Header'
 import BarrraDeBúsqueda from '../components/BarrraDeBúsqueda'
-import CardPyme from '../components/CardPyme'
 import ImgPrueba from '../components/ImgPrueba'
+import CardPyme from '../components/CardPyme'
 
 function Inicio() {
   return (
@@ -10,7 +10,6 @@ function Inicio() {
         <Header />
         <BarrraDeBúsqueda />
         <CardPyme />
-        <ImgPrueba />
     </div>
   )
 }

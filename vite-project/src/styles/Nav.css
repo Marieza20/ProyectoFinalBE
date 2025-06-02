@@ -10,9 +10,9 @@
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 10px;
     display: flex;
     justify-content: center;
+    padding: 7px;
 }
 
 .scroll{
@@ -26,15 +26,21 @@
     justify-content: space-between;
 }
 
-.IMG{
-    width: 50px;
+.menu .IMG{
+    width: 45px;
 }
 
-.IMG img{
+.menu .IMG img{
     width: 100%;
+    transition: 0.5s;
+    display: block;
 }
 
-.elementosMenu{
+.menu .IMG img:hover{
+    transform: scale(1.1);
+}
+
+.menu .elementosMenu{
     display: none;
 }
 
@@ -49,16 +55,16 @@
     transform: scale(1.1);
 }
 
-.iconos .bi{
+.menu .iconos .bi{
     color: #fff;
     font-size: 50px;
 }
 
-.iconos .bi-list{
+.menu .iconos .bi-list{
     display: block;
 }
 
-.iconos .bi-person{
+.menu .iconos .bi-person{
     display: none;
 }
 
@@ -69,23 +75,42 @@
 
 .bi:hover{
     transform: scale(1.1);
+} 
+
+.elementosMenu .Link {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px;
+  padding-bottom: 4px;
+}
+
+.linea {
+  position: absolute;
+  bottom: 0;
+  height: 1.5px;
+  background-color: #FFDFEA;
+  transition: all 0.3s ease;
 }
 
 @media (min-width: 1000px) {
-    .elementosMenu{
+    .menu .elementosMenu{
         display: block;
-        list-style: none;
+        width: 50%;
+        position: relative;
         display: flex;
         justify-content: space-between;
-        width: 50%;
         color: #fff;
+        gap: 2rem;
+        padding: 0;
+        margin: 0;
     }
 
-    .iconos .bi-list{
+    .menu .iconos .bi-list{
         display: none;
     }
 
-    .iconos .bi-person{
+    .menu .iconos .bi-person{
         display: block;
     }
 }

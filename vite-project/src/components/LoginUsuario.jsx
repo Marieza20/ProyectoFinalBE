@@ -35,7 +35,7 @@ function LoginUsuario() {
       });
       if (!response.ok) throw new Error('Credenciales incorrectas');
       console.log('Bienvenido ' + info['nombre']);
-      navigate('/sobreNosotros');
+      navigate('/inicioPyme');
     } catch (error) {
       console.log('Usuario o contraseña incorrectos');
     }
@@ -44,23 +44,20 @@ function LoginUsuario() {
 
   return (
     <div className='margen'>
-        <h1 className='titulo'>Login Usuario</h1>
-        <div className='form'>
-          
-          <input type="text" placeholder="Nombre de Usuario" value={nombre} onChange={e => setNombre(e.target.value)}/>
+      <h1 className='titulo'>Login Usuario</h1>
+      <div className='form'>
+        <input type="text" placeholder="Nombre de Usuario" value={nombre} onChange={e => setNombre(e.target.value)}/>
 
-          <div className="input-password-container">
-            <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
-            <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
-          </div>
-          
-            <p>¿No tienes una cuenta? <Link className='LinkR' to={"/RegistroUser"}>Registrate Gratis</Link></p>
-          <div className='btnLogin'>
-            <button onClick={iniciar} className='btn'>Iniciar Sesión</button>
-          </div>
+        <div className="input-password-container">
+          <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
+          <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
         </div>
-
-
+        
+        <p>¿No tienes una cuenta? <Link className='LinkR' to={"/RegistroUser"}>Registrate Gratis</Link></p>
+        <div className='btnLogin'>
+          <button onClick={iniciar} className='btn'>Iniciar Sesión</button>
+        </div>
+      </div>
     </div>
   )
 }

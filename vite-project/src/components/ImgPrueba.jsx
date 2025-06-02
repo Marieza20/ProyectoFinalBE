@@ -1,40 +1,27 @@
-import React from 'react'
-import { useState } from 'react';
-//import llamadosPerfilPyme from '../services/llamadosPerfilPyme';
+import React, { useEffect, useState } from 'react';
 
-function ImgPrueba() {
+function PymePerfil() {
+  const [pyme, setPyme] = useState(null);
 
-    const [imagen, setImagen] = useState(null);
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/pymes/9/')
+      .then(res => res.json())
+      .then(data => setPyme(data));
+  }, []);
 
-    const foto = (e) => {
-      setImagen(e.target.files[0]); 
-    };
-
-    const subirimg = () => {
-        const formData = new FormData();
-        formData.append('imagen', imagen);
-
-        fetch('http://127.0.0.1:8000/api/perfil-pymes/', {
-              method: 'POST',
-          body: formData,
-        })
-          .then(res => res.json())
-          .then(data => {
-            console.log('Imagen subida correctamente');
-            console.log(data);
-          })
-          .catch(err => {
-            console.error('Error al subir la imagen');
-            console.error(err);
-          });
-    };   
+  if (!pyme) return <div>Cargando...</div>;
 
   return (
     <div>
-        <input type="file" onChange={foto}/>
-        <button onClick={subirimg}>Subir Imagen</button>
+      <h2>{pyme.nombre}</h2>
+      <p>Usuario: {pyme.username}</p>
+      <p>Correo: {pyme.correo}</p>
+      <p>Teléfono: {pyme.telefono}</p>
+      {pyme.carnet && (
+        <img src={`${pyme.carnet}`} alt="Carnet" width={200} />
+      )}
     </div>
-  )
+  );
 }
 
-export default ImgPrueba
+export default PymePerfil;

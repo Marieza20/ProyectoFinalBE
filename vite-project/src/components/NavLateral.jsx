@@ -14,12 +14,15 @@ function NavLateral({ cerrarMenu, mostrar }) {
           <h3>Menú</h3>
         </div>
         <div className="elementosMenuLateral">
-          <Link className='Link' to={"/login"}><i className="bi bi-person"></i><p>Mi perfil</p></Link>
+          <Link className='Link' to={"/login"}>
+            <i className="bi bi-person"></i>
+            <p>Mi perfil</p>
+          </Link>
           
           <ul className='lista'>
-              <li><Link className='Link' to={"/"}>Inicio</Link></li> 
-              <li><Link className='Link' to={"/sobreNosotros"}>Nosotros</Link></li>
-              <li><Link className='Link' to={"/contactos"}>Contactos</Link></li>
+            <Link className='Link' to={"/"}>Inicio</Link>
+            <Link className='Link' to={"/sobreNosotros"}>Nosotros</Link>
+            <Link className='Link' to={"/contactos"}>Contactos</Link>
           </ul>
         </div>
       </nav>

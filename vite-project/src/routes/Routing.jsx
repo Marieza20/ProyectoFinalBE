@@ -10,10 +10,13 @@ import PagContactos from '../pages/PagContactos';
 import Footer from '../components/Footer';
 import Perfil from '../components/Perfil';
 import PerfilPyme from '../components/PerfilPyme';
+import InicioPyme from '../pages/InicioPyme';
+import ScrollToTop from '../components/ScrollToTop';
 
 function Routing() {
   return (
     <Router>
+      <ScrollToTop />
       <Menu />
       <Routes>
         <Route path='/' element={<Inicio/>}></Route>
@@ -24,6 +27,7 @@ function Routing() {
         <Route path='/contactos' element={<PagContactos/>}></Route>
         <Route path='/perfil' element={<Perfil/>}></Route>
         <Route path='/perfilPyme' element={<PerfilPyme/>}></Route>
+        <Route path='/inicioPyme' element={<InicioPyme/>}></Route>
       </Routes>
       <Footer />
     </Router>

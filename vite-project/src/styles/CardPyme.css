@@ -35,7 +35,10 @@
     border-radius: 15px;
     background-color: #FFDFEA;
     color: #BB2C64;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -62,8 +65,4 @@
 
 .bodyCardP h3{
     text-align: center;
-}
-
-.bodyCardP .btn{
-    margin: auto;
 }
