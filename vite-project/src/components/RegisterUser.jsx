@@ -3,6 +3,7 @@ import { useState } from 'react'
 import '../styles/Registro.css'
 import llamadosUsuarios from '../services/llamadosUsuarios'
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Link } from 'react-router-dom'
 
 function RegisterUser() {
 
@@ -34,6 +35,8 @@ function RegisterUser() {
           <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} className="input-password"/>
           <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
         </div>
+
+         <p>¿Ya tienes una cuenta? <Link className='LinkR' to={"/login"}>Inicia Sesión aquí</Link></p>
 
         <button onClick={registrar} className='btn'>Registrar</button>
       </div>

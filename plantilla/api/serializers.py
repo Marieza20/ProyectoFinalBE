@@ -1,26 +1,13 @@
 from rest_framework import serializers
-from .models import *
+from .models import Pymes, Categorias, RedesSociales, Seguidores, PerfilPymes, PerfilRedes, Publicaciones, Publi_Categorias, Reacciones, Calificaciones
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
-class UsuarioSerializer(serializers.ModelSerializer):
-    correo = serializers.EmailField(required=True)
-    contrasena = serializers.CharField(min_length=6, write_only=True)
-    telefono = serializers.CharField(min_length=8)
-
-    class Meta:
-        model = Usuario
-        fields = '__all__'
-
-    def validar_correo(self, value):
-        if Usuario.objects.filter(correo=value).exists():
-            raise serializers.ValidationError("Este correo ya está registrado.")
-        return value
 
 class PymesSerializer(serializers.ModelSerializer):
     correo = serializers.EmailField(required=True)
     contrasena = serializers.CharField(min_length=6, write_only=True)
     telefono = serializers.CharField(min_length=8)
-    carnet = serializers.CharField(min_length=5)
 
     class Meta:
         model = Pymes
@@ -35,6 +22,23 @@ class PymesSerializer(serializers.ModelSerializer):
         if Pymes.objects.filter(correo=value).exists():
             raise serializers.ValidationError("Este correo ya está registrado.")
         return value
+    
+    def create(self, validated_data):
+        # Extraer datos para crear el User de Django
+        username = validated_data.get('username')
+        email = validated_data.get('correo')
+        password = validated_data.get('contrasena')
+
+        # Crear el usuario Django
+        user = User.objects.create(
+            username=username,
+            email=email,
+            password=make_password(password)
+        )
+
+        # Guardar la pyme
+        validated_data['contrasena'] = make_password(password)  # también en modelo
+        return super().create(validated_data)
 
 class CategoriasSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)
@@ -134,3 +138,9 @@ class UsersSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)

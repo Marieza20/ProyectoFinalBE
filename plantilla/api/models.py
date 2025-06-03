@@ -1,41 +1,34 @@
 from django.db import models
-
-
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=20)
-    correo = models.EmailField(unique=True)
-    contrasena = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.nombre}"
+from django.contrib.auth.models import User
     
 class Pymes(models.Model):
+    username = models.CharField(max_length=100, unique=True)
     nombre = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20)
     correo = models.EmailField(unique=True)
     contrasena = models.CharField(max_length=100)
-    carnet = models.CharField(max_length=20)
+    descripcion = models.TextField(max_length=500)
+    direccion = models.CharField(max_length=250) 
+    carnet = models.ImageField(upload_to='pymes/', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
-    
+
 class Categorias(models.Model):
     nombre = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nombre
-    
+
 class RedesSociales(models.Model):
     nombre = models.CharField(max_length=100)
-
 
     def __str__(self):
         return self.nombre
     
 class Seguidores(models.Model):
     id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     
 class PerfilPymes (models.Model):
@@ -73,17 +66,16 @@ class Publi_Categorias(models.Model):
     
 class Reacciones(models.Model):
     id_publicacion = models.ForeignKey(Publicaciones, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id_publicacion
     
 class Calificaciones(models.Model):
-    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     id_publicacion = models.ForeignKey(Publicaciones, on_delete=models.CASCADE)
     Cantidad = models.IntegerField()
     
     def __str__(self):
         return self.Cantidad
-
 
