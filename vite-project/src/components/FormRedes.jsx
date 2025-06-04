@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import llamadosRedes from '../services/llamadosRedes';
 
-function FormRedes() {
+function FormRedes({ id_pyme }) {
     const [redes, setRedes]=useState([]);
     const [redSocial, setRedSocial] = useState('');
     const [url, setUrl] = useState('');
@@ -16,7 +16,7 @@ function FormRedes() {
 
     const anadirRed = async () => {
         const formData = new FormData();
-        formData.append('id_pyme', pymeSeleccionada); 
+        formData.append('id_pyme', id_pyme); 
         formData.append('id_redes', redSocial); 
         formData.append('url', url);
 
@@ -28,7 +28,6 @@ function FormRedes() {
         .then(data => {
         console.log('Datos enviados correctamente');
         console.log(data);
-        navigate('/inicioPyme');
         })
         .catch(err => {
         console.error('Error al enviar los datos');

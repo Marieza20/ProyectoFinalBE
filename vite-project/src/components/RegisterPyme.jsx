@@ -34,7 +34,7 @@ function RegisterPyme() {
     .then(data => {
       console.log('Datos enviados correctamente');
       console.log(data);
-      navigate('/inicioPyme', { state: { pymeId: data.id } });
+      navigate(`/inicioPyme/${data.id}`);
     })
     .catch(err => {
       console.error('Error al enviar los datos');

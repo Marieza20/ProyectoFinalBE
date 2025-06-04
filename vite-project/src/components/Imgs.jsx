@@ -1,17 +1,19 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-function Imgs() {
+
+function Imgs({ id_pyme }) {
     const [foto, setFoto] = useState(null);
     const [foto2, setFoto2] = useState(null);             
     const [foto3, setFoto3] = useState(null);
     const navigate = useNavigate();
-   
+
     const subir = async () => {
     const formData = new FormData();
-        formData.append('foto', foto);
-        formData.append('foto2', foto2);
-        formData.append('foto3', foto3);
+      formData.append('id_pyme', id_pyme); 
+      formData.append('imagen1', foto);
+      formData.append('imagen2', foto2);
+      formData.append('imagen3', foto3);
 
     fetch('http://127.0.0.1:8000/api/imagenes/', {
       method: 'POST',
