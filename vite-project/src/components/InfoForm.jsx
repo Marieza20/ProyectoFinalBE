@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom';
 function InfoForm() {
   return (
     <div className='margencito margen'>
-        <h1 className='titulo'>¿Querés formar parte de nosotros?</h1>
+        <h1 className='titulo'>¿Tienes una pyme dedicada a la pastelería?</h1>
         <div className='aboutForm'>
-            <h2 className='titulito'>¡Llená el formulario!</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                Officiis quasi perferendis tempora dignissimos ab, 
-                aliquam quaerat nemo. Similique, porro quae repudiandae libero rem, 
-                quam laboriosam officia non, fuga sit aliquam?</p>
+            <h2 className='titulito'>¡Lleva tu negocio al siguiente nivel!</h2>
+            <p>En nuestro sitio web, te conectamos con más clientes, te damos visibilidad en línea y te ofrecemos herramientas exclusivas para que crezcas sin complicaciones.</p>
+            <strong>Regístrate gratis y empieza a destacar entre la competencia.</strong>
+            <p>Tu talento merece ser visto, ¡y nosotros te ayudamos a lograrlo!</p>
             <button className='btn'><Link className='Link' to="/registroPyme">Ir al formulario</Link></button>
         </div>
     </div>

@@ -50,6 +50,20 @@
     color: #5E070A;
 }
 
+.form select{
+    width: 100%;
+    border-radius: 20px;
+    padding: 15px;
+    border: none;
+    background-color: #FFDFEA;
+    outline: none;
+    color: #5E070A;
+}
+
+.form select::placeholder{
+    color: #5E070A;
+}
+
 .form .label{
     display: inline-block;
     width: 100%;

@@ -1,10 +1,14 @@
 import React from 'react'
+import FormRedes from '../components/FormRedes'
+import Imgs from '../components/Imgs'
 import DatosAdicionales from '../components/DatosAdicionales'
 
 function InicioPyme() {
   return (
     <div>
-        <DatosAdicionales />
+      <FormRedes />
+      <Imgs />
+      <DatosAdicionales />
     </div>
   )
 }

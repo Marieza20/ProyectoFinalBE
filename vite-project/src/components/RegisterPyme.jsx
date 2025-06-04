@@ -11,8 +11,6 @@ function RegisterPyme() {
   const [contrasena, setContrasena] = useState('');
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [imagen, setImagen] = useState(null);
-  const [descripcion, setDescripcion] = useState('');
-  const [direccion, setDireccion] = useState('');
   const navigate = useNavigate();
 
   const toggleMostrarContrasena = () => {
@@ -27,8 +25,6 @@ function RegisterPyme() {
       formData.append('telefono', telefono);
       formData.append('contrasena', contrasena);
       formData.append('carnet', imagen);
-      formData.append('descripcion', descripcion);
-      formData.append('direccion', direccion);
 
     fetch('http://127.0.0.1:8000/api/pymes/', {
       method: 'POST',
@@ -38,7 +34,7 @@ function RegisterPyme() {
     .then(data => {
       console.log('Datos enviados correctamente');
       console.log(data);
-      navigate('/inicioPyme');
+      navigate('/inicioPyme', { state: { pymeId: data.id } });
     })
     .catch(err => {
       console.error('Error al enviar los datos');
@@ -66,10 +62,6 @@ function RegisterPyme() {
           <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
           <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
         </div>
-
-        <input type="text" placeholder="Descripción" value={descripcion} onChange={e => setDescripcion(e.target.value)} />
-
-        <input type="text" placeholder="Dirección" value={direccion} onChange={e => setDireccion(e.target.value)} />
 
         <button className='btn' onClick={RegistrarPyme}>Registrar Pyme</button>
       </div>
