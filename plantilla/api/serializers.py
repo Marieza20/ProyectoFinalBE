@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Pymes, Categorias, RedesSociales, Seguidores, PerfilPymes, PerfilRedes, Publicaciones, Publi_Categorias, Reacciones, Calificaciones
+from .models import Pymes, Categorias, RedesSociales, Seguidores, PerfilPymes, PerfilRedes, Imagenes, Publicaciones, Publi_Categorias, Reacciones, Calificaciones
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
@@ -13,12 +13,12 @@ class PymesSerializer(serializers.ModelSerializer):
         model = Pymes
         fields = '__all__'
     
-    def validar_contrasena(self, value):
+    def validate_contrasena(self, value):
         if len(value) < 8:
             raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres.")
         return value
 
-    def validar_correo(self, value):
+    def validate_correo(self, value):
         if Pymes.objects.filter(correo=value).exists():
             raise serializers.ValidationError("Este correo ya está registrado.")
         return value
@@ -37,8 +37,16 @@ class PymesSerializer(serializers.ModelSerializer):
         )
 
         # Guardar la pyme
-        validated_data['contrasena'] = make_password(password)  # también en modelo
-        return super().create(validated_data)
+        validated_data.pop('usuario', None)
+        print("validated_data antes de crear la pyme:", validated_data)
+        try:
+            return super().create(validated_data)
+        except Exception as e:
+            print("ERROR AL CREAR PYME:", e)
+            raise e
+
+
+
 
 class CategoriasSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)
@@ -47,12 +55,18 @@ class CategoriasSerializer(serializers.ModelSerializer):
         model = Categorias
         fields = '__all__'
 
+
+
+
 class RedesSocialesSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)
 
     class Meta:
         model = RedesSociales
         fields = '__all__'
+
+
+
 
 class SeguidoresSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,6 +78,9 @@ class SeguidoresSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Ya existe esta relación de seguidor.")
         return data
 
+
+
+
 class PerfilPymesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
     ubicacion = serializers.CharField()
@@ -72,15 +89,23 @@ class PerfilPymesSerializer(serializers.ModelSerializer):
         model = PerfilPymes
         fields = '__all__'
 
-    def validar_descripcion(self, value):
+    def validate_descripcion(self, value):
         if not value.strip():
             raise serializers.ValidationError("La descripción no puede estar vacía.")
         return value
 
-    def validar_ubicacion(self, value):
+    def validate_ubicacion(self, value):
         if not value.strip():
             raise serializers.ValidationError("La ubicación no puede estar vacía.")
         return value
+    
+    def validate(self, data):
+        if PerfilPymes.objects.filter(id_pyme=data['id_pyme']).exists():
+            raise serializers.ValidationError("Ya existe un perfil para esta pyme.")
+        return data
+
+
+
 
 class PerfilRedesSerializer(serializers.ModelSerializer):
     url = serializers.URLField()
@@ -88,6 +113,22 @@ class PerfilRedesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PerfilRedes
         fields = '__all__'
+
+
+
+
+class ImagenesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Imagenes
+        fields = '__all__'
+
+    def validar(self, data):
+        if Imagenes.objects.filter(id_publicacion=data['id_publicacion'], imagen=data['imagen']).exists():
+            raise serializers.ValidationError("Esta imagen ya está asociada a la publicación.")
+        return data
+
+
+
 
 class PublicacionesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
@@ -101,6 +142,9 @@ class PublicacionesSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("La descripción no puede estar vacía.")
         return value
 
+
+
+
 class PubliCategoriasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publi_Categorias
@@ -111,6 +155,9 @@ class PubliCategoriasSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Esta relación ya existe.")
         return data
 
+
+
+
 class ReaccionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reacciones
@@ -120,6 +167,9 @@ class ReaccionesSerializer(serializers.ModelSerializer):
         if Reacciones.objects.filter(id_publicacion=data['id_publicacion'], id_usuario=data['id_usuario']).exists():
             raise serializers.ValidationError("Ya existe esta reacción.")
         return data
+
+
+
 
 class CalificacionesSerializer(serializers.ModelSerializer):
     Cantidad = serializers.IntegerField(min_value=1)
@@ -134,6 +184,8 @@ class CalificacionesSerializer(serializers.ModelSerializer):
         return value
 
 
+
+
 class UsersSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -144,3 +196,40 @@ class UsersSerializers(serializers.ModelSerializer):
         
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+
+
+
+class RedesSocialesNestedSerializer(serializers.ModelSerializer):
+    nombre = serializers.CharField(source='id_redes.nombre')
+
+    class Meta:
+        model = PerfilRedes
+        fields = ['nombre', 'url']
+        
+        
+        
+        
+class PymeDetalleSerializer(serializers.ModelSerializer):
+    perfil = serializers.SerializerMethodField()
+    imagenes = serializers.SerializerMethodField()
+    redes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Pymes
+        fields = '__all__'
+        
+    def get_perfil(self, obj):
+        try:
+            perfil = PerfilPymes.objects.get(id_pyme=obj)
+            return PerfilPymesSerializer(perfil).data
+        except PerfilPymes.DoesNotExist:
+            return None
+        
+    def get_imagenes(self, obj):
+        imagenes = Imagenes.objects.filter(id_pyme=obj)
+        return ImagenesSerializer(imagenes, many=True).data
+
+    def get_redes(self, obj):
+        redes = PerfilRedes.objects.filter(id_pyme=obj)
+        return RedesSocialesNestedSerializer(redes, many=True).data

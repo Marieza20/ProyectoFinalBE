@@ -4,7 +4,7 @@ from .views import UsersListCreateView, UsersRetrieveUpdateDestroyView , \
     RedesSocialesListCreateView, RedesSocialesRetrieveUpdateDestroyView, SeguidoresListCreateView, SeguidoresRetrieveUpdateDestroyView, \
     PerfilPymesListCreateView, PerfilPymesRetrieveUpdateDestroyView, PerfilRedesListCreateView, PerfilRedesRetrieveUpdateDestroyView, \
     PublicacionesListCreateView, PublicacionesRetrieveUpdateDestroyView, PubliCategoriasListCreateView, PubliCategoriasRetrieveUpdateDestroyView, \
-    ReaccionesListCreateView, ReaccionesRetrieveUpdateDestroyView, CalificacionesListCreateView, CalificacionesRetrieveUpdateDestroyView
+    ReaccionesListCreateView, ReaccionesRetrieveUpdateDestroyView, CalificacionesListCreateView, CalificacionesRetrieveUpdateDestroyView, ImagenesListCreateView, ImagenesRetrieveUpdateDestroyView, PymesDetallesListCreateView, PymeDetalleRetrieveView
 
 urlpatterns = [
     path('users/', UsersListCreateView.as_view(), name='user-list-create'),
@@ -39,6 +39,12 @@ urlpatterns = [
     
     path('calificaciones/', CalificacionesListCreateView.as_view(), name='calificaciones-list-create'),
     path('calificaciones/<int:pk>/', CalificacionesRetrieveUpdateDestroyView.as_view(), name='calificaciones-detail'),
+    
+    path('imagenes/', ImagenesListCreateView.as_view(), name='imagenes-list-create'),
+    path('imagenes/<int:pk>/', ImagenesRetrieveUpdateDestroyView.as_view(), name='imagenes-detail'),
+    
+    path('pymes-detalles/', PymesDetallesListCreateView.as_view(), name='pymes-detalles'),
+    path('pymes-detalles/<int:pk>/', PymeDetalleRetrieveView.as_view(), name='pyme-detalle'),
 ]
 
 urlpatterns2 = [
