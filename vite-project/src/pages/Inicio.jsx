@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../components/Header'
-import BarrraDeBúsqueda from '../components/BarrraDeBúsqueda'
+import BarraDeBúsqueda from '../components/BarraDeBúsqueda'
 
 
 function Inicio() {
   return (
     <div>
         <Header />
-        <BarrraDeBúsqueda />
+        <BarraDeBúsqueda />
     </div>
   )
 }

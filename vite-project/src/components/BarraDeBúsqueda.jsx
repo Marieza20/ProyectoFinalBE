@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CardPyme from './CardPyme';
 import '../styles/BarraBusqueda.css'
 
-function BarrraDeBúsqueda() {
+function BarraDeBúsqueda() {
   const [busqueda, setBusqueda] = useState('');
   const [todasLasPymes, setTodasLasPymes] = useState([]);
 
@@ -28,7 +28,7 @@ function BarrraDeBúsqueda() {
       );
 
   return (
-    <div className='margencito'>
+    <div className='fondoB margencito'>
       <div className="barra">
         <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>  
       </div>
@@ -37,7 +37,7 @@ function BarrraDeBúsqueda() {
         {resultados.length > 0 ? (
           <CardPyme pymes={resultados} />
         ) : (
-          <p>No hay resultados para esta búsqueda.</p>
+          <p className='p'>No hay resultados para esta búsqueda.</p>
         )}
       </div>
 
@@ -45,4 +45,4 @@ function BarrraDeBúsqueda() {
   );
 }
 
-export default BarrraDeBúsqueda;
+export default BarraDeBúsqueda;

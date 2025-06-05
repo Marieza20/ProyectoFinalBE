@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import '../styles/PerfilPyme.css'
+import '../styles/Portada.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 
-function PerfilPyme() {
+function Portada() {
   const { id_pyme } = useParams();
   const [pyme, setPyme] = useState(null);
 
@@ -50,21 +50,20 @@ function PerfilPyme() {
         <div className="bloque">
           <h1 className="titulito">{pyme.nombre}</h1>
           <p>{pyme.perfil?.descripcion}</p>
-        </div>
-
-        <div className='bloque'>
-          <div className="flex">
-            <i className="bi bi-geo-alt-fill"></i>
-            <p>{pyme.perfil?.ubicacion}</p>
-          </div>
-          <div className="flex">
-            <i className="bi bi-telephone-fill"></i>
-            <p>{pyme.telefono}</p>
-          </div>
-          <div className="links">
-            {pyme.redes && pyme.redes.map((red, index) => (
-            <a key={index} href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}><i className={getIconClass(red.nombre)}></i></a>
-            ))}
+            <div className="flexito">
+              <i className="bi bi-geo-alt-fill"></i>
+              <p>{pyme.perfil?.ubicacion}</p>
+            </div>
+          <div className='flex'>
+            <div className="flexito">
+              <i className="bi bi-telephone-fill"></i>
+              <p>{pyme.telefono}</p>
+            </div>
+            <div className="links">
+              {pyme.redes && pyme.redes.map((red, index) => (
+              <a key={index} href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}><i className={getIconClass(red.nombre)}></i></a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -72,4 +71,4 @@ function PerfilPyme() {
   )
 }
 
-export default PerfilPyme
+export default Portada

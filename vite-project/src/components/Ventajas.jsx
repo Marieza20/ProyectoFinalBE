@@ -28,7 +28,7 @@ function Ventajas() {
 
   return (
     <div className='margen margenb'>
-      <h1 className='titulo'>¿Qué ventajas te ofrece Pastelito?</h1>
+      <h1 className='titulo margencitob'>¿Qué ventajas te ofrece Pastelito?</h1>
 
       <div className={`carrusel-contenedor ${isMobile ? 'activo' : ''}`}>
         {isMobile && (<i className="bi bi-caret-left-fill flechita" onClick={scrollLeft}></i>)}

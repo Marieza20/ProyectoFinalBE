@@ -44,7 +44,7 @@ function LoginUsuario() {
 
   return (
     <div className='margen'>
-      <h1 className='titulo'>Login Usuario</h1>
+      <h1 className='titulo margencitob'>Login Usuario</h1>
       <div className='form'>
         <input type="text" placeholder="Nombre de Usuario" value={nombre} onChange={e => setNombre(e.target.value)}/>
 

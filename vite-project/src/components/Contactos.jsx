@@ -27,7 +27,7 @@ function Contactos() {
 
   return (
     <div className='margen'>
-        <h1 className='titulo'>Contáctanos</h1>
+        <h1 className='titulo margencitob'>Contáctanos</h1>
         <div className='form'>
           <input type="text" placeholder="Nombre" ref={nombre}/>
 

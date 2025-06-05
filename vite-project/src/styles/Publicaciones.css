@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.cardPost{
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.cardHPost{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cardHPost .perfil{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #BB2C64;
+    overflow: hidden;
+}
+
+.cardHPost .perfil img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}

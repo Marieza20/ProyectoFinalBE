@@ -51,7 +51,7 @@ function RegisterPyme() {
 
   return (
     <div className='margen'>
-      <h1 className='titulo'>Registro de Pyme</h1>
+      <h1 className='titulo margencitob'>Registro de Pyme</h1>
       <div className="form">
         <input type="text" placeholder="Nombre de Usuario" value={username} onChange={e => setUserName(e.target.value)} />
 

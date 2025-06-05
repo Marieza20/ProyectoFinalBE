@@ -24,7 +24,7 @@ function RegisterUser() {
 
   return (
     <div className='margen'>
-      <h1 className='titulo'>Registro de Usuario</h1>
+      <h1 className='titulo margencitob'>Registro de Usuario</h1>
       <div className='form'>
         <input type="text" placeholder='Nombre de Usuario:' value={username} onChange={e => setUsername(e.target.value)} />
 

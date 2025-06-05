@@ -7,8 +7,7 @@
 .perfil-container {
     position: relative;
     width: 100%;
-    height: 50vh;
-
+    height: 60vh;
 }
 
 .portada{
@@ -45,39 +44,54 @@
     margin: auto;
     padding: 130px 30px 30px 30px;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 20px;
     background-color: #FFDFEA;
     color: #BB2C64;
 }
 
 .infoPyme .bloque{
     margin: auto;
-    width: 70%;
-    display: grid;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
 }
 
 .infoPyme .bloque p{
-    text-align: justify;
+    font-size: 20px;
+    text-align: center;
 }
 
 .infoPyme .bloque .titulito{
+    font-size: 40px;
     color: #5E070A;
 }
 
 .infoPyme .bloque .bi{
-    font-size: 25px;
+    font-size: 22px;
 }
 
 .infoPyme .bloque .flex{
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.infoPyme .bloque .flexito{
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .infoPyme .bloque .links{
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 

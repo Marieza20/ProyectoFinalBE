@@ -17,11 +17,18 @@
   margin-bottom: 200px;
 }
 
+.margencitob {
+  margin-bottom: 30px;
+}
+
 .titulo {
   text-align: center;
-  margin-bottom: 20px;
   color: #5E070A;
   font-family: "Magnolia";
+}
+
+.titulito {
+  text-align: center;
 }
 
 .carrusel-contenedor {
@@ -57,11 +64,6 @@
   background-color: #5E070A;
   scroll-snap-align: start;
   text-align: justify;
-}
-
-.titulito {
-  text-align: center;
-  margin-bottom: 15px;
 }
 
 .flechita {

@@ -9,7 +9,7 @@ import Login from '../pages/Login';
 import PagContactos from '../pages/PagContactos';
 import Footer from '../components/Footer';
 import Perfil from '../components/Perfil';
-import PerfilPyme from '../components/PerfilPyme';
+import PerfilPyme from '../pages/PerfilPyme';
 import InicioPyme from '../pages/InicioPyme';
 import ScrollToTop from '../components/ScrollToTop';
 

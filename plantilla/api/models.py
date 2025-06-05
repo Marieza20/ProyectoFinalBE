@@ -116,7 +116,3 @@ class Calificaciones(models.Model):
     
     def __str__(self):
         return self.Cantidad
-
-
-
-
