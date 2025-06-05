@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import CardPyme from './CardPyme';
 import '../styles/BarraBusqueda.css'
-import llamadosPymes from '../services/llamadosPymes';
 
 function BarrraDeBúsqueda() {
   const [busqueda, setBusqueda] = useState('');
-  const [resultados, setResultados] = useState([]);
   const [todasLasPymes, setTodasLasPymes] = useState([]);
 
-  // Cargar todas las pymes una sola vez al montar el componente
   useEffect(() => {
     async function fetchPymes() {
       try {
-        const pymes = await llamadosPymes.getPymes();
-        setTodasLasPymes(pymes);
-        setResultados(pymes); // Mostrar todas al inicio
+        const response = await fetch('http://127.0.0.1:8000/api/pymes-detalles/');
+        if (!response.ok) throw new Error('Error al obtener las pymes');
+        const data = await response.json();
+        setTodasLasPymes(data);
       } catch (error) {
         console.error('Error al obtener las pymes:', error);
       }
@@ -22,28 +21,24 @@ function BarrraDeBúsqueda() {
     fetchPymes();
   }, []);
 
-  // Buscar automáticamente 
-  useEffect(() => {
-    const filtrados = todasLasPymes.filter(pyme =>
-      pyme.nombre.toLowerCase().includes(busqueda.toLowerCase())
-    );
-    setResultados(filtrados);
-  }, [busqueda, todasLasPymes]);
+  const resultados = busqueda === ''
+    ? todasLasPymes
+    : todasLasPymes.filter(pyme =>
+        pyme.nombre.toLowerCase().includes(busqueda.toLowerCase())
+      );
 
   return (
     <div className='margencito'>
       <div className="barra">
-        <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>
-        
-        <ul>
-          {resultados.length > 0 ? (
-            resultados.map(pyme => (
-              <li key={pyme.id}></li>
-            ))
-          ) : (
-            busqueda && <li>No hay resultados para esta búsqueda.</li>
-          )}
-        </ul>
+        <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>  
+      </div>
+  
+      <div className="resultado">
+        {resultados.length > 0 ? (
+          <CardPyme pymes={resultados} />
+        ) : (
+          <p>No hay resultados para esta búsqueda.</p>
+        )}
       </div>
 
     </div>

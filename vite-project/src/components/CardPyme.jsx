@@ -1,21 +1,11 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import '../styles/CardPyme.css'
 
-function CardPyme() {
-  const [pymes, setPymes]=useState([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/pymes-detalles/')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error al obtener las pymes');
-        }
-        return response.json();
-      })
-      .then((data) => setPymes(data))
-      .catch((error) => console.error('Error:', error));
-  }, []);
+function CardPyme({ pymes }) {
+  if (!pymes || pymes.length === 0) {
+    return <p>No hay pymes para mostrar.</p>;
+  }
 
   return (
     <div className='margencito'>

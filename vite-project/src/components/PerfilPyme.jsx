@@ -5,11 +5,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 
 function PerfilPyme() {
-  const { id } = useParams();
+  const { id_pyme } = useParams();
   const [pyme, setPyme] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id}/`)
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error al obtener la pyme');
@@ -18,9 +18,24 @@ function PerfilPyme() {
       })
       .then((data) => setPyme(data))
       .catch((error) => console.error('Error:', error));
-  }, [id]);
+  }, [id_pyme]);
 
   if (!pyme) return <div>Cargando...</div>;
+
+  function getIconClass(nombre) {
+    switch (nombre.toLowerCase()) {
+      case 'whatsapp':
+        return 'bi bi-whatsapp';
+      case 'facebook':
+        return 'bi bi-facebook';
+      case 'instagram':
+        return 'bi bi-instagram';
+      case 'tik tok':
+        return 'bi bi-tik-tok';
+      default:
+        return 'bi bi-globe';
+    }
+  }
 
   return (
     <div>
@@ -47,7 +62,9 @@ function PerfilPyme() {
             <p>{pyme.telefono}</p>
           </div>
           <div className="links">
-            {pyme.whatsapp && <a href={pyme.url}><i className="bi bi-whatsapp"></i></a>}
+            {pyme.redes && pyme.redes.map((red, index) => (
+            <a key={index} href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}><i className={getIconClass(red.nombre)}></i></a>
+            ))}
           </div>
         </div>
       </div>

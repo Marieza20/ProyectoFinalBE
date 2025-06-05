@@ -81,3 +81,12 @@
     gap: 20px;
 }
 
+.infoPyme .bloque .links a{
+    color: #BB2C64;
+    transition: 0.5s;
+}
+
+.infoPyme .bloque .links a:hover{
+    color: #BB2C64;
+    transform: scale(1.1);
+}
