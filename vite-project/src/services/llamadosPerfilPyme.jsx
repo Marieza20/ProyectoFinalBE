@@ -1,6 +1,6 @@
 async function getPerfilPyme() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/perfilPyme/", {
+        const response = await fetch("http://127.0.0.1:8000/api/perfil-pymes/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,7 +28,7 @@ async function postPerfilPyme(imagen) {
 
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/perfilPyme/", {
+        const response = await fetch("http://127.0.0.1:8000/api/perfil-pymes/", {
             method: 'POST',
             body: formData  
         });
@@ -57,7 +57,7 @@ async function updatePerfilPyme(nombre,precio,cantidad,categoria,id)
             categoria
         };
 
-        const response = await fetch(`http://127.0.0.1:8000/api/perfilPyme/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ async function updatePerfilPyme(nombre,precio,cantidad,categoria,id)
 //////////////LLAMADO DELETE/////////////
 async function deletePerfilPyme(id) {    
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/perfilPyme/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

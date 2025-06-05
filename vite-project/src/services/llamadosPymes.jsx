@@ -22,13 +22,14 @@ async function getPymes() {
 }
 
 //////////LLAMADO POST//////////
-async function postPymes(nombre, correo, telefono, imagen, contrasena) {
+async function postPymes(nombre, correo, telefono, imagen, contrasena, carnet) {
     const obj = {
         nombre,
         correo,
         telefono,
         imagen,
-        contrasena
+        contrasena,
+        carnet
     }
 
     console.log(obj);

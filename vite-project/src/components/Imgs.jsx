@@ -6,7 +6,6 @@ function Imgs({ id_pyme }) {
     const [foto, setFoto] = useState(null);
     const [foto2, setFoto2] = useState(null);             
     const [foto3, setFoto3] = useState(null);
-    const navigate = useNavigate();
 
     const subir = async () => {
     const formData = new FormData();
@@ -23,7 +22,6 @@ function Imgs({ id_pyme }) {
     .then(data => {
       console.log('imagenes enviadas correctamente');
       console.log(data);
-      navigate('/inicioPyme');
     })
     .catch(err => {
       console.error('Error al enviar las imagenes');

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 function DatosAdicionales({ id_pyme }) {
@@ -13,8 +13,7 @@ function DatosAdicionales({ id_pyme }) {
 
   const AgregarDatos = async () => {
     const formData = new FormData();
-      formData.append('id_pyme', id_pyme);
-      formData.append('id_perfilRed', perfilRedSeleccionada); 
+      formData.append('id_pyme', id_pyme); 
       formData.append('fotoPerfil', perfil);
       formData.append('fotoPortada', portada);
       formData.append('especialidad', especialidad);
@@ -29,7 +28,6 @@ function DatosAdicionales({ id_pyme }) {
     .then(data => {
       console.log('Datos enviados correctamente');
       console.log(data);
-      navigate('/inicioPyme');
     })
     .catch(err => {
       console.error('Error al enviar los datos');

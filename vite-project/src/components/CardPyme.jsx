@@ -1,34 +1,61 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import '../styles/CardPyme.css'
-import axoli from '../img/axoli.jpg'
-import postre from '../img/postre.jpg'
-import postre2 from '../img/postre2.jpg'
 
 function CardPyme() {
+  const [pymes, setPymes]=useState([]);
 
-
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/pymes-detalles/')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error al obtener las pymes');
+        }
+        return response.json();
+      })
+      .then((data) => setPymes(data))
+      .catch((error) => console.error('Error:', error));
+  }, []);
 
   return (
     <div className='margencito'>
         <div className='pymes'>
-          <div className="cardP">
+          {pymes.map((pyme) =>(
+          <div className="cardP" key={pyme.id}>
             <div className="headCardP">
-                <img src={axoli} alt="" />
+                <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
             </div>
             <div className='bodyCardP'>
-              <h3 className='titulito'>Pastelería Axoli</h3>
+              <h3 className='titulito'>{pyme.nombre}</h3>
               <div className="imgs">
-                <div className="img"><img src={postre} alt="" /></div>
-                <div className="img"><img src={postre2} alt="" /></div>
-                <div className="img"><img src={postre} alt="" /></div>
+                {pyme.imagenes && pyme.imagenes.map((imgObj, index) => (
+                  <React.Fragment key={index}>
+                    {imgObj.imagen1 && (
+                      <div className="img">
+                        <img src={`http://127.0.0.1:8000${imgObj.imagen1}`} alt={`imagen1-${index}`} />
+                      </div>
+                    )}
+                    {imgObj.imagen2 && (
+                      <div className="img">
+                        <img src={`http://127.0.0.1:8000${imgObj.imagen2}`} alt={`imagen2-${index}`} />
+                      </div>
+                    )}
+                    {imgObj.imagen3 && (
+                      <div className="img">
+                        <img src={`http://127.0.0.1:8000${imgObj.imagen3}`} alt={`imagen3-${index}`} />
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))}
               </div>
-              <p><strong>Zona: </strong>Chacarita, Puntarenas</p>
-              <p><strong>Descripción: </strong>Sobre la pyme, a qué se dedica y demás información relevante.</p>
-              <p><strong>Especialidad: </strong>Para toda ocasión, cupcakes, mesas dulces y más.</p>
-              <button className='btn'><Link className='Link' to="/perfilPyme">Conoce más</Link></button>
+
+              <p><strong>Zona: </strong>{pyme.perfil?.ubicacion}</p>
+              <p><strong>Descripción: </strong>{pyme.perfil?.descripcion}</p>
+              <p><strong>Especialidad: </strong>{pyme.perfil?.especialidad}</p>
+              <button className='btn'><Link className='Link' to={`/perfilPyme/${pyme.id}`}>Conoce más</Link></button>
             </div>
           </div>
+          ))}
         </div>
     </div>
   )

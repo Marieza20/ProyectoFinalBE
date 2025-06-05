@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-//import llamadosPymes from '../services/llamadosPymes'
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPyme() {
   const [username, setUserName] = useState('');
@@ -30,11 +29,17 @@ function RegisterPyme() {
       method: 'POST',
       body: formData,
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Datos enviados correctamente');
-      console.log(data);
-      navigate(`/inicioPyme/${data.id}`);
+    .then(async res => {
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        console.log('Datos enviados correctamente');
+        console.log(data);
+        navigate(`/inicioPyme/${data.id}`);
+      } catch (e) {
+        console.error('Respuesta del backend (no es JSON):', text);
+        throw e;
+      }
     })
     .catch(err => {
       console.error('Error al enviar los datos');

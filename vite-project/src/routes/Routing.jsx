@@ -26,7 +26,7 @@ function Routing() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/contactos' element={<PagContactos/>}></Route>
         <Route path='/perfil' element={<Perfil/>}></Route>
-        <Route path='/perfilPyme' element={<PerfilPyme/>}></Route>
+        <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme/>}></Route>
         <Route path='/inicioPyme/:id_pyme' element={<InicioPyme/>}></Route>
       </Routes>
       <Footer />

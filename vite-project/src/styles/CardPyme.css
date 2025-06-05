@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 40px;
 }
 
 .headCardP{
@@ -31,7 +31,7 @@
     margin-top: -50px;
     padding: 20px;
     padding-top: 60px;
-    width: 260px;
+    width: 300px;
     border-radius: 15px;
     background-color: #FFDFEA;
     color: #BB2C64;
