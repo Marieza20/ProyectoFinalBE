@@ -42,7 +42,7 @@ function CardPyme({ pymes }) {
               <p><strong>Zona: </strong>{pyme.perfil?.ubicacion}</p>
               <p><strong>Descripción: </strong>{pyme.perfil?.descripcion}</p>
               <p><strong>Especialidad: </strong>{pyme.perfil?.especialidad}</p>
-              <button className='btn'><Link className='Link' to={`/perfilPyme/${pyme.id}`}>Conoce más</Link></button>
+              <Link className='Link' to={`/perfilPyme/${pyme.id}`}><button className='btn'>Conoce más</button></Link>
             </div>
           </div>
           ))}

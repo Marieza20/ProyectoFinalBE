@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function Perfil() {
+function PerfilUsuario() {
   return (
     <div className='margen'>
         
@@ -9,4 +9,4 @@ function Perfil() {
   )
 }
 
-export default Perfil
+export default PerfilUsuario

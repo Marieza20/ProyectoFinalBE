@@ -4,14 +4,26 @@
     box-sizing: border-box;
 }
 
+.derecha{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
 .cardPost{
     width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .cardHPost{
+    padding: 15px 5px;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
 }
@@ -30,4 +42,110 @@
     object-fit: cover;
     object-position: center;
     display: block;
+}
+
+.cardHPost h2{
+    color: #5E070A;
+}
+
+.cardHPost .follow{
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #BB2C64;
+    transition: 0.5s;
+}
+
+.cardHPost .follow:hover{
+    transform: scale(0.9);
+}
+
+.cardBPost{
+    padding: 0px 15px;
+    width: 100%;
+}
+
+.cardBPost .img{
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.cardFPost{
+    padding: 5px;
+    background-color: #BB2C64;
+    border-radius: 0px 0px 15px 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    line-height: 0;
+}
+
+.cardFPost > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.cardFPost .bi:first-child { border: 1px solid red; }
+.cardFPost .rating { border: 1px solid blue; }
+.cardFPost .bi:last-child { border: 1px solid green; }
+
+.cardFPost .bi{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    color: #ccc;
+    transition: 0.5s;
+    line-height: 1;
+}
+
+.cardFPost .bi:hover{
+    color: #FFDFEA;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  line-height: 1;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+    margin: 0;
+    padding: 0;
+    float: right;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.rating label:before {
+  content: '\2605';
+  font-size: 30px;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+  color: #ffde59;
+  transition: color 0.3s;
+}
+
+
+@media (min-width: 1000px) {    
+    .grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 30% 70%;
+    }
 }

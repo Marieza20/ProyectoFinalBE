@@ -4,12 +4,6 @@
     box-sizing: border-box;
 }
 
-.fondoB{
-    background-image: url(../img/chispas.jpg);
-    background-size: cover;
-    background-repeat: repeat;
-}
-
 .barra{
     margin: auto;
     display: flex;
