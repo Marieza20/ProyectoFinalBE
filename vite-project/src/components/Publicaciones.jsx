@@ -30,11 +30,12 @@ function Publicaciones() {
             <div className="derecha">
                 <div className='cardPost'>
                     <div className="cardHPost">
-                        <div className="perfil">
+                        <div className="fotoPerfil">
                             <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
                         </div>
-                        <div>
+                        <div className='infoPerfil'>
                             <h2 className='titulito'>{pyme.nombre}</h2>
+                            <p>20 de octubre de 2025</p>
                             <button className='follow'>Seguir</button>
                         </div>
                     </div>

@@ -5,30 +5,32 @@
 }
 
 .derecha{
-    display: grid;
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .cardPost{
-    width: 300px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .cardHPost{
-    padding: 15px 5px;
+    width: 100%;
+    padding: 15px 20px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 10px;
 }
 
-.cardHPost .perfil{
+.cardHPost .fotoPerfil{
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -36,7 +38,7 @@
     overflow: hidden;
 }
 
-.cardHPost .perfil img{
+.cardHPost .fotoPerfil img{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -44,11 +46,16 @@
     display: block;
 }
 
-.cardHPost h2{
+.cardHPost .infoPerfil h2{
     color: #5E070A;
 }
 
-.cardHPost .follow{
+.cardHPost .infoPerfil p{
+    color: #b6b6b6;
+    font-size: 14px;
+}
+
+.cardHPost .infoPerfil .follow{
     cursor: pointer;
     background: none;
     border: none;
@@ -70,36 +77,25 @@
     padding: 10px 0px;
 }
 
+.cardBPost p{
+    color: #5E070A;
+}
+
 .cardFPost{
-    padding: 5px;
     background-color: #BB2C64;
     border-radius: 0px 0px 15px 15px;
     width: 100%;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    line-height: 0;
 }
-
-.cardFPost > * {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.cardFPost .bi:first-child { border: 1px solid red; }
-.cardFPost .rating { border: 1px solid blue; }
-.cardFPost .bi:last-child { border: 1px solid green; }
 
 .cardFPost .bi{
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 25px;
     color: #ccc;
     transition: 0.5s;
-    line-height: 1;
+    line-height: 0;
 }
 
 .cardFPost .bi:hover{
@@ -107,11 +103,7 @@
 }
 
 .rating {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3px;
-  line-height: 1;
+  display: inline-block;
 }
 
 .rating input {
@@ -119,13 +111,10 @@
 }
 
 .rating label {
-    margin: 0;
-    padding: 0;
     float: right;
     cursor: pointer;
     color: #ccc;
-    transition: color 0.3s;
-    vertical-align: middle;
+    transition: color 0.5s;
     line-height: 1;
 }
 
@@ -147,5 +136,11 @@
         width: 100%;
         display: grid;
         grid-template-columns: 30% 70%;
+    }
+}
+
+@media (min-width: 500px) {    
+    .cardPost{
+        width: 400px;
     }
 }
