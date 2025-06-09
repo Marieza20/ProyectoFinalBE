@@ -12,6 +12,7 @@ import PerfilPyme from '../pages/PerfilPyme';
 import InicioPyme from '../pages/InicioPyme';
 import ScrollToTop from '../components/ScrollToTop';
 import MiPerfilPyme from '../pages/MiPerfilPyme';
+import Feed from '../pages/Feed';
 
 function Routing() {
   return (
@@ -25,9 +26,10 @@ function Routing() {
         <Route path='/registroUser' element={<RegistroUser/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/contactos' element={<PagContactos/>}></Route>
-        <Route path='/miPerfilPyme' element={<MiPerfilPyme/>}></Route>
+        <Route path='/miPerfilPyme/:id_pyme' element={<MiPerfilPyme/>}></Route>
         <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme/>}></Route>
         <Route path='/inicioPyme/:id_pyme' element={<InicioPyme/>}></Route>
+        <Route path='/feed' element={<Feed />}></Route>
       </Routes>
       <Footer />
     </Router>

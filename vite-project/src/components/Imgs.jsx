@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Imgs({ id_pyme }) {
     const [foto, setFoto] = useState(null);
@@ -34,9 +34,15 @@ function Imgs({ id_pyme }) {
   return (
     <div className='margen'>
       <div className="form">
-        <input type="file" onChange={e => setFoto(e.target.files[0])}/>
-        <input type="file" onChange={e => setFoto2(e.target.files[0])}/>
-        <input type="file" onChange={e => setFoto3(e.target.files[0])}/>
+        <label htmlFor="imagen1Input"><i className="bi bi-image"></i> Añadir imagen 1</label>
+        <input hidden type="file" id="imagen1Input" onChange={e => setFoto(e.target.files[0])}/>
+        
+        <label htmlFor="imagen2Input"><i className="bi bi-image"></i> Añadir imagen 2</label>
+        <input hidden type="file" id="imagen2Input" onChange={e => setFoto2(e.target.files[0])}/>
+        
+        <label htmlFor="imagen2Input"><i className="bi bi-image"></i> Añadir imagen 3</label>
+        <input hidden type="file" id="imagen3Input" onChange={e => setFoto3(e.target.files[0])}/>
+        
         <button className='btn' onClick={subir}>Subir</button>
       </div>
     </div>

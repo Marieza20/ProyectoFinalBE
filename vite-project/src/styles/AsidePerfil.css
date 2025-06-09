@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.seguidos{
+    display: flex;
+}
+
+@media (min-width: 1000px) {    
+    .seguidos{
+        flex-direction: column;
+    }
+}

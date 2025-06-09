@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import "bootstrap-icons/font/bootstrap-icons.css";
 import { useNavigate } from 'react-router-dom';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function RegisterPyme() {
   const [username, setUserName] = useState('');
@@ -61,8 +61,15 @@ function RegisterPyme() {
         
         <input type="tel" placeholder="Teléfono" value={telefono} onChange={e => setTelefono(e.target.value)} />  
 
-        <input type="file" id="fileInput" onChange={e => setImagen(e.target.files[0])}/>
+        <label htmlFor="fileInput">
+          <i className="bi bi-image">  Carnet de manipulación de Alimentos</i>
+          {imagen && (
+            <div>Archivo seleccionado: {imagen.name}</div>
+          )} 
+        </label>
+        <input hidden type="file" id="fileInput" onChange={e => setImagen(e.target.files[0])}/>
         
+
         <div className="input-password-container">
           <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
           <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>

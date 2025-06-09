@@ -214,6 +214,7 @@ class PymeDetalleSerializer(serializers.ModelSerializer):
     perfil = serializers.SerializerMethodField()
     imagenes = serializers.SerializerMethodField()
     redes = serializers.SerializerMethodField()
+    publicaciones = serializers.SerializerMethodField()
 
     class Meta:
         model = Pymes
@@ -233,3 +234,7 @@ class PymeDetalleSerializer(serializers.ModelSerializer):
     def get_redes(self, obj):
         redes = PerfilRedes.objects.filter(id_pyme=obj)
         return RedesSocialesNestedSerializer(redes, many=True).data
+    
+    def get_publicaciones(self, obj):
+        publicaciones = Publicaciones.objects.filter(id_pyme=obj)
+        return PublicacionesSerializer(publicaciones, many=True).data

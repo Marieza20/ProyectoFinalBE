@@ -4,14 +4,17 @@
     box-sizing: border-box;
 }
 
-.derecha{
+.derecha, .izquierda{
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 50px;
 }
 
 .cardPost{
+    margin: auto;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -72,6 +75,13 @@
     width: 100%;
 }
 
+.cardBPost input{
+    border: none;
+    outline: none;
+    background: none;
+    height: 150px;
+}
+
 .cardBPost .img{
     width: 100%;
     padding: 10px 0px;
@@ -79,6 +89,16 @@
 
 .cardBPost p{
     color: #5E070A;
+}
+
+
+.publicar{
+    background-color: #BB2C64;
+    border-radius: 0px 0px 15px 15px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: end;
 }
 
 .cardFPost{
@@ -130,6 +150,14 @@
   transition: color 0.3s;
 }
 
+
+.imagencita{
+    width: 200px;
+}
+
+.imagencita img{
+    width: 100%;
+}
 
 @media (min-width: 1000px) {    
     .grid {

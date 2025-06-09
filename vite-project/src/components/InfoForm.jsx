@@ -11,7 +11,7 @@ function InfoForm() {
             <p>En nuestro sitio web, te conectamos con más clientes, te damos visibilidad en línea y te ofrecemos herramientas exclusivas para que crezcas sin complicaciones.</p>
             <strong>Regístrate gratis y empieza a destacar entre la competencia.</strong>
             <p>Tu talento merece ser visto, ¡y nosotros te ayudamos a lograrlo!</p>
-            <button className='btn'><Link className='Link' to="/registroPyme">Ir al formulario</Link></button>
+            <Link className='Link' to="/registroPyme"><button className='btn'>Ir al formulario</button></Link>
         </div>
     </div>
   )
