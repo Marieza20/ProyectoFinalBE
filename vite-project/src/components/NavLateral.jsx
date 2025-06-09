@@ -21,6 +21,7 @@ function NavLateral({ cerrarMenu, mostrar }) {
           
           <ul className='lista'>
             <Link className='Link' to={"/"}>Inicio</Link>
+            <Link className='Link' to={"/feed"}>Feed</Link>
             <Link className='Link' to={"/sobreNosotros"}>Nosotros</Link>
             <Link className='Link' to={"/contactos"}>Contactos</Link>
           </ul>

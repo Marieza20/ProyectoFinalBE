@@ -1,6 +1,5 @@
 import React from 'react'
 import Portada from '../components/Portada'
-import AsidePerfil from '../components/AsidePerfil'
 import Publicaciones from '../components/Publicaciones'
 
 function PerfilPyme() {
@@ -8,7 +7,6 @@ function PerfilPyme() {
     <div>
         <Portada />
         <div className="grid">
-          <AsidePerfil />
           <Publicaciones />
         </div>
     </div>

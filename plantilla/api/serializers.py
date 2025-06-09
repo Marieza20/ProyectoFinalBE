@@ -132,11 +132,19 @@ class ImagenesSerializer(serializers.ModelSerializer):
 
 class PublicacionesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
-
+    pyme_nombre = serializers.CharField(source='id_pyme.nombre', read_only=True)
+    pyme_fotoPerfil = serializers.SerializerMethodField()
+    
     class Meta:
         model = Publicaciones
         fields = '__all__'
 
+    def get_pyme_fotoPerfil(self, obj):
+        perfil = PerfilPymes.objects.filter(id_pyme=obj.id_pyme).first()
+        if perfil and perfil.fotoPerfil:
+            return perfil.fotoPerfil.url
+        return ''
+    
     def validar_descripcion(self, value):
         if not value.strip():
             raise serializers.ValidationError("La descripción no puede estar vacía.")

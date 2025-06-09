@@ -34,13 +34,29 @@ function Imgs({ id_pyme }) {
   return (
     <div className='margen'>
       <div className="form">
-        <label htmlFor="imagen1Input"><i className="bi bi-image"></i> Añadir imagen 1</label>
+        <p className='center'>Añade las imágenes con la que los usuarios te conocerán</p>
+        <label htmlFor="imagen1Input">
+          <i className="bi bi-image"> Añadir imagen 1</i>
+          {foto && (
+            <div>Archivo seleccionado: {foto.name}</div>
+          )} 
+        </label>
         <input hidden type="file" id="imagen1Input" onChange={e => setFoto(e.target.files[0])}/>
         
-        <label htmlFor="imagen2Input"><i className="bi bi-image"></i> Añadir imagen 2</label>
+        <label htmlFor="imagen2Input">
+          <i className="bi bi-image"> Añadir imagen 2</i>
+          {foto2 && (
+            <div>Archivo seleccionado: {foto2.name}</div>
+          )} 
+        </label>
         <input hidden type="file" id="imagen2Input" onChange={e => setFoto2(e.target.files[0])}/>
         
-        <label htmlFor="imagen2Input"><i className="bi bi-image"></i> Añadir imagen 3</label>
+        <label htmlFor="imagen3Input">
+          <i className="bi bi-image"> Añadir imagen 3</i>
+          {foto3 && (
+            <div>Archivo seleccionado: {foto3.name}</div>
+          )} 
+        </label>
         <input hidden type="file" id="imagen3Input" onChange={e => setFoto3(e.target.files[0])}/>
         
         <button className='btn' onClick={subir}>Subir</button>

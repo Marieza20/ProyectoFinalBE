@@ -37,10 +37,11 @@ function Redes({ id_pyme }) {
 
   return (
     <div className='margen'>
-        <h1 className='titulo margencitob'>Completa el Perfil</h1>
-        <p>Llena los siguientes datos para terminar de crear tu perfil</p>
+        <h1 className='titulo'>Completa el Perfil</h1>
+        <p className='center margencitob'>Llena los siguientes datos para terminar de crear tu perfil</p>
 
-        <div className="form">
+        <div className="form margen">
+          <p className='center'>Añade las redes sociales de tu negocio</p>
           <select value={redSocial} onChange={e => setRedSocial (e.target.value)}>
             <option value="">Selecciona la Red Social</option>
             {redes.map((red) =>(

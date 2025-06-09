@@ -35,6 +35,7 @@ function Nav({ abrirMenu }) {
                     </div>
                     <ul className='elementosMenu' ref={menuRef}>
                         <Link className="Link" to={"/"}>Inicio</Link>
+                        <Link className="Link" to={"/feed"}>Feed</Link>
                         <Link className="Link" to={"/sobreNosotros"}>Nosotros</Link>
                         <Link className="Link" to={"/contactos"}>Contactos</Link>
                         <div className="linea" style={lineaEstilo}></div>

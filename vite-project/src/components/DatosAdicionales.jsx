@@ -40,15 +40,28 @@ function DatosAdicionales({ id_pyme }) {
   return (
     <div className='margen'>
       <div className="form">
-        <textarea type="text" placeholder="Descripción" value={descripcion} onChange={e => setDescripcion(e.target.value)} ></textarea>
+        <p className='center'>Añade la información adicional para que los usuarios te conozcan</p>
+        <textarea id="descripcion" type="text" placeholder="Descripción" value={descripcion} onChange={e => setDescripcion(e.target.value)} ></textarea>
 
-        <textarea type="text" placeholder="Especialidad" value={especialidad} onChange={e => setEspecialidad(e.target.value)} ></textarea>
+        <textarea id="especialidad" type="text" placeholder="Especialidad" value={especialidad} onChange={e => setEspecialidad(e.target.value)} ></textarea>
 
-        <input type="text" placeholder="Dirección" value={direccion} onChange={e => setDireccion(e.target.value)} />
+        <input id="direccion" type="text" placeholder="Dirección" value={direccion} onChange={e => setDireccion(e.target.value)} />
 
-        <input type="file" id="fileInput" onChange={e => setPerfil(e.target.files[0])}/>
+        <label htmlFor="filePerfilInput">
+          <i className="bi bi-image"> Añadir foto de perfil</i>
+          {perfil && (
+            <div>Archivo seleccionado: {perfil.name}</div>
+          )} 
+        </label>
+        <input hidden type="file" id="filePerfilInput" onChange={e => setPerfil(e.target.files[0])}/>
 
-        <input type="file" id="fileInput" onChange={e => setPortada(e.target.files[0])}/>
+        <label htmlFor="filePortadaInput">
+          <i className="bi bi-image"> Añadir foto de portada</i>
+          {portada && (
+            <div>Archivo seleccionado: {portada.name}</div>
+          )} 
+        </label>
+        <input hidden type="file" id="filePortadaInput" onChange={e => setPortada(e.target.files[0])}/>
 
         <button className='btn' onClick={AgregarDatos}>Agregar Datos</button>
 

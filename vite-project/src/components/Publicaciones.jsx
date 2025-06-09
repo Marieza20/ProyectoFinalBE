@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Chispas from '../img/chispas.jpg'
 import '../styles/Publicaciones.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -60,16 +59,16 @@ function Publicaciones() {
                                 }
                                 <i className="bi bi-heart"></i>
                                 <div className="rating">
-                                    <input value="5" name="rating" id="star5" type="radio" />
-                                    <label htmlFor="star5"></label>
-                                    <input value="4" name="rating" id="star4" type="radio" />
-                                    <label htmlFor="star4"></label>
-                                    <input value="3" name="rating" id="star3" type="radio" />
-                                    <label htmlFor="star3"></label>
-                                    <input value="2" name="rating" id="star2" type="radio" />
-                                    <label htmlFor="star2"></label>
-                                    <input value="1" name="rating" id="star1" type="radio" />
-                                    <label htmlFor="star1"></label>
+                                    <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
+                                    <label htmlFor={`star5-${publi.id}`}></label>
+                                    <input value="4" name={`rating-${publi.id}`} id={`star4-${publi.id}`} type="radio" />
+                                    <label htmlFor={`star4-${publi.id}`}></label>
+                                    <input value="3" name={`rating-${publi.id}`} id={`star3-${publi.id}`} type="radio" />
+                                    <label htmlFor={`star3-${publi.id}`}></label>
+                                    <input value="2" name={`rating-${publi.id}`} id={`star2-${publi.id}`} type="radio" />
+                                    <label htmlFor={`star2-${publi.id}`}></label>
+                                    <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
+                                    <label htmlFor={`star1-${publi.id}`}></label>
                                 </div>
                                 <i className="bi bi-three-dots"></i>
                             </div>

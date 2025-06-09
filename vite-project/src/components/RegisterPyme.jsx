@@ -65,7 +65,7 @@ function RegisterPyme() {
           <i className="bi bi-image">  Carnet de manipulación de Alimentos</i>
           {imagen && (
             <div>Archivo seleccionado: {imagen.name}</div>
-          )} 
+          )}
         </label>
         <input hidden type="file" id="fileInput" onChange={e => setImagen(e.target.files[0])}/>
         
