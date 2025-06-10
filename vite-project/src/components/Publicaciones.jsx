@@ -22,6 +22,28 @@ function Publicaciones() {
     }, [id_pyme]);
 
 
+    const handleEliminar = async (idPublicacion) => {
+        if (!window.confirm("¿Seguro que deseas eliminar esta publicación?")) return;
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${idPublicacion}/`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setPyme(prev => ({
+                    ...prev,
+                    publicaciones: prev.publicaciones.filter(publi => publi.id !== idPublicacion)
+                }));
+            } else {
+                console.log(`Error al eliminar la publicación: ${response.statusText}`);
+                
+            }
+        } catch (error) {
+            console.log(`Error al eliminar la publicación: ${error.message}`);
+            
+        }
+    };
+
+
 
     if (!pyme) return <div>Cargando...</div>;
 
@@ -38,11 +60,11 @@ function Publicaciones() {
                                 <div className='infoPerfil'>
                                     <h2 className='titulito'>{pyme.nombre}</h2>
                                     <p>
-                                      {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
-                                        day: '2-digit',
-                                        month: 'long',
-                                        year: 'numeric'
-                                      })}
+                                        {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        })}
                                     </p>
                                     <button className='follow'>Seguir</button>
                                 </div>
@@ -69,7 +91,14 @@ function Publicaciones() {
                                     <label htmlFor={`star2-${publi.id}`}></label>
                                     <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
                                     <label htmlFor={`star1-${publi.id}`}></label>
+
                                 </div>
+                                <button
+                                    className="btnEliminar"
+                                    onClick={() => handleEliminar(publi.id)}
+                                >
+                                    Eliminar
+                                </button>
                                 <i className="bi bi-three-dots"></i>
                             </div>
                         </div>
