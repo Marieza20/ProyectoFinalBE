@@ -7,6 +7,7 @@ function CrearPost() {
   const [pyme, setPyme] = useState(null);
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
@@ -23,8 +24,7 @@ function CrearPost() {
   const Publicar = async (e) => {
     e.preventDefault();
     const fechaPublicacion = new Date().toISOString();
-    const [preview, setPreview] = useState(null);
-
+   
     const formData = new FormData();
     formData.append('id_pyme', id_pyme);
     formData.append('descripcion', descripcion);
@@ -75,7 +75,13 @@ function CrearPost() {
               setImagen(e.target.files[0]);
               setPreview(URL.createObjectURL(e.target.files[0]));
             }}
+
             />
+            {preview && (
+              <div className="preview-imagen">
+                <img src={preview} alt="Vista previa" style={{ maxWidth: '200px', marginTop: '10px' }} />
+              </div>
+            )}
           </div>
         </div>
         <div className="publicar">
