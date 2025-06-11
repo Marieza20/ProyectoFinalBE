@@ -21,9 +21,11 @@ async function getUsuarios() {
 
 
 //////////LLAMADO POST//////////
-async function postUsuarios(username, email, password) {
+async function postUsuarios(username, first_name, last_name, email, password) {
     const obj = {
         username,
+        first_name,
+        last_name,
         email,
         password
     }

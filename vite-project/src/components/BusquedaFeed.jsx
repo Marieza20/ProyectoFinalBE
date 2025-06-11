@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import CardPyme from './CardPyme';
 import '../styles/BarraBusqueda.css'
 
 function BusquedaFeed() {
     const [busqueda, setBusqueda] = useState('');
     const [publicaciones, setPublicaciones] = useState([]);
+    const [likes, setLikes] = useState({});
 
     useEffect(() => {
         async function fetchPublicaciones() {
@@ -20,6 +20,13 @@ function BusquedaFeed() {
 
         fetchPublicaciones();
     }, []);
+
+    const like = (id) => {
+        setLikes(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
 
     const resultados = busqueda === ''
         ? publicaciones
@@ -66,9 +73,7 @@ function BusquedaFeed() {
                                     </div>
                                 </div>
                                 <div className="cardFPost">
-                                    {//<i class="bi bi-heart-fill"></i>
-                                    }
-                                    <i className="bi bi-heart"></i>
+                                    <i className={likes[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => like(publi.id)}></i>
                                     <div className="rating">
                                         <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
                                         <label htmlFor={`star5-${publi.id}`}></label>

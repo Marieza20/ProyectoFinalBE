@@ -14,14 +14,13 @@ from .serializers import (
 from django.contrib.auth.models import User
 from .permission import IsAdminUserGroup, IsNormalUserGroup, IsPymeUserGroup
 from rest_framework.permissions import BasePermission
-
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class IsAuthenticatedUser(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated
-
-
 
 
 class PymesViewSet(ModelViewSet):
@@ -125,6 +124,15 @@ class PublicacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Publicaciones.objects.all()
     serializer_class = PublicacionesSerializer
     # permission_classes = [IsAuthenticatedUser]
+    
+def destroy(self, request, *args, **kwargs):
+    instance = self.get_object()
+    # Validación robusta
+    if not hasattr(instance, 'pyme') or not instance.pyme or not hasattr(instance.pyme, 'usuario') or not instance.pyme.usuario:
+        return Response({'detail': 'Publicación sin dueño asignado.'}, status=status.HTTP_400_BAD_REQUEST)
+    if instance.pyme.usuario != request.user:
+        return Response({'detail': 'No tienes permiso para eliminar esta publicación.'}, status=status.HTTP_403_FORBIDDEN)
+    return super().destroy(request, *args, **kwargs)
 
 
 

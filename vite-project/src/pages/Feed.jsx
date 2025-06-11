@@ -6,8 +6,10 @@ import AsidePerfil from '../components/AsidePerfil'
 function Feed() {
   return (
     <div>
-        <BusquedaFeed />
-        <AsidePerfil />
+        <div className="grid">
+          <AsidePerfil />
+          <BusquedaFeed />
+        </div>
     </div>
   )
 }

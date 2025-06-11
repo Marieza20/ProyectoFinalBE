@@ -24,15 +24,15 @@ function BarraDeBúsqueda() {
   const resultados = busqueda === ''
     ? todasLasPymes
     : todasLasPymes.filter(pyme =>
-        pyme.nombre.toLowerCase().includes(busqueda.toLowerCase())
-      );
+      pyme.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    );
 
   return (
     <div className='fondoB margencito'>
       <div className="barra">
-        <input type="text" placeholder="Buscar..." value={busqueda}   onChange={e => setBusqueda(e.target.value)}/>  
+        <input type="text" placeholder="Buscar..." value={busqueda} onChange={e => setBusqueda(e.target.value)} />
       </div>
-  
+
       <div className="resultado">
         {resultados.length > 0 ? (
           <CardPyme pymes={resultados} />

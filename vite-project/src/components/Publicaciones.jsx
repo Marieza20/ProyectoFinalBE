@@ -3,10 +3,37 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../styles/Publicaciones.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
+import BotonEliminarPublicacion from './Buttons/BotonEliminarPublicacion';
 
 function Publicaciones() {
     const { id_pyme } = useParams();
     const [pyme, setPyme] = useState(null);
+    const [menuAbierto, setMenuAbierto] = useState(null);
+    const [likes, setLikes] = useState({});
+    const [publicaciones, setPublicaciones] = useState([]);
+
+    const like = (id) => {
+        setLikes(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
+    useEffect(() => {
+        async function fetchPublicaciones() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/publicaciones/');
+                if (!response.ok) throw new Error('Error al obtener las publicaciones');
+                const data = await response.json();
+                setPublicaciones(data);
+            } catch (error) {
+                console.error('Error al obtener las publicaciones:', error);
+            }
+        }
+
+        fetchPublicaciones();
+    }, []);
+
 
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
@@ -22,31 +49,42 @@ function Publicaciones() {
     }, [id_pyme]);
 
 
-    const handleEliminar = async (idPublicacion) => {
+    if (!pyme) return <div>Cargando...</div>;
+
+    const menuClick = (id) => {
+        setMenuAbierto(menuAbierto === id ? null : id);
+    };
+
+    const editar = (id) => {
+
+
+        setMenuAbierto(null);
+    };
+
+
+    const eliminar = async (idPublicacion) => {
         if (!window.confirm("¿Seguro que deseas eliminar esta publicación?")) return;
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${idPublicacion}/`, {
                 method: 'DELETE',
             });
             if (response.ok) {
-                setPyme(prev => ({
-                    ...prev,
-                    publicaciones: prev.publicaciones.filter(publi => publi.id !== idPublicacion)
-                }));
+                // Vuelve a pedir los datos de la pyme para actualizar publicaciones
+                const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                if (pymeResponse.ok) {
+                    const pymeData = await pymeResponse.json();
+                    setPyme(pymeData);
+                }
             } else {
                 console.log(`Error al eliminar la publicación: ${response.statusText}`);
-                
             }
         } catch (error) {
             console.log(`Error al eliminar la publicación: ${error.message}`);
-            
         }
+        setMenuAbierto(null);
     };
 
-
-
-    if (!pyme) return <div>Cargando...</div>;
-
+    
     return (
         <div className='margen'>
             <div className='derecha'>
@@ -77,9 +115,7 @@ function Publicaciones() {
                                 <Link></Link>
                             </div>
                             <div className="cardFPost">
-                                {//<i class="bi bi-heart-fill"></i>
-                                }
-                                <i className="bi bi-heart"></i>
+                                <i className={likes[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => like(publi.id)}></i>
                                 <div className="rating">
                                     <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
                                     <label htmlFor={`star5-${publi.id}`}></label>
@@ -91,15 +127,16 @@ function Publicaciones() {
                                     <label htmlFor={`star2-${publi.id}`}></label>
                                     <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
                                     <label htmlFor={`star1-${publi.id}`}></label>
-
                                 </div>
-                                <button
-                                    className="btnEliminar"
-                                    onClick={() => handleEliminar(publi.id)}
-                                >
-                                    Eliminar
-                                </button>
-                                <i className="bi bi-three-dots"></i>
+                                <div className="tresPuntos">
+                                    <i className="bi bi-three-dots" onClick={() => menuClick(publi.id)}></i>
+                                    {menuAbierto === publi.id && (
+                                        <div className='menuTresPuntos'>
+                                            <button onClick={() => editar(publi.id)}>Editar</button>
+                                            <button onClick={() => eliminar(publi.id)}>Eliminar</button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     ))
