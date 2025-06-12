@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+
+import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 function DatosAdicionales({ id_pyme }) {
   const [descripcion, setDescripcion] = useState('');
@@ -8,7 +8,6 @@ function DatosAdicionales({ id_pyme }) {
   const [direccion, setDireccion] = useState('');
   const [perfil, setPerfil] = useState(null);
   const [portada, setPortada] = useState(null);
-  const location = useLocation();
   const navigate = useNavigate();
 
   const AgregarDatos = async () => {
@@ -64,8 +63,9 @@ function DatosAdicionales({ id_pyme }) {
         <input hidden type="file" id="filePortadaInput" onChange={e => setPortada(e.target.files[0])}/>
 
         <button className='btn' onClick={AgregarDatos}>Agregar Datos</button>
-
       </div>
+
+      
     </div>
   )
 }

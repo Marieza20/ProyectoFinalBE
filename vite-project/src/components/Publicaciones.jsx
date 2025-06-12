@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../styles/Publicaciones.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
-import BotonEliminarPublicacion from './Buttons/BotonEliminarPublicacion';
 
 function Publicaciones() {
     const { id_pyme } = useParams();
@@ -11,6 +10,9 @@ function Publicaciones() {
     const [menuAbierto, setMenuAbierto] = useState(null);
     const [likes, setLikes] = useState({});
     const [publicaciones, setPublicaciones] = useState([]);
+    const [editandoId, setEditandoId] = useState(null);
+    const [editDescripcion, setEditDescripcion] = useState('');
+    const [editImagen, setEditImagen] = useState(null);
 
     const like = (id) => {
         setLikes(prev => ({
@@ -34,7 +36,6 @@ function Publicaciones() {
         fetchPublicaciones();
     }, []);
 
-
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
             .then((response) => {
@@ -48,7 +49,6 @@ function Publicaciones() {
 
     }, [id_pyme]);
 
-
     if (!pyme) return <div>Cargando...</div>;
 
     const menuClick = (id) => {
@@ -56,11 +56,46 @@ function Publicaciones() {
     };
 
     const editar = (id) => {
-
-
+        const publi = pyme.publicaciones.find(p => p.id === id);
+        setEditandoId(id);
+        setEditDescripcion(publi.descripcion);
+        setEditImagen(null); // Cmbia solo si se selcciona una nueva imagen 
         setMenuAbierto(null);
     };
 
+    const cancelarEdicion = () => {
+        setEditandoId(null);
+        setEditDescripcion('');
+        setEditImagen(null);
+    };
+
+    const guardarEdicion = async (id) => {
+        const formData = new FormData();
+        formData.append('descripcion', editDescripcion);
+        if (editImagen) {
+            formData.append('imagen', editImagen);
+        }
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${id}/`, {
+                method: 'PATCH',
+                body: formData,
+            });
+            if (response.ok) {
+                // Actualiza la pyme para reflejar los cambios
+                const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                if (pymeResponse.ok) {
+                    const pymeData = await pymeResponse.json();
+                    setPyme(pymeData);
+                }
+                setEditandoId(null);
+            } else {
+                console.error('Error al guardar los cambios:', response.statusText);
+            }
+        } catch (error) {
+            console.log(`Error al guardar los cambios: ${error.message}`);
+            
+        }
+    };
 
     const eliminar = async (idPublicacion) => {
         if (!window.confirm("¿Seguro que deseas eliminar esta publicación?")) return;
@@ -69,7 +104,6 @@ function Publicaciones() {
                 method: 'DELETE',
             });
             if (response.ok) {
-                // Vuelve a pedir los datos de la pyme para actualizar publicaciones
                 const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
                 if (pymeResponse.ok) {
                     const pymeData = await pymeResponse.json();
@@ -84,60 +118,87 @@ function Publicaciones() {
         setMenuAbierto(null);
     };
 
-    
     return (
         <div className='margen'>
             <div className='derecha'>
                 {pyme.publicaciones && pyme.publicaciones.length > 0 ? (
                     pyme.publicaciones.map((publi) => (
                         <div className='cardPost' key={publi.id}>
-                            <div className="cardHPost">
-                                <div className="fotoPerfil">
-                                    <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
+                            {editandoId === publi.id ? (
+                                <div>
+                                    <textarea
+                                        value={editDescripcion}
+                                        onChange={e => setEditDescripcion(e.target.value)}
+                                        rows={4}
+                                        style={{ width: '100%' }}
+                                    />
+                                    <div>
+                                        <label>
+                                            Imagen actual:
+                                            <img src={`http://127.0.0.1:8000${publi.imagen}`} alt="" style={{ maxWidth: 100, display: 'block' }} />
+                                        </label>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={e => setEditImagen(e.target.files[0])}
+                                    />
+                                    <div style={{ marginTop: 8 }}>
+                                        <button onClick={() => guardarEdicion(publi.id)}>Guardar</button>
+                                        <button onClick={cancelarEdicion} style={{ marginLeft: 8 }}>Cancelar</button>
+                                    </div>
                                 </div>
-                                <div className='infoPerfil'>
-                                    <h2 className='titulito'>{pyme.nombre}</h2>
-                                    <p>
-                                        {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
-                                            day: '2-digit',
-                                            month: 'long',
-                                            year: 'numeric'
-                                        })}
-                                    </p>
-                                    <button className='follow'>Seguir</button>
-                                </div>
-                            </div>
-                            <div className="cardBPost">
-                                <p>{publi.descripcion}</p>
-                                <div className="img">
-                                    <img src={`http://127.0.0.1:8000${publi.imagen}`} alt="" />
-                                </div>
-                                <Link></Link>
-                            </div>
-                            <div className="cardFPost">
-                                <i className={likes[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => like(publi.id)}></i>
-                                <div className="rating">
-                                    <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
-                                    <label htmlFor={`star5-${publi.id}`}></label>
-                                    <input value="4" name={`rating-${publi.id}`} id={`star4-${publi.id}`} type="radio" />
-                                    <label htmlFor={`star4-${publi.id}`}></label>
-                                    <input value="3" name={`rating-${publi.id}`} id={`star3-${publi.id}`} type="radio" />
-                                    <label htmlFor={`star3-${publi.id}`}></label>
-                                    <input value="2" name={`rating-${publi.id}`} id={`star2-${publi.id}`} type="radio" />
-                                    <label htmlFor={`star2-${publi.id}`}></label>
-                                    <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
-                                    <label htmlFor={`star1-${publi.id}`}></label>
-                                </div>
-                                <div className="tresPuntos">
-                                    <i className="bi bi-three-dots" onClick={() => menuClick(publi.id)}></i>
-                                    {menuAbierto === publi.id && (
-                                        <div className='menuTresPuntos'>
-                                            <button onClick={() => editar(publi.id)}>Editar</button>
-                                            <button onClick={() => eliminar(publi.id)}>Eliminar</button>
+                            ) : (
+                                <>
+                                    <div className="cardHPost">
+                                        <div className="fotoPerfil">
+                                            <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
                                         </div>
-                                    )}
-                                </div>
-                            </div>
+                                        <div className='infoPerfil'>
+                                            <h2 className='titulito'>{pyme.nombre}</h2>
+                                            <p>
+                                                {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
+                                                    day: '2-digit',
+                                                    month: 'long',
+                                                    year: 'numeric'
+                                                })}
+                                            </p>
+                                            <button className='follow'>Seguir</button>
+                                        </div>
+                                    </div>
+                                    <div className="cardBPost">
+                                        <p>{publi.descripcion}</p>
+                                        <div className="img">
+                                            <img src={`http://127.0.0.1:8000${publi.imagen}`} alt="" />
+                                        </div>
+                                        <Link></Link>
+                                    </div>
+                                    <div className="cardFPost">
+                                        <i className={likes[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => like(publi.id)}></i>
+                                        <div className="rating">
+                                            <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
+                                            <label htmlFor={`star5-${publi.id}`}></label>
+                                            <input value="4" name={`rating-${publi.id}`} id={`star4-${publi.id}`} type="radio" />
+                                            <label htmlFor={`star4-${publi.id}`}></label>
+                                            <input value="3" name={`rating-${publi.id}`} id={`star3-${publi.id}`} type="radio" />
+                                            <label htmlFor={`star3-${publi.id}`}></label>
+                                            <input value="2" name={`rating-${publi.id}`} id={`star2-${publi.id}`} type="radio" />
+                                            <label htmlFor={`star2-${publi.id}`}></label>
+                                            <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
+                                            <label htmlFor={`star1-${publi.id}`}></label>
+                                        </div>
+                                        <div className="tresPuntos">
+                                            <i className="bi bi-three-dots" onClick={() => menuClick(publi.id)}></i>
+                                            {menuAbierto === publi.id && (
+                                                <div className='menuTresPuntos'>
+                                                    <button onClick={() => editar(publi.id)}>Editar</button>
+                                                    <button onClick={() => eliminar(publi.id)}>Eliminar</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     ))
                 ) : (

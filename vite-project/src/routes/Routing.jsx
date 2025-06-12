@@ -13,6 +13,9 @@ import InicioPyme from '../pages/InicioPyme';
 import ScrollToTop from '../components/ScrollToTop';
 import MiPerfilPyme from '../pages/MiPerfilPyme';
 import Feed from '../pages/Feed';
+import DashboardAdmin from '../components/DashboardAdmin';
+import AdminPymesList from '../components/AdminPymesList';
+import PagoVerificaciones from '../pages/PagoVerificaciones';
 
 function Routing() {
   return (
@@ -20,6 +23,9 @@ function Routing() {
       <ScrollToTop />
       <Menu />
       <Routes>
+        <Route path="/VeriFicarCuenta" element={<PagoVerificaciones />} />
+        <Route path="/admin/pymes" element={<AdminPymesList />} />
+        <Route path="/admin/dashboard" element={<DashboardAdmin />} />
         <Route path='/' element={<Inicio/>}></Route>
         <Route path='/sobreNosotros' element={<SobreNosotros/>}></Route>
         <Route path='/registroPyme' element={<RegistroPyme/>}></Route>
