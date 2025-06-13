@@ -93,7 +93,7 @@ function Publicaciones() {
             }
         } catch (error) {
             console.log(`Error al guardar los cambios: ${error.message}`);
-            
+
         }
     };
 
@@ -119,40 +119,57 @@ function Publicaciones() {
     };
 
     return (
-        <div className='margen'>
+        <div className='margencito'>
             <div className='derecha'>
                 {pyme.publicaciones && pyme.publicaciones.length > 0 ? (
                     pyme.publicaciones.map((publi) => (
                         <div className='cardPost' key={publi.id}>
                             {editandoId === publi.id ? (
                                 <div>
-                                    <textarea
-                                        value={editDescripcion}
-                                        onChange={e => setEditDescripcion(e.target.value)}
-                                        rows={4}
-                                        style={{ width: '100%' }}
-                                    />
-                                    <div>
-                                        <label>
-                                            Imagen actual:
-                                            <img src={`http://127.0.0.1:8000${publi.imagen}`} alt="" style={{ maxWidth: 100, display: 'block' }} />
-                                        </label>
+                                    <div className="cardHPost">
+                                        <div className="fotoPerfil">
+                                            {pyme && pyme.perfil && (
+                                                <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
+                                            )}
+                                        </div>
+                                        <div className='infoPerfil'>
+                                            <h2 className='titulito'>{pyme ? pyme.nombre : ''}</h2>
+                                        </div>
                                     </div>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={e => setEditImagen(e.target.files[0])}
-                                    />
-                                    <div style={{ marginTop: 8 }}>
-                                        <button onClick={() => guardarEdicion(publi.id)}>Guardar</button>
-                                        <button onClick={cancelarEdicion} style={{ marginLeft: 8 }}>Cancelar</button>
+                                    <div className='cardBPost'>
+                                        <textarea type="text" value={editDescripcion} onChange={e => setEditDescripcion(e.target.value)} />
+                                        <div className="agregarImagen">
+                                            <label htmlFor={`editFileInput-${publi.id}`}>
+                                                {!editImagen ? (
+                                                    <>
+                                                        <div className="closeImage">
+                                                            <img className='previewImagen' src={`http://127.0.0.1:8000${publi.imagen}`} alt="Imagen actual" />
+                                                            <i onClick={() => setEditImagen(null)} className="bi bi-x-circle-fill"></i>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <div className="closeImage">
+                                                            <img className='previewImagen' src={URL.createObjectURL(editImagen)} alt="Vista previa" />
+                                                            <i onClick={() => setEditImagen(null)} className="bi bi-x-circle-fill"></i>
+                                                    </div>
+                                                )}
+                                            </label>
+                                            <input hidden id={`editFileInput-${publi.id}`} type="file" accept="image/*" onChange={e => setEditImagen(e.target.files[0])}/>
+                                        </div>
+                                    </div>
+                                    <div className='cardFPost'>
+                                        <div></div>
+                                        <div>
+                                            <button className='btnPost' onClick={() => guardarEdicion(publi.id)}>Guardar</button>
+                                            <button className='btnPost' onClick={cancelarEdicion}>Cancelar</button>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
                                 <>
                                     <div className="cardHPost">
                                         <div className="fotoPerfil">
-                                            <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
+                                            <Link className='Link' to={`/perfilPyme/${pyme.id}`}><img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" /></Link>
                                         </div>
                                         <div className='infoPerfil'>
                                             <h2 className='titulito'>{pyme.nombre}</h2>

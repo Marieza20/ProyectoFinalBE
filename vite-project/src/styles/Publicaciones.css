@@ -116,12 +116,12 @@
     font-size: 50px;
 }
 
-.cardBPost .agregarImagen .closeImage{
+.closeImage{
     position: relative;
     display: inline-block;
 }
 
-.cardBPost .agregarImagen .closeImage i{
+.closeImage i{
     position: absolute;
     top: 8px;
     right: 8px;
@@ -153,9 +153,15 @@
     border-radius: 0px 0px 15px 15px;
     width: 100%;
     height: 50px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 20% 60% 20%;
+}
+
+.cardFPost > *{
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .cardFPost .bi{
@@ -170,6 +176,7 @@
 }
 
 .rating{
+    margin: auto;
     display: inline-block;
 }
 

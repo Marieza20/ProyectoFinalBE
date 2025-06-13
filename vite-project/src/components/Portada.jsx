@@ -50,10 +50,10 @@ function Portada() {
         <div className="bloque">
           <h1 className="titulito">{pyme.nombre}</h1>
           <p>{pyme.perfil?.descripcion}</p>
-            <div className="flexito">
-              <i className="bi bi-geo-alt-fill"></i>
-              <p>{pyme.perfil?.ubicacion}</p>
-            </div>
+          <div className="flexito">
+            <i className="bi bi-geo-alt-fill"></i>
+            <p>{pyme.perfil?.ubicacion}</p>
+          </div>
           <div className='flex'>
             <div className="flexito">
               <i className="bi bi-telephone-fill"></i>
@@ -61,7 +61,7 @@ function Portada() {
             </div>
             <div className="links">
               {pyme.redes && pyme.redes.map((red, index) => (
-              <a key={index} href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}><i className={getIconClass(red.nombre)}></i></a>
+                <a key={index} href={red.url} target="_blank" rel="noopener noreferrer" aria-label={red.nombre}><i className={getIconClass(red.nombre)}></i></a>
               ))}
             </div>
           </div>

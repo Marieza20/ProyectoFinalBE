@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,13 +10,13 @@
     height: 60vh;
 }
 
-.portada{
+.portada {
     height: 100%;
     display: block;
     overflow: hidden;
 }
 
-.portada img{
+.portada img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -24,7 +24,7 @@
     display: block;
 }
 
-.perfilIMG{
+.perfilIMG {
     position: absolute;
     left: 50%;
     bottom: -100px;
@@ -37,10 +37,10 @@
     border-radius: 50%;
     border: 8px solid #BB2C64;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.infoPyme{
+.infoPyme {
     margin: auto;
     padding: 130px 30px 30px 30px;
     width: 100%;
@@ -52,7 +52,7 @@
     color: #BB2C64;
 }
 
-.infoPyme .bloque{
+.infoPyme .bloque {
     margin: auto;
     width: 90%;
     display: flex;
@@ -62,45 +62,65 @@
     gap: 10px;
 }
 
-.infoPyme .bloque p{
+.infoPyme .bloque p {
     font-size: 20px;
     text-align: center;
 }
 
-.infoPyme .bloque .titulito{
+.infoPyme .bloque .titulito {
     font-size: 40px;
     color: #5E070A;
 }
 
-.infoPyme .bloque .bi{
+.infoPyme .bloque .bi {
     font-size: 22px;
 }
 
-.infoPyme .bloque .flex{
+.infoPyme .bloque .flex {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 50px;
 }
 
-.infoPyme .bloque .flexito{
+.infoPyme .bloque .flexito {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.infoPyme .bloque .links{
+.infoPyme .bloque .links {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.infoPyme .bloque .links a{
+.infoPyme .bloque .links a {
     color: #BB2C64;
     transition: 0.5s;
 }
 
-.infoPyme .bloque .links a:hover{
+.infoPyme .bloque .links a:hover {
     color: #BB2C64;
     transform: scale(1.1);
+}
+
+.botones {
+    margin: auto;
+    margin-top: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.botones .btn{
+    width: 100%;
+}
+
+@media (min-width: 1000px) {
+    .botones {
+        display: flex;
+        flex-direction: row;
+    }
 }

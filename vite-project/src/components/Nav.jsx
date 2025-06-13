@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from "./AuthContext"; // Importa el hook del contexto
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useAuth } from "./AuthContext"; // Importa el hook del contexto
 
 function Nav({ abrirMenu }) {
     const location = useLocation();
@@ -47,7 +47,7 @@ function Nav({ abrirMenu }) {
                                 <i className="bi bi-person-circle"></i>
                             </Link>
                         ) : (
-                            <Link className='Link' to={"/login"}>
+                            <Link className='Link' to={"/inicioPyme/1"}>
                                 <i className="bi bi-person"></i>
                             </Link>
                         )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/BarraBusqueda.css'
 
 function BusquedaFeed() {
@@ -52,10 +53,10 @@ function BusquedaFeed() {
                             <div className='cardPost' key={publi.id}>
                                 <div className="cardHPost">
                                     <div className="fotoPerfil">
-                                        <img src={`http://127.0.0.1:8000${publi.pyme_fotoPerfil}`} alt="" />
+                                        <Link className='Link' to={`/perfilPyme/${publi.id_pyme}`}><img src={`http://127.0.0.1:8000${publi.pyme_fotoPerfil}`} alt="" /></Link>
                                     </div>
                                     <div className='infoPerfil'>
-                                        <h2 className='titulito'>{publi.pyme_nombre}</h2>
+                                        <Link className='Link' to={`/perfilPyme/${publi.id_pyme}`}><h2 className='titulito'>{publi.pyme_nombre}</h2></Link>
                                         <p>
                                             {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
                                                 day: '2-digit',
@@ -86,7 +87,6 @@ function BusquedaFeed() {
                                         <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
                                         <label htmlFor={`star1-${publi.id}`}></label>
                                     </div>
-                                    <i className="bi bi-three-dots"></i>
                                 </div>
                             </div>
                         ))

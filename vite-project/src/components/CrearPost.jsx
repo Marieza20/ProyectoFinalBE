@@ -89,7 +89,7 @@ function CrearPost() {
         <div className="cardBPost">
           <div className='categorias'>
             <input type="text" placeholder='Escribe una categoría' value={categoria} onChange={e => setCategoria(e.target.value)} />
-            <i class="bi bi-check-lg" onClick={subCategoria}></i>
+            <i className="bi bi-check-lg" onClick={subCategoria}></i>
           </div>
           <textarea type="text" placeholder="Describe tu producto..." value={descripcion} onChange={e => setDescripcion(e.target.value)} ></textarea>
           <div className='agregarImagen'>
