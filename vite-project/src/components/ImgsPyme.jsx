@@ -63,7 +63,7 @@ function ImgsPyme() {
 
     return (
         <div className='margencito'>
-            <p className="center">Añade las mejores imágenes con las que conocerán tu negocio</p>
+            <p className="center margencitob">Muestra las mejores imágenes con las que conocerán tu negocio</p>
             <div className='misImgs'>
                 {imagenes.map((img, idx) => (
                     <div key={idx} className="img closeImage">

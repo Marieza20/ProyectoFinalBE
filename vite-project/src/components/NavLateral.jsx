@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 import '../styles/NavLateral.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function NavLateral({ cerrarMenu, mostrar }) {
+  const { id_pyme } = useParams();
 
   return (
     <div>
@@ -14,7 +15,7 @@ function NavLateral({ cerrarMenu, mostrar }) {
           <h3>Menú</h3>
         </div>
         <div className="elementosMenuLateral">
-          <Link className='Link' to={"/login"}>
+          <Link className='Link' to={`/miPerfilPyme/${id_pyme}`}>
             <i className="bi bi-person"></i>
             <p>Mi perfil</p>
           </Link>

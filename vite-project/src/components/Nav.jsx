@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAuth } from "./AuthContext"; // Importa el hook del contexto
 import Pastelito from '../img/Pastelito.png'
 import '../styles/Nav.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Nav({ abrirMenu }) {
+    const { id_pyme } = useParams();
     const location = useLocation();
     const [lineaEstilo, setLineaEstilo] = useState({});
     const menuRef = useRef();
@@ -47,7 +48,7 @@ function Nav({ abrirMenu }) {
                                 <i className="bi bi-person-circle"></i>
                             </Link>
                         ) : (
-                            <Link className='Link' to={"/inicioPyme/1"}>
+                            <Link className='Link' to={`/miPerfilPyme/${id_pyme}`}>
                                 <i className="bi bi-person"></i>
                             </Link>
                         )}

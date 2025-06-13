@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import '../styles/Redes.css'
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Redes() {
   const { id_pyme } = useParams();
@@ -35,7 +36,6 @@ function Redes() {
   }, [id_pyme]);
 
 
-
   const anadirRed = async () => {
     const formData = new FormData();
     formData.append('id_pyme', id_pyme);
@@ -61,25 +61,44 @@ function Redes() {
       });
   };
 
+
+  function getIconClass(nombre) {
+    switch (nombre.toLowerCase()) {
+      case 'whatsapp':
+        return 'bi bi-whatsapp';
+      case 'facebook':
+        return 'bi bi-facebook';
+      case 'instagram':
+        return 'bi bi-instagram';
+      case 'tik tok':
+        return 'bi bi-tiktok';
+      default:
+        return 'bi bi-globe';
+    }
+  }
+
+
   return (
-    <div className='margencito'>
+    <div className='margencito gap'>
       <p className='center'>Añade las redes sociales de tu negocio</p>
       {redes.length > 0 && (
         <>
           <div className='redesSociales'>
-            <div >
-              {redes.map((red) => (
-                <div className="redSocial" key={red.id}>
-                  <div></div>
-                  <div>
-                    <p>{red.nombre}</p>
-                    <p>{red.url}</p>
-                  </div>
+            {redes.map((red) => (
+              <div className="redSocial" key={red.id}>
+                <i className={getIconClass(red.nombre)}></i>
+                <div>
+                  <p>{red.nombre}</p>
+                  <p>{red.url}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+            {!mostrarForm ? (
+              <i className="bi bi-plus-lg" onClick={() => setMostrarForm(true)}> Añadir Red Social</i>
+            ) : (
+              <i className="bi bi-dash" onClick={() => setMostrarForm(false)}>Mostrar menos</i>
+            )}
           </div>
-          <button className='btn' onClick={() => setMostrarForm(true)}>Añadir Red Social</button>
         </>
       )}
       {(redes.length === 0 || mostrarForm) && (
@@ -93,7 +112,7 @@ function Redes() {
 
           <input type="text" placeholder='Url Red Social' value={url} onChange={e => setUrl(e.target.value)} />
 
-          <button className='btn' onClick={anadirRed}>Añadir Red Social</button>
+          <button className='btn' onClick={anadirRed}>Agregar Red Social</button>
         </div>
       )}
     </div>

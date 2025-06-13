@@ -25,7 +25,7 @@ function AsidePerfil() {
           {pymes.length > 0 ? (
             pymes.map((pyme) => (
               <div className="imagencita" key={pyme.id}>
-                <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt={pyme.nombre} />
+                <img src={`http://127.0.0.1:8000${pyme.perfil?.fotoPerfil}`} alt={pyme.nombre} />
                 <h2>{pyme.nombre}</h2>
               </div>
             ))

@@ -13,7 +13,7 @@ function CardPyme({ pymes }) {
           {pymes.map((pyme) =>(
           <div className="cardP" key={pyme.id}>
             <div className="headCardP">
-                <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
+                <img src={`http://127.0.0.1:8000${pyme.perfil?.fotoPerfil}`} alt="" />
             </div>
             <div className='bodyCardP'>
               <h3 className='titulito'>{pyme.nombre}</h3>

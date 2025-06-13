@@ -55,8 +55,8 @@ class PerfilRedes (models.Model):
 class Imagenes(models.Model):
     id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     imagen1 = models.ImageField(upload_to='imagenes/')
-    imagen2 = models.ImageField(upload_to='imagenes/', blank=True, null=True)
-    imagen3 = models.ImageField(upload_to='imagenes/', blank=True, null=True)
+    imagen2 = models.ImageField(upload_to='imagenes/')
+    imagen3 = models.ImageField(upload_to='imagenes/')
 
     def __str__(self):
         return self.imagen.name
