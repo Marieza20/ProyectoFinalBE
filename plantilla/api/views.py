@@ -98,6 +98,21 @@ class PerfilPymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = PerfilPymes.objects.all()
     serializer_class = PerfilPymesSerializer
     # permission_classes = [IsAuthenticatedUser]
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        data = request.data.copy()
+
+        for campo in ['fotoPerfil', 'fotoPortada']:
+            if campo not in data or not data.get(campo):
+                if campo in data:
+                    data.pop(campo)
+
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
 
@@ -125,14 +140,14 @@ class PublicacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = PublicacionesSerializer
     # permission_classes = [IsAuthenticatedUser]
     
-def destroy(self, request, *args, **kwargs):
-    instance = self.get_object()
-    # Validación robusta
-    if not hasattr(instance, 'pyme') or not instance.pyme or not hasattr(instance.pyme, 'usuario') or not instance.pyme.usuario:
-        return Response({'detail': 'Publicación sin dueño asignado.'}, status=status.HTTP_400_BAD_REQUEST)
-    if instance.pyme.usuario != request.user:
-        return Response({'detail': 'No tienes permiso para eliminar esta publicación.'}, status=status.HTTP_403_FORBIDDEN)
-    return super().destroy(request, *args, **kwargs)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Validación robusta
+        if not hasattr(instance, 'pyme') or not instance.pyme or not hasattr(instance.pyme, 'usuario') or not instance.pyme.usuario:
+            return Response({'detail': 'Publicación sin dueño asignado.'}, status=status.HTTP_400_BAD_REQUEST)
+        if instance.pyme.usuario != request.user:
+            return Response({'detail': 'No tienes permiso para eliminar esta publicación.'}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
 
 
 

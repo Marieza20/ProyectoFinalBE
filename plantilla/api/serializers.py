@@ -84,6 +84,7 @@ class SeguidoresSerializer(serializers.ModelSerializer):
 class PerfilPymesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
     ubicacion = serializers.CharField()
+    id_pyme = serializers.PrimaryKeyRelatedField(queryset=Pymes.objects.all(), required=False)
 
     class Meta:
         model = PerfilPymes
@@ -100,8 +101,9 @@ class PerfilPymesSerializer(serializers.ModelSerializer):
         return value
     
     def validate(self, data):
-        if PerfilPymes.objects.filter(id_pyme=data['id_pyme']).exists():
-            raise serializers.ValidationError("Ya existe un perfil para esta pyme.")
+        if self.instance is None:
+            if 'id_pyme' in data and PerfilPymes.objects.filter(id_pyme=data['id_pyme']).exists():
+                raise serializers.ValidationError("Ya existe un perfil para esta pyme.")
         return data
 
 
