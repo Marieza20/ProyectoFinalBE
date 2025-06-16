@@ -199,7 +199,20 @@ class ImagenesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     parser_classes = (MultiPartParser, FormParser)
     # permission_classes = [IsAuthenticatedUser]
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        data = request.data.copy()
 
+        for campo in ['imagen1', 'imagen2', 'imagen3']:
+            if campo not in data or not data.get(campo):
+                if campo in data:
+                    data.pop(campo)
+
+        serializer = self.get_serializer(instance, data=data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
  
 class PymesDetallesListCreateView(generics.ListAPIView):

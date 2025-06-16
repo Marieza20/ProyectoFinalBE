@@ -1,27 +1,19 @@
-import React, {useNavigate} from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
+import './SidebarAdmin.css'; 
 
-function sidebarAdmin() {
+const Sidebar = () => (
+  <div className="sidebar">
+    <h2>Panel de Administración</h2>
+    <ul>
+      <li>
+        <Link to="/pymes">CRUD Pymes</Link>
+      </li>
+      <li>
+        <Link to="/usuarios">CRUD Usuarios</Link>
+      </li>
+    </ul>
+  </div>
+);
 
-
-
-
-
-  return (
-    <div>
-        Perfi del administrador
-    </div>
-    <div>
-        <ul>
-            <li><Link>Pymes</Link></li>
-            <li>Usuarios</li>
-            <li>Publicaciones</li>
-            <li></li>
-            <li></li>
-            <li>Contactos</li>
-        </ul>
-    </div>
-  )
-}
-
-export default sidebarAdmin
+export default Sidebar;

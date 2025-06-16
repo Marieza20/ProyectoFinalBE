@@ -6,7 +6,9 @@ function ImgsPyme() {
     const { id_pyme } = useParams();
     const [pyme, setPyme] = useState(null);
     const [imagenes, setImagenes] = useState([null, null, null]);
+    const [imagenesId, setImagenesId] = useState(null);
     const fileInputs = Array.from({ length: imagenes.length }, () => useRef());
+    const [imgsPendientes, setImgsPendientes] = useState([null, null, null]);
 
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
@@ -23,6 +25,7 @@ function ImgsPyme() {
                         imgs.imagen2 ? `http://127.0.0.1:8000${imgs.imagen2}` : null,
                         imgs.imagen3 ? `http://127.0.0.1:8000${imgs.imagen3}` : null,
                     ]);
+                    setImagenesId(imgs.id);
                 }
             })
             .catch((error) => console.error('Error:', error));
@@ -31,25 +34,53 @@ function ImgsPyme() {
     const fileChange = (e, idx) => {
         const file = e.target.files[0];
         if (!file) return;
-        const formData = new FormData();
-        formData.append('id_pyme', id_pyme);
-        formData.append(`imagen${idx + 1}`, file);
+        setImgsPendientes(prev => {
+            const newPendiente = [...prev];
+            newPendiente[idx] = file;
+            return newPendiente;
+        });
+    };
 
-        fetch('http://127.0.0.1:8000/api/imagenes/', {
-            method: 'POST',
+    const uploadImage = (idx) => {
+        if (!imgsPendientes.some(Boolean)) return;
+
+        const formData = new FormData();
+        formData.append('id_pyme', Number(id_pyme));
+        for (let i = 0; i < 3; i++) {
+            if (imgsPendientes[i]) {
+                formData.append(`imagen${i + 1}`, imgsPendientes[i]);
+            }
+        }
+
+        fetch(`http://127.0.0.1:8000/api/imagenes/${imagenesId}/`, {
+            method: 'PATCH',
             body: formData,
         })
-            .then(res => res.json())
+            .then(async res => {
+                const text = await res.json();
+                if (!res.ok) {
+                    console.error('Error del backend:', text);
+                    try {
+                        return JSON.parse(text);
+                    } catch {
+                        return {};
+                    }
+                }
+                return text;
+            })
             .then(data => {
-                setImagenes(prev => {
-                    const newImgs = [...prev];
-                    newImgs[idx] = URL.createObjectURL(file);
-                    return newImgs;
-                });
+                setImagenes(prev => prev.map((img, idx) =>
+                    imgsPendientes[idx] ? URL.createObjectURL(imgsPendientes[idx]) : img
+                ));
+                setImgsPendientes([null, null, null]);
             })
             .catch(err => {
                 console.error('Error al enviar la imagen', err);
             });
+    };
+
+    const cancelar = () => {
+        setImgsPendientes([null, null, null]);
     };
 
     const triggerFileInput = idx => {
@@ -67,9 +98,9 @@ function ImgsPyme() {
             <div className='misImgs'>
                 {imagenes.map((img, idx) => (
                     <div key={idx} className="img closeImage">
-                        {img ? (
+                        {img || imgsPendientes[idx] ? (
                             <>
-                                <img src={img} alt="imagen" />
+                                <img src={imgsPendientes[idx] ? URL.createObjectURL(imgsPendientes[idx]) : img} alt="imagen" />
                                 <i className="bi bi-x-circle-fill" onClick={() => triggerFileInput(idx)}></i>
                             </>
                         ) : (
@@ -79,10 +110,19 @@ function ImgsPyme() {
                                 </label>
                             </>
                         )}
-                        <input hidden type="file" ref={fileInputs[idx]} onChange={e => fileChange(e, idx)}/>
+                        <input hidden type="file" ref={fileInputs[idx]} onChange={e => fileChange(e, idx)} />
                     </div>
                 ))}
             </div>
+            {imgsPendientes.some(Boolean) && (() => {
+                const idx = imgsPendientes.findIndex(Boolean);
+                return (
+                    <div className="botones">
+                        <button className="btn" onClick={uploadImage}>Guardar cambios</button>
+                        <button className="btn" onClick={cancelar}>Cancelar</button>
+                    </div>
+                );
+            })()}
         </div>
     )
 }

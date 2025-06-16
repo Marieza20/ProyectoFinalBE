@@ -13,7 +13,7 @@ function MiPerfilPyme() {
     <div>
       <Portada />
       <div className="botones">
-        <button className='btn'><Link className='Link' to={`/inicioPyme/${id_pyme}`}>Editar Perfil</Link></button>
+        <Link className='Link' to={`/inicioPyme/${id_pyme}`}><button className='btn'>Editar Perfil</button></Link>
         <button className='btn' onClick={onCrearPostClick}>Crear Publicación</button>
       </div>
       {mostrarCrearPost && <CrearPost />}

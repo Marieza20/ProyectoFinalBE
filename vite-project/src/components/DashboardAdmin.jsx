@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function DashboardAdmin() {
   return (
-    <div>
+    <div className='margen'>
       <h1>Panel de Administración</h1>
       <nav>
         <ul>

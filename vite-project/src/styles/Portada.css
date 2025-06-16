@@ -108,7 +108,7 @@
 .botones {
     margin: auto;
     margin-top: 20px;
-    width: 50%;
+    width: 300px;
     display: flex;
     flex-direction: column;
     gap: 10px;

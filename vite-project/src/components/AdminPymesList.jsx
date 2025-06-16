@@ -14,7 +14,7 @@ function AdminPymesList() {
   }, []);
 
   return (
-    <div>
+    <div className='margen'>
       <h2>Listado de Pymes</h2>
       <ul>
         {pymes.map(pyme => (

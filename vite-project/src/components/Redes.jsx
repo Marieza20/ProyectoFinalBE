@@ -51,7 +51,16 @@ function Redes() {
         console.log('Datos enviados correctamente');
         console.log(data);
         setMostrarForm(false);
-        setRedes(prev => [...prev, { id: redSocial, nombre: data.nombre, url }]);
+        
+        const redSeleccionada = todasRedes.find(r => String(r.id) === String(redSocial));
+        setRedes(prev => [
+          ...prev,
+          {
+            id: redSocial,
+            nombre: redSeleccionada ? redSeleccionada.nombre : 'Desconocido',
+            url
+          }
+        ]);
         setRedSocial('');
         setUrl('');
       })
@@ -84,8 +93,8 @@ function Redes() {
       {redes.length > 0 && (
         <>
           <div className='redesSociales'>
-            {redes.map((red) => (
-              <div className="redSocial" key={red.id}>
+            {redes.map((red, idx) => (
+              <div className="redSocial" key={red.id ? red.id : `red-${idx}`}>
                 <i className={getIconClass(red.nombre)}></i>
                 <div>
                   <p>{red.nombre}</p>
