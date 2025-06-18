@@ -1,5 +1,3 @@
-/* import { sha256 } from 'js-sha256';  */
-
 async function getPymes() {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/pymes/", {

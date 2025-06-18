@@ -188,13 +188,14 @@ class CalificacionesSerializer(serializers.ModelSerializer):
         model = Calificaciones
         fields = '__all__'
 
-    def validar_Cantidad(self, value):
+    def validate_Cantidad(self, value):
         if value < 1:
             raise serializers.ValidationError("La cantidad debe ser positiva.")
         return value
+    
 
-
-
+        
+        
 
 class UsersSerializers(serializers.ModelSerializer):
     class Meta:

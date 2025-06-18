@@ -31,7 +31,7 @@ function Portada() {
       case 'instagram':
         return 'bi bi-instagram';
       case 'tik tok':
-        return 'bi bi-tik-tok';
+        return 'bi bi-tiktok';
       default:
         return 'bi bi-globe';
     }

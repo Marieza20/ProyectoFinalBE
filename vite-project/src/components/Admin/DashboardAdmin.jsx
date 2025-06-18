@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 
 function DashboardAdmin() {
   return (
-    <div className='margen'>
+    <div className='margen izquierda'>
       <h1>Panel de Administración</h1>
       <nav>
         <ul>
-            <br />
-            <br />
           <li><Link to="/admin/pymes">Gestionar Pymes</Link></li>
           <li><Link to="/admin/usuarios">Gestionar Usuarios</Link></li>
           <li><Link to="/admin/publicaciones">Gestionar Publicaciones</Link></li>

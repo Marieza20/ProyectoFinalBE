@@ -1,12 +1,14 @@
 import React from 'react'
-import sidebarAdmin from '../components/SidebarAdmin'
+import DashboardAdmin from '../components/Admin/DashboardAdmin'
+import AdminPymesList from '../components/Admin/AdminPymesList'
 
 function AdminDashboard() {
   return (
     <div>
-        
-        <sidebarAdmin />
-
+        <div className="grid">
+          <DashboardAdmin />
+          <AdminPymesList />
+        </div>
     </div>
   )
 }

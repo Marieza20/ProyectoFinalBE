@@ -1,51 +1,85 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import '../styles/Publicaciones.css'
+import '../styles/Estrellas.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-const usuarioActualId = 1;
+const usuarioActualId = 1
 
-function Publicaciones() {
+function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const { id_pyme } = useParams();
     const [pyme, setPyme] = useState(null);
     const [menuAbierto, setMenuAbierto] = useState(null);
-    const [likes, setLikes] = useState({});
     const [publicaciones, setPublicaciones] = useState([]);
     const [editandoId, setEditandoId] = useState(null);
     const [editDescripcion, setEditDescripcion] = useState('');
     const [editImagen, setEditImagen] = useState(null);
 
-    // REacciones
+    // Reacciones
     const [reacciones, setReacciones] = useState({});
     const [misReacciones, setMisReacciones] = useState({});
+    const [ratings, setRatings] = useState({});
+
+    const rating = async (publiId, value) => {
+        setRatings(prev => ({
+            ...prev,
+            [publiId]: value
+        }));
+        try {
+            await fetch(`http://127.0.0.1:8000/api/calificaciones/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_publicacion: publiId,
+                    id_usuario: usuarioActualId,
+                    Cantidad: value,
+                }),
+            });
+        } catch (error) {
+            console.error('Error al enviar la calificación:', error);
+        }
+    };
 
     // Cargar publicaciones 
     useEffect(() => {
         async function fetchPublicaciones() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/publicaciones/');
+                let url = 'http://127.0.0.1:8000/api/publicaciones/';
+                if (!mostrarTodas && id_pyme) {
+                    url = `http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`;
+                }
+                const response = await fetch(url);
                 if (!response.ok) throw new Error('Error al obtener las publicaciones');
                 const data = await response.json();
-                setPublicaciones(data);
+                if (mostrarTodas) {
+                    setPublicaciones(data);
+                } else {
+                    setPyme(data);
+                    setPublicaciones(data.publicaciones || []);
+                }
             } catch (error) {
                 console.error('Error al obtener las publicaciones:', error);
             }
         }
         fetchPublicaciones();
-    }, []);
+    }, [id_pyme, mostrarTodas]);
 
-    // Cargar detalles de la pyme
+    // Cargar detalles de la pyme solo si no es mostrarTodas
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Error al obtener la pyme');
-                }
-                return response.json();
-            })
-            .then((data) => setPyme(data))
-            .catch((error) => console.error('Error:', error));
-    }, [id_pyme]);
+        if (!mostrarTodas && id_pyme) {
+            fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener la pyme');
+                    }
+                    return response.json();
+                })
+                .then((data) => setPyme(data))
+                .catch((error) => console.error('Error:', error));
+        }
+    }, [id_pyme, mostrarTodas]);
 
     useEffect(() => {
         async function fetchReacciones() {
@@ -63,7 +97,7 @@ function Publicaciones() {
             setMisReacciones(mis);
         }
         fetchReacciones();
-    }, [pyme, usuarioActualId]);
+    }, [pyme, usuarioActualId, mostrarTodas]);
 
     // Función para dar o quitar el me gusta
     const toggleReaccion = async (idPublicacion) => {
@@ -79,7 +113,8 @@ function Publicaciones() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id_publicacion: idPublicacion,
-                    id_usuario: usuarioActualId
+                    id_usuario: usuarioActualId,
+                    valor: 1,
                 })
             });
         }
@@ -98,14 +133,12 @@ function Publicaciones() {
         setMisReacciones(mis);
     };
 
-    if (!pyme) return <div>Cargando...</div>;
-
     const menuClick = (id) => {
         setMenuAbierto(menuAbierto === id ? null : id);
     };
 
     const editar = (id) => {
-        const publi = pyme.publicaciones.find(p => p.id === id);
+        const publi = publicaciones.find(p => p.id === id);
         setEditandoId(id);
         setEditDescripcion(publi.descripcion);
         setEditImagen(null);
@@ -130,10 +163,19 @@ function Publicaciones() {
                 body: formData,
             });
             if (response.ok) {
-                const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
-                if (pymeResponse.ok) {
-                    const pymeData = await pymeResponse.json();
-                    setPyme(pymeData);
+                if (mostrarTodas) {
+                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/');
+                    if (publicacionesResponse.ok) {
+                        const publicacionesData = await publicacionesResponse.json();
+                        setPublicaciones(publicacionesData);
+                    }
+                } else if (id_pyme) {
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                    if (pymeResponse.ok) {
+                        const pymeData = await pymeResponse.json();
+                        setPyme(pymeData);
+                        setPublicaciones(pymeData.publicaciones || []);
+                    }
                 }
                 setEditandoId(null);
             } else {
@@ -151,10 +193,19 @@ function Publicaciones() {
                 method: 'DELETE',
             });
             if (response.ok) {
-                const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
-                if (pymeResponse.ok) {
-                    const pymeData = await pymeResponse.json();
-                    setPyme(pymeData);
+                if (mostrarTodas) {
+                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/');
+                    if (publicacionesResponse.ok) {
+                        const publicacionesData = await publicacionesResponse.json();
+                        setPublicaciones(publicacionesData);
+                    }
+                } else if (id_pyme) {
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                    if (pymeResponse.ok) {
+                        const pymeData = await pymeResponse.json();
+                        setPyme(pymeData);
+                        setPublicaciones(pymeData.publicaciones || []);
+                    }
                 }
             } else {
                 console.log(`Error al eliminar la publicación: ${response.statusText}`);
@@ -165,22 +216,36 @@ function Publicaciones() {
         setMenuAbierto(null);
     };
 
+    // Filtrado por búsqueda
+    const publicacionesFiltradas = filtroBusqueda
+        ? publicaciones.filter(publi =>
+            publi.descripcion.toLowerCase().includes(filtroBusqueda.toLowerCase()) ||
+            (publi.pyme && publi.pyme.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase()))
+        )
+        : publicaciones;
+
+    // Si no hay publicaciones y no es mostrarTodas, muestra cargando
+    if (!mostrarTodas && !pyme) return <div>Cargando...</div>;
+
     return (
         <div className='margencito'>
             <div className='derecha'>
-                {pyme.publicaciones && pyme.publicaciones.length > 0 ? (
-                    pyme.publicaciones.map((publi) => (
+                {publicacionesFiltradas && publicacionesFiltradas.length > 0 ? (
+                    publicacionesFiltradas.map((publi) => (
                         <div className='cardPost' key={publi.id}>
                             {editandoId === publi.id ? (
                                 <div>
                                     <div className="cardHPost">
                                         <div className="fotoPerfil">
-                                            {pyme && pyme.perfil && (
-                                                <img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" />
-                                            )}
+                                            <img src={publi.pyme && publi.pyme.perfil && publi.pyme.perfil.fotoPerfil
+                                                        ? `http://127.0.0.1:8000${publi.pyme.perfil.fotoPerfil}`
+                                                        : publi.pyme_fotoPerfil ? `http://127.0.0.1:8000${publi.pyme_fotoPerfil}`
+                                                        : pyme && pyme.perfil && pyme.perfil.fotoPerfil ? `http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`: ''} alt=""/>
                                         </div>
                                         <div className='infoPerfil'>
-                                            <h2 className='titulito'>{pyme ? pyme.nombre : ''}</h2>
+                                            <h2 className='titulito'>
+                                                {publi.pyme && publi.pyme.nombre ? publi.pyme.nombre : publi.pyme_nombre ? publi.pyme_nombre : pyme && pyme.nombre ? pyme.nombre : ''}
+                                            </h2>
                                         </div>
                                     </div>
                                     <div className='cardBPost'>
@@ -204,8 +269,7 @@ function Publicaciones() {
                                             <input hidden id={`editFileInput-${publi.id}`} type="file" accept="image/*" onChange={e => setEditImagen(e.target.files[0])} />
                                         </div>
                                     </div>
-                                    <div className='cardFPost'>
-                                        <div></div>
+                                    <div className='cardFPostEdit'>
                                         <div>
                                             <button className='btnPost' onClick={() => guardarEdicion(publi.id)}>Guardar</button>
                                             <button className='btnPost' onClick={cancelarEdicion}>Cancelar</button>
@@ -216,10 +280,12 @@ function Publicaciones() {
                                 <>
                                     <div className="cardHPost">
                                         <div className="fotoPerfil">
-                                            <Link className='Link' to={`/perfilPyme/${pyme.id}`}><img src={`http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`} alt="" /></Link>
+                                            <Link className='Link' to={publi.id_pyme ? `/perfilPyme/${publi.id_pyme}` : (pyme ? `/perfilPyme/${pyme.id}` : "#")}>
+                                                <img src={`http://127.0.0.1:8000${publi.pyme_fotoPerfil}`} alt="" />
+                                            </Link>
                                         </div>
                                         <div className='infoPerfil'>
-                                            <h2 className='titulito'>{pyme.nombre}</h2>
+                                            <h2 className='titulito'>{publi.pyme_nombre}</h2>
                                             <p>
                                                 {new Date(publi.fecha_Publicacion).toLocaleDateString('es-ES', {
                                                     day: '2-digit',
@@ -233,7 +299,7 @@ function Publicaciones() {
                                     <div className="cardBPost">
                                         <p>{publi.descripcion}</p>
                                         <div className="img">
-                                            <img src={`http://127.0.0.1:8000${publi.imagen}`} alt="" />
+                                            <img src={publi.imagen ? publi.imagen.startsWith('http') ? publi.imagen : `http://127.0.0.1:8000${publi.imagen}` : ''} alt=""/>
                                         </div>
                                         <Link></Link>
                                     </div>
@@ -243,16 +309,12 @@ function Publicaciones() {
                                             <span>{reacciones[publi.id] || 0} Me gusta</span>
                                         </div>
                                         <div className="rating">
-                                            <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
-                                            <label htmlFor={`star5-${publi.id}`}></label>
-                                            <input value="4" name={`rating-${publi.id}`} id={`star4-${publi.id}`} type="radio" />
-                                            <label htmlFor={`star4-${publi.id}`}></label>
-                                            <input value="3" name={`rating-${publi.id}`} id={`star3-${publi.id}`} type="radio" />
-                                            <label htmlFor={`star3-${publi.id}`}></label>
-                                            <input value="2" name={`rating-${publi.id}`} id={`star2-${publi.id}`} type="radio" />
-                                            <label htmlFor={`star2-${publi.id}`}></label>
-                                            <input value="1" name={`rating-${publi.id}`} id={`star1-${publi.id}`} type="radio" />
-                                            <label htmlFor={`star1-${publi.id}`}></label>
+                                            {[5, 4, 3, 2, 1].map((star) => (
+                                                <React.Fragment key={star}>
+                                                    <input value={star} name={`rating-${publi.id}`} id={`star${star}-${publi.id}`} type="radio" checked={ratings[publi.id] === star} onChange={() => rating(publi.id, star)} />
+                                                    <label htmlFor={`star${star}-${publi.id}`}></label>
+                                                </React.Fragment>
+                                            ))}
                                         </div>
                                         <div className="tresPuntos">
                                             <i className="bi bi-three-dots" onClick={() => menuClick(publi.id)}></i>
