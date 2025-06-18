@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../styles/Publicaciones.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
+
+const usuarioActualId = 1;
 
 function Publicaciones() {
     const { id_pyme } = useParams();
@@ -14,13 +15,11 @@ function Publicaciones() {
     const [editDescripcion, setEditDescripcion] = useState('');
     const [editImagen, setEditImagen] = useState(null);
 
-    const like = (id) => {
-        setLikes(prev => ({
-            ...prev,
-            [id]: !prev[id]
-        }));
-    };
+    // REacciones
+    const [reacciones, setReacciones] = useState({});
+    const [misReacciones, setMisReacciones] = useState({});
 
+    // Cargar publicaciones 
     useEffect(() => {
         async function fetchPublicaciones() {
             try {
@@ -32,10 +31,10 @@ function Publicaciones() {
                 console.error('Error al obtener las publicaciones:', error);
             }
         }
-
         fetchPublicaciones();
     }, []);
 
+    // Cargar detalles de la pyme
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
             .then((response) => {
@@ -46,8 +45,58 @@ function Publicaciones() {
             })
             .then((data) => setPyme(data))
             .catch((error) => console.error('Error:', error));
-
     }, [id_pyme]);
+
+    useEffect(() => {
+        async function fetchReacciones() {
+            const res = await fetch('http://127.0.0.1:8000/api/reacciones/');
+            const data = await res.json();
+            const counts = {};
+            const mis = {};
+            data.forEach(r => {
+                counts[r.id_publicacion] = (counts[r.id_publicacion] || 0) + 1;
+                if (r.id_usuario === usuarioActualId) {
+                    mis[r.id_publicacion] = r.id; // Guarda el id de la reacción
+                }
+            });
+            setReacciones(counts);
+            setMisReacciones(mis);
+        }
+        fetchReacciones();
+    }, [pyme, usuarioActualId]);
+
+    // Función para dar o quitar el me gusta
+    const toggleReaccion = async (idPublicacion) => {
+        if (misReacciones[idPublicacion]) {
+            // Quitar reacción (DELETE)
+            await fetch(`http://127.0.0.1:8000/api/reacciones/${misReacciones[idPublicacion]}/`, {
+                method: 'DELETE'
+            });
+        } else {
+            // Agregar reacción (POST)
+            await fetch('http://127.0.0.1:8000/api/reacciones/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id_publicacion: idPublicacion,
+                    id_usuario: usuarioActualId
+                })
+            });
+        }
+        // Refresca reacciones
+        const res = await fetch('http://127.0.0.1:8000/api/reacciones/');
+        const data = await res.json();
+        const counts = {};
+        const mis = {};
+        data.forEach(r => {
+            counts[r.id_publicacion] = (counts[r.id_publicacion] || 0) + 1;
+            if (r.id_usuario === usuarioActualId) {
+                mis[r.id_publicacion] = r.id;
+            }
+        });
+        setReacciones(counts);
+        setMisReacciones(mis);
+    };
 
     if (!pyme) return <div>Cargando...</div>;
 
@@ -59,7 +108,7 @@ function Publicaciones() {
         const publi = pyme.publicaciones.find(p => p.id === id);
         setEditandoId(id);
         setEditDescripcion(publi.descripcion);
-        setEditImagen(null); // Cmbia solo si se selcciona una nueva imagen 
+        setEditImagen(null);
         setMenuAbierto(null);
     };
 
@@ -81,7 +130,6 @@ function Publicaciones() {
                 body: formData,
             });
             if (response.ok) {
-                // Actualiza la pyme para reflejar los cambios
                 const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
                 if (pymeResponse.ok) {
                     const pymeData = await pymeResponse.json();
@@ -93,7 +141,6 @@ function Publicaciones() {
             }
         } catch (error) {
             console.log(`Error al guardar los cambios: ${error.message}`);
-
         }
     };
 
@@ -149,12 +196,12 @@ function Publicaciones() {
                                                     </>
                                                 ) : (
                                                     <div className="closeImage">
-                                                            <img className='previewImagen' src={URL.createObjectURL(editImagen)} alt="Vista previa" />
-                                                            <i onClick={() => setEditImagen(null)} className="bi bi-x-circle-fill"></i>
+                                                        <img className='previewImagen' src={URL.createObjectURL(editImagen)} alt="Vista previa" />
+                                                        <i onClick={() => setEditImagen(null)} className="bi bi-x-circle-fill"></i>
                                                     </div>
                                                 )}
                                             </label>
-                                            <input hidden id={`editFileInput-${publi.id}`} type="file" accept="image/*" onChange={e => setEditImagen(e.target.files[0])}/>
+                                            <input hidden id={`editFileInput-${publi.id}`} type="file" accept="image/*" onChange={e => setEditImagen(e.target.files[0])} />
                                         </div>
                                     </div>
                                     <div className='cardFPost'>
@@ -191,7 +238,10 @@ function Publicaciones() {
                                         <Link></Link>
                                     </div>
                                     <div className="cardFPost">
-                                        <i className={likes[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => like(publi.id)}></i>
+                                        <div className='flexColumn'>
+                                            <i className={misReacciones[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => toggleReaccion(publi.id)} title={misReacciones[publi.id] ? 'Quitar Me gusta' : 'Me gusta'}></i>
+                                            <span>{reacciones[publi.id] || 0} Me gusta</span>
+                                        </div>
                                         <div className="rating">
                                             <input value="5" name={`rating-${publi.id}`} id={`star5-${publi.id}`} type="radio" />
                                             <label htmlFor={`star5-${publi.id}`}></label>
@@ -226,4 +276,4 @@ function Publicaciones() {
     )
 }
 
-export default Publicaciones
+export default Publicaciones;

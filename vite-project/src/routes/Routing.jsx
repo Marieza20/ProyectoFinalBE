@@ -16,6 +16,7 @@ import Feed from '../pages/Feed';
 import DashboardAdmin from '../components/DashboardAdmin';
 import AdminPymesList from '../components/AdminPymesList';
 import PagoVerificaciones from '../pages/PagoVerificaciones';
+import VerificaInfo from '../pages/VerificaInfo';
 
 function Routing() {
   return (
@@ -23,6 +24,7 @@ function Routing() {
       <ScrollToTop />
       <Menu />
       <Routes>
+        <Route path="/MásInfo" element={<VerificaInfo />} />
         <Route path="/VeriFicarCuenta" element={<PagoVerificaciones />} />
         <Route path="/admin/pymes" element={<AdminPymesList />} />
         <Route path="/admin/dashboard" element={<DashboardAdmin />} />

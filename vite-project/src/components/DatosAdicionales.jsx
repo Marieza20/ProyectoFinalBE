@@ -56,7 +56,6 @@ function DatosAdicionales({ id_pyme }) {
 
   const cargar = async () => {
     const formData = new FormData();
-    formData.append('id_pyme', id_pyme);
     if (perfil) formData.append('fotoPerfil', perfil);
     if (portada) formData.append('fotoPortada', portada);
     formData.append('especialidad', especialidad);
@@ -64,10 +63,16 @@ function DatosAdicionales({ id_pyme }) {
     formData.append('ubicacion', direccion);
 
     fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`, {
-      method: 'PUT', // O 'PATCH' según tu API
+      method: 'PATCH',
       body: formData,
     })
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) {
+          const error = await res.json();
+          throw error;
+        }
+        return res.json();
+      })
       .then(data => {
         console.log('Datos actualizados correctamente');
         setDatosExistentes(data);
@@ -75,7 +80,8 @@ function DatosAdicionales({ id_pyme }) {
         setPortada(null);
       })
       .catch(err => {
-        console.error('Error al actualizar los datos');
+        console.error('Error al actualizar los datos', err);
+        alert('Error al actualizar los datos: ' + JSON.stringify(err));
       });
   };
 
@@ -145,10 +151,10 @@ function DatosAdicionales({ id_pyme }) {
           <button className='btn' onClick={AgregarDatos}>Guardar Información</button>
         ) : (
           <>
-          <div className='botones'>
-            <button className='btn' onClick={cargar}>Guardar Cambios</button>
-            <button className='btn' onClick={cancelar}>Cancelar</button>
-          </div>
+            <div className='botones'>
+              <button className='btn' onClick={cargar}>Guardar Cambios</button>
+              <button className='btn' onClick={cancelar}>Cancelar</button>
+            </div>
           </>
         )}
       </div>

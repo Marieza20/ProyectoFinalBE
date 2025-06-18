@@ -2,8 +2,7 @@ import PayPalButton from './PayPalButton';
 
 function PayPal() {
   const handleSuccess = (details) => {
-    alert('Pago realizado por ' + details.payer.name.given_name);
-    // Aquí puedes hacer lo que necesites con los datos del pago
+    console.log('Detalles del pago:', details);
   };
 
   return (

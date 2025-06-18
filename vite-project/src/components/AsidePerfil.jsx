@@ -20,7 +20,7 @@ function AsidePerfil() {
 
   return (
     <div>
-      <div className="izquierda">
+      <div className=" margen izquierda">
         <div className='seguidos'>
           {pymes.length > 0 ? (
             pymes.map((pyme) => (

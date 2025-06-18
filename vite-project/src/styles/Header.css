@@ -1,10 +1,10 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.fondoHeader{
+.fondoHeader {
     width: 100%;
     height: 100vh;
     background-image: url(../img/FondoHeader.jpg);
@@ -13,14 +13,15 @@
     background-repeat: no-repeat;
     filter: blur(3px);
 }
-.header{
+
+.header {
     width: 100%;
     height: 100vh;
     z-index: 1;
     position: absolute;
 }
 
-.logo{
+.logo {
     width: 400px;
     position: absolute;
     top: 25%;
@@ -29,11 +30,11 @@
     margin: 0 auto;
 }
 
-.logo img{
+.logo img {
     width: 100%;
 }
 
-.flecha{
+.flecha {
     width: 60px;
     height: 60px;
     background-color: rgba(234, 169, 194, 0.7);
@@ -41,20 +42,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    bottom: 50px;
+    position: fixed;
+    bottom: 150px;
     right: 50px;
     cursor: pointer;
+    transition: 0.5s;
 }
 
-.flecha .bi-arrow-down-short{
+.flecha .bi-arrow-down-short, .bi-arrow-up-short {
     font-size: 50px;
     color: #fff;
 }
-.flecha:hover{
+
+.flecha:hover {
     transform: scale(0.9);
 }
 
-.flecha .bi-arrow-down-short:hover{
+.flecha .bi-arrow-down-short, .bi-arrow-up-short:hover {
     transform: scale(0.9);
+}
+
+
+
+@media (min-width: 1000px) {
+    .flecha {
+        bottom: 50px;
+    }
 }

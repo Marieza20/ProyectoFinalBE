@@ -3,7 +3,7 @@ import logoPastelito from '../img/logoPastelito.png'
 import '../styles/Header.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Header() {
+function HeaderFeed() {
   const fondoRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
 
@@ -41,4 +41,4 @@ function Header() {
   )
 }
 
-export default Header
+export default HeaderFeed

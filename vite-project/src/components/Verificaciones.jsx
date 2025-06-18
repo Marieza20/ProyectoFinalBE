@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PayPal from './Paypal';
+import { Link } from 'react-router-dom';
 
 function Verifcaciones() {
   const [metodo, setMetodo] = useState('');
@@ -8,12 +9,10 @@ function Verifcaciones() {
 
   const handleSuccess = (details) => {
     setPagoRealizado(true);
-    // Puedes hacer algo con los detalles del pago si lo necesitas
   };
 
   const handlePago = (e) => {
     e.preventDefault();
-    // Aquí iría la integración real con el método de pago
     setPagoRealizado(true);
   };
 
@@ -25,7 +24,7 @@ function Verifcaciones() {
           ¡Pago realizado con éxito!
         </div>
       ) : (
-        <form onSubmit={handlePago} style={{ marginTop: 20 }}>
+        <div onSubmit={handlePago} style={{ marginTop: 20 }}>
           <label>
             Seleccione método de pago:
             <select value={metodo} onChange={e => setMetodo(e.target.value)} required>
@@ -59,11 +58,16 @@ function Verifcaciones() {
             <div style={{ marginTop: 15 }}>
               <p>Realice el pago al número Sinpe: <b>6412-9832</b></p>
               <button type="submit">Ya pagué</button>
+              <p>¿Tenés dudas sobre la verificación de tu pyme?<Link to="/MásInfo">Toca Aquí para más información</Link>
+              </p>
             </div>
           )}
-        </form>
+        </div>
+       
       )}
     </div>
+
+    
   );
 }
 

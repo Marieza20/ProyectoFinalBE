@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   overflow: visible;
-  background-image: url('../img/parallax.jpg');
+  background-image: url('../img/parallax.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -27,7 +27,6 @@
   z-index: 1;
   padding: 30px;
   width: 300px;
-  height: 450px;
   text-align: justify;
   border-radius: 15px;
   background-color: #fff;
