@@ -8,6 +8,7 @@ class Pymes(models.Model):
     correo = models.EmailField(unique=True)
     contrasena = models.CharField(max_length=100)
     carnet = models.ImageField(upload_to='pymes/', blank=True, null=True)
+    verificada = models.BooleanField(default=False)  
 
     def __str__(self):
         return self.nombre

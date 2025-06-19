@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.verifica{
+    margin: auto;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: justify;
+    gap: 20px;
+}
+
+.verifica section{
+    width: 100%;
+    padding: 30px;
+    border-radius: 15px;
+    color: #fff;
+    background-color: #5E070A;
+    transition: transform 0.5s;
+}
+
+.verifica section:hover{
+    transform: scale(1.1);
+}
+
+.centrado{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btnPayPal{
+    width: 100%;
+    min-width: 300px;
+}

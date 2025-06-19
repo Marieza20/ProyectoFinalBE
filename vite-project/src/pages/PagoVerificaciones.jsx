@@ -5,11 +5,7 @@ import Verificaciones from '../components/Verificaciones'
 function PagoVerificaciones() {
   return (
     <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <Verificaciones />
+      <Verificaciones />
     </div>
   )
 }

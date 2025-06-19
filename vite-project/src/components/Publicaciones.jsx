@@ -20,6 +20,50 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const [misReacciones, setMisReacciones] = useState({});
     const [ratings, setRatings] = useState({});
 
+    // Segir/Dejar de seguir
+    const [siguiendo, setSiguiendo] = useState({});
+
+
+    const checkSiguiendo = async (idPyme) => {
+        const res = await fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${usuarioActualId}`);
+        const data = await res.json();
+        setSiguiendo(prev => ({ ...prev, [idPyme]: data.length > 0 }));
+    };
+
+    const handleSeguir = (idPyme) => {
+        if (!siguiendo[idPyme]) {
+            // Seguir (POST)
+            fetch('http://127.0.0.1:8000/api/seguidores/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_pyme: idPyme, id_usuario: usuarioActualId })
+            })
+                .then(res => {
+                    if (res.ok) setSiguiendo(prev => ({ ...prev, [idPyme]: true }));
+                });
+        } else {
+            // Dejar de seguir (DELETE)
+            fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${usuarioActualId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const seguidorId = data[0].id;
+                        fetch(`http://127.0.0.1:8000/api/seguidores/${seguidorId}/`, {
+                            method: 'DELETE'
+                        }).then(() => setSiguiendo(prev => ({ ...prev, [idPyme]: false })));
+                    }
+                });
+        }
+    };
+
+    useEffect(() => {
+        // verifica seguimiento para cada pyme
+        publicaciones.forEach(publi => {
+            if (publi.id_pyme) checkSiguiendo(publi.id_pyme);
+        });
+
+    }, [publicaciones]);
+
     const rating = async (publiId, value) => {
         setRatings(prev => ({
             ...prev,
@@ -238,9 +282,9 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                                     <div className="cardHPost">
                                         <div className="fotoPerfil">
                                             <img src={publi.pyme && publi.pyme.perfil && publi.pyme.perfil.fotoPerfil
-                                                        ? `http://127.0.0.1:8000${publi.pyme.perfil.fotoPerfil}`
-                                                        : publi.pyme_fotoPerfil ? `http://127.0.0.1:8000${publi.pyme_fotoPerfil}`
-                                                        : pyme && pyme.perfil && pyme.perfil.fotoPerfil ? `http://127.0.0.1:8000${pyme.perfil.fotoPerfil}`: ''} alt=""/>
+                                                ? `http://127.0.0.1:8000${publi.pyme.perfil.fotoPerfil}`
+                                                : publi.pyme_fotoPerfil ? `http://127.0.0.1:8000${publi.pyme_fotoPerfil}`
+                                                    : pyme && pyme.perfil && pyme.perfil.fotoPerfil ? `http://127.0.0.1:8000${pyme.perfil.fotoPerfil}` : ''} alt="" />
                                         </div>
                                         <div className='infoPerfil'>
                                             <h2 className='titulito'>
@@ -293,20 +337,26 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                                                     year: 'numeric'
                                                 })}
                                             </p>
-                                            <button className='follow'>Seguir</button>
+                                            <button className='follow' onClick={() => handleSeguir(publi.id_pyme)}>
+                                                {siguiendo[publi.id_pyme] ? 'Siguiendo' : 'Seguir'}
+                                            </button>
                                         </div>
                                     </div>
                                     <div className="cardBPost">
                                         <p>{publi.descripcion}</p>
                                         <div className="img">
-                                            <img src={publi.imagen ? publi.imagen.startsWith('http') ? publi.imagen : `http://127.0.0.1:8000${publi.imagen}` : ''} alt=""/>
+                                            <img src={publi.imagen ? publi.imagen.startsWith('http') ? publi.imagen : `http://127.0.0.1:8000${publi.imagen}` : ''} alt="" />
                                         </div>
                                         <Link></Link>
                                     </div>
                                     <div className="cardFPost">
                                         <div className='flexColumn'>
-                                            <i className={misReacciones[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"} onClick={() => toggleReaccion(publi.id)} title={misReacciones[publi.id] ? 'Quitar Me gusta' : 'Me gusta'}></i>
-                                            <span>{reacciones[publi.id] || 0} Me gusta</span>
+                                            <i
+                                                className={misReacciones[publi.id] ? "bi bi-heart-fill" : "bi bi-heart"}
+                                                onClick={() => toggleReaccion(publi.id)}
+                                                title={misReacciones[publi.id] ? 'Quitar Me gusta' : 'Me gusta'}
+                                            ></i>
+                                            <span className="contador-megusta">{reacciones[publi.id] || 0}</span>
                                         </div>
                                         <div className="rating">
                                             {[5, 4, 3, 2, 1].map((star) => (

@@ -17,17 +17,14 @@ from rest_framework.permissions import BasePermission
 from rest_framework import status
 from rest_framework.response import Response
 
-
 class IsAuthenticatedUser(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated
-
-
+   
 class PymesViewSet(ModelViewSet):
     queryset = Pymes.objects.all()
     serializer_class = PymesSerializer
     parser_classes = (MultiPartParser, FormParser)
-
 
 class PymesListCreateView(ListCreateAPIView):
     queryset = Pymes.objects.all()
@@ -42,7 +39,7 @@ class PymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymesSerializer
     parser_classes = (MultiPartParser, FormParser)
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
     
     def get_queryset(self):
         return Pymes.objects.filter(usuario=self.request.user)
@@ -53,12 +50,12 @@ class PymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class CategoriasListCreateView(ListCreateAPIView):
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class CategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -66,12 +63,12 @@ class CategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class RedesSocialesListCreateView(ListCreateAPIView):
     queryset = RedesSociales.objects.all()
     serializer_class = RedesSocialesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class RedesSocialesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = RedesSociales.objects.all()
     serializer_class = RedesSocialesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -79,12 +76,12 @@ class RedesSocialesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class SeguidoresListCreateView(ListCreateAPIView):
     queryset = Seguidores.objects.all()
     serializer_class = SeguidoresSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class SeguidoresRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Seguidores.objects.all()
     serializer_class = SeguidoresSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -92,12 +89,12 @@ class SeguidoresRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class PerfilPymesListCreateView(ListCreateAPIView):
     queryset = PerfilPymes.objects.all()
     serializer_class = PerfilPymesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class PerfilPymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = PerfilPymes.objects.all()
     serializer_class = PerfilPymesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
     
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
@@ -120,12 +117,12 @@ class PerfilPymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class PerfilRedesListCreateView(ListCreateAPIView):
     queryset = PerfilRedes.objects.all()
     serializer_class = PerfilRedesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class PerfilRedesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = PerfilRedes.objects.all()
     serializer_class = PerfilRedesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -133,12 +130,12 @@ class PerfilRedesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class PublicacionesListCreateView(ListCreateAPIView):
     queryset = Publicaciones.objects.all()
     serializer_class = PublicacionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class PublicacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Publicaciones.objects.all()
     serializer_class = PublicacionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
     
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -155,12 +152,12 @@ class PublicacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class PubliCategoriasListCreateView(ListCreateAPIView):
     queryset = Publi_Categorias.objects.all()
     serializer_class = PubliCategoriasSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class PubliCategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Publi_Categorias.objects.all()
     serializer_class = PubliCategoriasSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -168,12 +165,12 @@ class PubliCategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class ReaccionesListCreateView(ListCreateAPIView):
     queryset = Reacciones.objects.all()
     serializer_class = ReaccionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class ReaccionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Reacciones.objects.all()
     serializer_class = ReaccionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 
 
@@ -181,12 +178,12 @@ class ReaccionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class CalificacionesListCreateView(ListCreateAPIView):
     queryset = Calificaciones.objects.all()
     serializer_class = CalificacionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser]
 
 class CalificacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Calificaciones.objects.all()
     serializer_class = CalificacionesSerializer
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
 
 
@@ -194,25 +191,24 @@ class CalificacionesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class UsersListCreateView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializers
+    #permission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
 class UsersRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializers
 
-
- 
 # Imagenes
 class ImagenesListCreateView(ListCreateAPIView):
     queryset = Imagenes.objects.all()
     serializer_class = ImagenesSerializer
     parser_classes = (MultiPartParser, FormParser)
-    # permission_classes = [IsAuthenticatedUser]
+    #permission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
 class ImagenesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Imagenes.objects.all()
     serializer_class = ImagenesSerializer
     parser_classes = (MultiPartParser, FormParser)
-    # permission_classes = [IsAuthenticatedUser]
+    #pe|rmission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
@@ -229,7 +225,6 @@ class ImagenesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         self.perform_update(serializer)
         return Response(serializer.data)
 
- 
 class PymesDetallesListCreateView(generics.ListAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymeDetalleSerializer

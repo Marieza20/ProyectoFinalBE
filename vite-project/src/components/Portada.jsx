@@ -48,7 +48,12 @@ function Portada() {
 
       <div className="infoPyme">
         <div className="bloque">
-          <h1 className="titulito">{pyme.nombre}</h1>
+          <h1 className="titulito">
+            {pyme.nombre}
+            {pyme.verificada && (
+              <i className="bi bi-patch-check-fill" title="Verificado"></i>
+            )}
+          </h1>
           <p>{pyme.perfil?.descripcion}</p>
           <div className="flexito">
             <i className="bi bi-geo-alt-fill"></i>

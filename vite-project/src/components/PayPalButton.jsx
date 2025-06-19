@@ -4,6 +4,10 @@ function PayPalButton({ amount, onSuccess }) {
   const paypalRef = useRef();
 
   useEffect(() => {
+    if (paypalRef.current) {
+      paypalRef.current.innerHTML = '';
+    }
+
     window.paypal.Buttons({
       createOrder: (data, actions) => {
         return actions.order.create({
@@ -18,7 +22,7 @@ function PayPalButton({ amount, onSuccess }) {
     }).render(paypalRef.current);
   }, [amount, onSuccess]);
 
-  return <div ref={paypalRef}></div>;
+  return <div className='btnPayPal' ref={paypalRef}></div>;
 }
 
 export default PayPalButton;

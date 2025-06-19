@@ -24,8 +24,8 @@ function Routing() {
       <ScrollToTop />
       <Menu />
       <Routes>
-        <Route path="/MásInfo" element={<VerificaInfo />} />
-        <Route path="/VeriFicarCuenta" element={<PagoVerificaciones />} />
+        <Route path="/masInfoVerificacion" element={<VerificaInfo />} />
+        <Route path="/verificarCuenta" element={<PagoVerificaciones />} />
         <Route path="/admin/pymes" element={<AdminPymesList />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path='/' element={<Inicio/>}></Route>
