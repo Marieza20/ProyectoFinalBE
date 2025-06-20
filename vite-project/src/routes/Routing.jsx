@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import PerfilPyme from '../pages/PerfilPyme';
 import InicioPyme from '../pages/InicioPyme';
 import ScrollToTop from '../components/ScrollToTop';
+import PerfilUsuario from '../pages/PerfilUsuario';
 import MiPerfilPyme from '../pages/MiPerfilPyme';
 import Feed from '../pages/Feed';
 import AdminDashboard from '../pages/AdminDashboard';
@@ -34,6 +35,7 @@ function Routing() {
         <Route path='/registroUser' element={<RegistroUser/>}></Route>
         <Route path='/login' element={<LoginUsuario/>}></Route>
         <Route path='/contactos' element={<Contactos/>}></Route>
+        <Route path='/perfil' element={<PerfilUsuario />}></Route>
         <Route path='/miPerfilPyme/:id_pyme' element={<MiPerfilPyme/>}></Route>
         <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme/>}></Route>
         <Route path='/inicioPyme/:id_pyme' element={<InicioPyme/>}></Route>

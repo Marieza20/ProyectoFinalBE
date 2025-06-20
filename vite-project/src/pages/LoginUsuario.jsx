@@ -13,12 +13,12 @@ function LoginUsuario() {
   const toggleMostrarContrasena = () => {
     setMostrarContrasena(prev => !prev);
   };
-  
+
   async function iniciar(e) {
     e.preventDefault();
     try {
       const info = {
-        'username': nombreUser, 
+        'username': nombreUser,
         'password': contrasena
       }
       const response = await fetch('http://127.0.0.1:8000/api/token/', {
@@ -30,15 +30,26 @@ function LoginUsuario() {
         body: JSON.stringify(info)
       });
       if (!response.ok) throw new Error('Credenciales incorrectas');
-      // Aquí puedes obtener los datos del usuario si tu backend los retorna
-      // Por ejemplo, si recibes un token y datos de usuario:
-      // const data = await response.json();
-      // login(data.usuario); // Guarda el usuario en el contexto
+      const data = await response.json();
 
-      // Si solo tienes el nombre de usuario:
-      login({ username: nombre }); // Guarda el usuario en el contexto
-
-      navigate('/inicioPyme');
+      // Obtener datos del usuario autenticado
+      const userResponse = await fetch('http://127.0.0.1:8000/api/users/me/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${data.access}`
+        },
+        credentials: 'include', // Si usas JWT en cookie
+      });
+      const userData = await userResponse.json();
+      login(userData);
+      
+      // Redirigir según el tipo de usuario
+      if (userData.is_staff || userData.is_superuser) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.log('Usuario o contraseña incorrectos');
     }
@@ -48,9 +59,9 @@ function LoginUsuario() {
     <div className='margen'>
       <h1 className='titulo margencitob'>Login Usuario</h1>
       <div className='form'>
-        <input type="text" placeholder="Nombre de Usuario" value={nombreUser} onChange={e => setNombreUser(e.target.value)}/>
+        <input type="text" placeholder="Nombre de Usuario" value={nombreUser} onChange={e => setNombreUser(e.target.value)} />
         <div className="input-password-container">
-          <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password"/>
+          <input type={mostrarContrasena ? "text" : "password"} placeholder="Contraseña" value={contrasena} onChange={e => setContrasena(e.target.value)} className="input-password" />
           <i className={`bi ${mostrarContrasena ? 'bi-eye' : 'bi-eye-slash'} icono-ojito`} onClick={toggleMostrarContrasena}></i>
         </div>
         <p>¿No tienes una cuenta? <Link className='LinkR' to={"/RegistroUser"}>Registrate Gratis</Link></p>

@@ -33,7 +33,8 @@ class PymesSerializer(serializers.ModelSerializer):
         user = User.objects.create(
             username=username,
             email=email,
-            password=make_password(password)
+            password=make_password(password),
+            is_staff=True
         )
 
         # Guardar la pyme

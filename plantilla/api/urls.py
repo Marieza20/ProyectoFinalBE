@@ -1,15 +1,26 @@
 from django.urls import path
-from .views import UsersListCreateView, UsersRetrieveUpdateDestroyView , \
-    PymesListCreateView, PymesRetrieveUpdateDestroyView, CategoriasListCreateView, CategoriasRetrieveUpdateDestroyView, \
-    RedesSocialesListCreateView, RedesSocialesRetrieveUpdateDestroyView, SeguidoresListCreateView, SeguidoresRetrieveUpdateDestroyView, \
-    PerfilPymesListCreateView, PerfilPymesRetrieveUpdateDestroyView, PerfilRedesListCreateView, PerfilRedesRetrieveUpdateDestroyView, \
-    PublicacionesListCreateView, PublicacionesRetrieveUpdateDestroyView, PubliCategoriasListCreateView, PubliCategoriasRetrieveUpdateDestroyView, \
-    ReaccionesListCreateView, ReaccionesRetrieveUpdateDestroyView, CalificacionesListCreateView, CalificacionesRetrieveUpdateDestroyView, ImagenesListCreateView, ImagenesRetrieveUpdateDestroyView, PymesDetallesListCreateView, PymeDetalleRetrieveView
+from .views import (
+    UsersListCreateView, UsersRetrieveUpdateDestroyView,
+    PymesListCreateView, PymesRetrieveUpdateDestroyView,
+    CategoriasListCreateView, CategoriasRetrieveUpdateDestroyView,
+    LogoutView,
+    RedesSocialesListCreateView, RedesSocialesRetrieveUpdateDestroyView,
+    SeguidoresListCreateView, SeguidoresRetrieveUpdateDestroyView,
+    PerfilPymesListCreateView, PerfilPymesRetrieveUpdateDestroyView,
+    PerfilRedesListCreateView, PerfilRedesRetrieveUpdateDestroyView,
+    PublicacionesListCreateView, PublicacionesRetrieveUpdateDestroyView,
+    PubliCategoriasListCreateView, PubliCategoriasRetrieveUpdateDestroyView,
+    ReaccionesListCreateView, ReaccionesRetrieveUpdateDestroyView,
+    CalificacionesListCreateView, CalificacionesRetrieveUpdateDestroyView,
+    ImagenesListCreateView, ImagenesRetrieveUpdateDestroyView,
+    PymesDetallesListCreateView, PymeDetalleRetrieveView, CustomTokenObtainPairView, UserMeView
+)
 
 urlpatterns = [
     path('users/', UsersListCreateView.as_view(), name='user-list-create'),
     path('users/<int:pk>/', UsersRetrieveUpdateDestroyView.as_view(), name='user-detail'),
-
+    path('users/me/', UserMeView.as_view(), name='user-me'),
+    
     path('pymes/', PymesListCreateView.as_view(), name='pymes-list-create'),
     path('pymes/<int:pk>/', PymesRetrieveUpdateDestroyView.as_view(), name='pymes-detail'),
     
@@ -45,6 +56,9 @@ urlpatterns = [
     
     path('pymes-detalles/', PymesDetallesListCreateView.as_view(), name='pymes-detalles'),
     path('pymes-detalles/<int:pk>/', PymeDetalleRetrieveView.as_view(), name='pyme-detalle'),
+    
+    path('logout/', LogoutView.as_view()),
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]
 
 urlpatterns2 = [

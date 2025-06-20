@@ -36,19 +36,29 @@ function Nav({ abrirMenu }) {
                     </div>
                     <ul className='elementosMenu' ref={menuRef}>
                         <Link className="Link" to={"/"}>Inicio</Link>
-                        <Link className="Link" to={"/feed"}>Feed</Link>
+                        {user && (
+                            <Link className="Link" to={"/feed"}>Feed</Link>
+                        )}
                         <Link className="Link" to={"/sobreNosotros"}>Nosotros</Link>
                         <Link className="Link" to={"/contactos"}>Contactos</Link>
                         <div className="linea" style={lineaEstilo}></div>
                     </ul>
                     <div className='iconos'>
                         <i className="bi bi-list" onClick={abrirMenu}></i>
-                        {user ? (
-                            <Link className='Link' to={"/perfil"}>b
-                                <i className="bi bi-person-circle"></i>
+                        {!user ? (
+                            <Link className='Link' to="/login">
+                                <i className="bi bi-person"></i>
+                            </Link>
+                        ) : user.is_superuser ? (
+                            <Link className='Link' to="/admin/dashboard">
+                                <i className="bi bi-person"></i>
+                            </Link>
+                        ) : user.is_staff ? (
+                            <Link className='Link' to={`/miPerfilPyme/${user.id_pyme}`}>
+                                <i className="bi bi-person"></i>
                             </Link>
                         ) : (
-                            <Link className='Link' to={`/miPerfilPyme/${id_pyme}`}>
+                            <Link className='Link' to="/perfil">
                                 <i className="bi bi-person"></i>
                             </Link>
                         )}
