@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import DashboardAdmin from './DashboardAdmin';
 
 function AdminPymesList() {
   const [pymes, setPymes] = useState([]);
@@ -13,8 +14,9 @@ function AdminPymesList() {
   }, []);
 
   return (
-    <div className='margen derecha'>
-      <h2>Listado de Pymes</h2>
+    <div className='margen'>
+      <DashboardAdmin />
+      <h2 className='titulito margencitob'>Listado de Pymes</h2>
 
       <div className='pymes'>
         {pymes.map((pyme) => (
@@ -27,7 +29,7 @@ function AdminPymesList() {
                 <img src={`http://127.0.0.1:8000${pyme.perfil?.fotoPortada}`} alt="" />
               </div>
               <h3 className='titulito'>{pyme.nombre}</h3>
-          
+
               <div>
                 {pyme.redes && pyme.redes.map((redes, index) => (
                   <React.Fragment key={index}>
@@ -35,7 +37,7 @@ function AdminPymesList() {
                   </React.Fragment>
                 ))}
               </div>
-       
+
               <div className="imgs">
                 {pyme.imagenes && pyme.imagenes.map((imgObj, index) => (
                   <React.Fragment key={index}>

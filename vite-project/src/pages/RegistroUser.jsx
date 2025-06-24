@@ -2,7 +2,7 @@ import { useState } from 'react'
 import '../styles/Registro.css'
 import llamadosUsuarios from '../services/llamadosUsuarios'
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function RegistroUser() {
   const [username, setUsername] = useState('')
@@ -11,7 +11,7 @@ function RegistroUser() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
-
+  const navigate = useNavigate();
 
   const toggleMostrarContrasena = () => {
     setMostrarContrasena(prev => !prev);
@@ -21,6 +21,7 @@ function RegistroUser() {
   async function registrar() {
     const respuestaServer = await llamadosUsuarios.postUsuarios(username, first_name, last_name, email, password)
     console.log(respuestaServer);  
+    navigate('/login');
   }
 
 

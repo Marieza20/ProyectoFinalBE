@@ -18,6 +18,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import AdminPymesList from '../components/Admin/AdminPymesList'
 import PagoVerificaciones from '../pages/PagoVerificaciones';
 import VerificaInfo from '../pages/VerificaInfo';
+import AdminPublicaciones from '../components/Admin/AdminPublicaciones';
 
 function Routing() {
   return (
@@ -27,8 +28,9 @@ function Routing() {
       <Routes>
         <Route path="/masInfoVerificacion" element={<VerificaInfo />} />
         <Route path="/verificarCuenta" element={<PagoVerificaciones />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/pymes" element={<AdminPymesList />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/publicaciones" element={<AdminPublicaciones />} />
         <Route path='/' element={<Inicio/>}></Route>
         <Route path='/sobreNosotros' element={<SobreNosotros/>}></Route>
         <Route path='/registroPyme' element={<RegistroPyme/>}></Route>

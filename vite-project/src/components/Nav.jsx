@@ -15,7 +15,7 @@ function Nav({ abrirMenu }) {
     useEffect(() => {
         const links = menuRef.current.querySelectorAll(".Link");
         const activeLink = Array.from(links).find(
-            (link) => link.pathname === location.pathname
+            (link) => link.getAttribute('href') === location.pathname
         );
 
         if (activeLink) {
@@ -25,7 +25,7 @@ function Nav({ abrirMenu }) {
                 width: offsetWidth,
             });
         }
-    }, [location]);
+    }, [location, user]);
 
     return (
         <div>
@@ -50,7 +50,7 @@ function Nav({ abrirMenu }) {
                                 <i className="bi bi-person"></i>
                             </Link>
                         ) : user.is_superuser ? (
-                            <Link className='Link' to="/admin/dashboard">
+                            <Link className='Link' to="/admin">
                                 <i className="bi bi-person"></i>
                             </Link>
                         ) : user.is_staff ? (

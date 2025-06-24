@@ -32,6 +32,9 @@ function LoginUsuario() {
       if (!response.ok) throw new Error('Credenciales incorrectas');
       const data = await response.json();
 
+      localStorage.setItem("access",data.access)
+      
+
       // Obtener datos del usuario autenticado
       const userResponse = await fetch('http://127.0.0.1:8000/api/users/me/', {
         method: 'GET',

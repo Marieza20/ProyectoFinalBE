@@ -7,13 +7,9 @@ function BusquedaFeed() {
     return (
         <div className='fondoB margen'>
             <div className="barra">
-                <input
-                    type="text"
-                    placeholder="Buscar..."
-                    value={busqueda}
-                    onChange={e => setBusqueda(e.target.value)}
-                />
+                <input type="text" placeholder="Buscar..." value={busqueda} onChange={e => setBusqueda(e.target.value)}/>
             </div>
+
             <Publicaciones mostrarTodas={true} filtroBusqueda={busqueda} />
         </div>
     );

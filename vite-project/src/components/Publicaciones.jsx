@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
+import GetPublicaciones from '../services/llamadosPublicaciones';
 import '../styles/Publicaciones.css'
 import '../styles/Estrellas.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
+import GetReacciones from '../services/llamadosReacciones';
 
 
 function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
+    const userToken = localStorage.getItem("access")
     const { id_pyme } = useParams();
     const { user } = useAuth();
-    const token = user?.token;
     const [pyme, setPyme] = useState(null);
     const [menuAbierto, setMenuAbierto] = useState(null);
     const [publicaciones, setPublicaciones] = useState([]);
     const [editandoId, setEditandoId] = useState(null);
     const [editDescripcion, setEditDescripcion] = useState('');
     const [editImagen, setEditImagen] = useState(null);
-
-    // Reacciones
     const [reacciones, setReacciones] = useState({});
     const [misReacciones, setMisReacciones] = useState({});
     const [ratings, setRatings] = useState({});
-
-    // Segir/Dejar de seguir
     const [siguiendo, setSiguiendo] = useState({});
 
-
     const checkSiguiendo = async (idPyme) => {
-        const res = await fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`,
-            { headers: token ? { 'Authorization': `Bearer ${token}` } : {} });
+        const res = await fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userToken}`
+            },
+        });
         const data = await res.json();
         setSiguiendo(prev => ({ ...prev, [idPyme]: data.length > 0 }));
     };
@@ -40,7 +41,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(token && { 'Authorization': `Bearer ${token}` })
+                    'Authorization': `Bearer ${userToken}`
                 },
                 body: JSON.stringify({ id_pyme: idPyme, id_usuario: user.id })
             })
@@ -49,16 +50,13 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                 });
         } else {
             // Dejar de seguir (DELETE)
-            fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`, {
-                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-            })
+            fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.length > 0) {
                         const seguidorId = data[0].id;
                         fetch(`http://127.0.0.1:8000/api/seguidores/${seguidorId}/`, {
-                            method: 'DELETE',
-                            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                            method: 'DELETE'
                         }).then(() => setSiguiendo(prev => ({ ...prev, [idPyme]: false })));
                     }
                 });
@@ -83,6 +81,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`
                 },
                 body: JSON.stringify({
                     id_publicacion: publiId,
@@ -98,16 +97,23 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     // Cargar publicaciones 
     useEffect(() => {
         async function fetchPublicaciones() {
+            const publicaciones = await GetPublicaciones()
+            setPublicaciones(publicaciones)
+
+        }
+        fetchPublicaciones();
+    }, [id_pyme, mostrarTodas]);
+
+
+    // Cargar detalles de la pyme solo si no es mostrarTodas
+    useEffect(() => {
+        async function fetchPublicaciones() {
             try {
                 let url = 'http://127.0.0.1:8000/api/publicaciones/';
-                let fetchOptions = {};
                 if (!mostrarTodas && id_pyme) {
                     url = `http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`;
-                    fetchOptions = { headers: token ? { 'Authorization': `Bearer ${token}` } : {} };
-                } else if (token) {
-                    fetchOptions = { headers: { 'Authorization': `Bearer ${token}` } };
                 }
-                const response = await fetch(url, fetchOptions);
+                const response = await fetch(url);
                 if (!response.ok) throw new Error('Error al obtener las publicaciones');
                 const data = await response.json();
                 if (mostrarTodas) {
@@ -121,29 +127,13 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
             }
         }
         fetchPublicaciones();
-    }, [id_pyme, mostrarTodas, token]);
-
-    // Cargar detalles de la pyme solo si no es mostrarTodas
-    useEffect(() => {
-        if (!mostrarTodas && id_pyme) {
-            fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener la pyme');
-                    }
-                    return response.json();
-                })
-                .then((data) => setPyme(data))
-                .catch((error) => console.error('Error:', error));
-        }
     }, [id_pyme, mostrarTodas]);
+
 
     useEffect(() => {
         async function fetchReacciones() {
-            const res = await fetch('http://127.0.0.1:8000/api/reacciones/', {
-                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-            });
-            const data = await res.json();
+            const reacciones = await GetReacciones()
+            const data = await fetch(reacciones);
             if (!Array.isArray(data)) {
                 setReacciones({});
                 setMisReacciones({});
@@ -160,16 +150,16 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
             setReacciones(counts);
             setMisReacciones(mis);
         }
-        if (user && token) fetchReacciones();
+        if (user) fetchReacciones();
     }, [pyme, user, mostrarTodas]);
+
 
     // Función para dar o quitar el me gusta
     const toggleReaccion = async (idPublicacion) => {
         if (misReacciones[idPublicacion]) {
             // Quitar reacción (DELETE)
             await fetch(`http://127.0.0.1:8000/api/reacciones/${misReacciones[idPublicacion]}/`, {
-                method: 'DELETE',
-                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                method: 'DELETE'
             });
         } else {
             // Agregar reacción (POST)
@@ -177,7 +167,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(token && { 'Authorization': `Bearer ${token}` })
+                    'Authorization': `Bearer ${userToken}`
                 },
                 body: JSON.stringify({
                     id_publicacion: idPublicacion,
@@ -188,7 +178,10 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
         }
         // Refresca reacciones
         const res = await fetch('http://127.0.0.1:8000/api/reacciones/', {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userToken}`
+            },
         });
         const data = await res.json();
         const counts = {};
@@ -230,22 +223,17 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${id}/`, {
                 method: 'PATCH',
-                headers: token ? { 'Authorization': `Bearer ${token}` } : {},
                 body: formData,
             });
             if (response.ok) {
                 if (mostrarTodas) {
-                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/', {
-                        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-                    });
+                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/');
                     if (publicacionesResponse.ok) {
                         const publicacionesData = await publicacionesResponse.json();
                         setPublicaciones(publicacionesData);
                     }
                 } else if (id_pyme) {
-                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`, {
-                        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-                    });
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
                     if (pymeResponse.ok) {
                         const pymeData = await pymeResponse.json();
                         setPyme(pymeData);
@@ -265,22 +253,17 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
         if (!window.confirm("¿Seguro que deseas eliminar esta publicación?")) return;
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/publicaciones/${idPublicacion}/`, {
-                method: 'DELETE',
-                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                method: 'DELETE'
             });
             if (response.ok) {
                 if (mostrarTodas) {
-                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/', {
-                        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-                    });
+                    const publicacionesResponse = await fetch('http://127.0.0.1:8000/api/publicaciones/');
                     if (publicacionesResponse.ok) {
                         const publicacionesData = await publicacionesResponse.json();
                         setPublicaciones(publicacionesData);
                     }
                 } else if (id_pyme) {
-                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`, {
-                        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-                    });
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
                     if (pymeResponse.ok) {
                         const pymeData = await pymeResponse.json();
                         setPyme(pymeData);
@@ -303,6 +286,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
             (publi.pyme && publi.pyme.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase()))
         )
         : publicaciones;
+
 
     // Si no hay publicaciones y no es mostrarTodas, muestra cargando
     if (!mostrarTodas && !pyme) return <div>Cargando...</div>;

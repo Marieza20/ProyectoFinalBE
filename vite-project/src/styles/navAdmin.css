@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+    -webkit-tap-highlight-color: transparent
+}
+
+.navAdmin{
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.LinkAd{
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    color: #000;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.LinkAd:hover{
+    transform: scale(1.1);
+}

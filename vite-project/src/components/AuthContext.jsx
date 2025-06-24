@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   const login = (userData) => {
     setUser(userData);
-    Cookies.set("user", JSON.stringify(userData), { expires: 1 });
+    Cookies.set("user", JSON.stringify(userData), { expires: 60 });
   };
 
   const logout = () => {

@@ -23,7 +23,7 @@ function NavLateral({ cerrarMenu, mostrar }) {
               <p>Inicia Sesión</p>
             </Link>
           ) : user.is_superuser ? (
-            <Link className='Link' to="/admin/dashboard">
+            <Link className='Link' to="/admin">
               <i className="bi bi-person"></i>
               <p>Admin</p>
             </Link>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import '../../styles/navAdmin.css'
 
 function DashboardAdmin() {
   const { logout } = useAuth();
 
   async function logoutbtn() {
-    try {   
+    try {
       const response = await fetch('http://127.0.0.1:8000/api/logout/', {
         method: 'POST',
         headers: {
@@ -16,9 +17,7 @@ function DashboardAdmin() {
       });
       logout();
       if (response.ok) {
-
         window.location.href = '/';
-
       }
     }
     catch (error) {
@@ -26,19 +25,15 @@ function DashboardAdmin() {
     }
   }
 
-  
-  return (
-    <div className='margen izquierda'>
-      <h3>Panel de Administración</h3>
-      <nav>
-        <ul>
-          <li><Link to="/admin/pymes">Gestionar Pymes</Link></li>
-          <li><Link to="/admin/usuarios">Gestionar Usuarios</Link></li>
-          <li><Link to="/admin/publicaciones">Gestionar Publicaciones</Link></li>
-          <li><Link to="/admin/contactos">Contactos</Link></li>
-        </ul>
 
-        <button onClick={logoutbtn}>Cerrar Sesión</button>
+  return (
+    <div className='margen'>
+      <h3 className='titulito'>Panel de Administración</h3>
+      <nav className='navAdmin'>
+        <Link className='LinkAd' to="/admin/usuarios">Gestionar Usuarios</Link>
+        <Link className='LinkAd' to="/admin/pymes">Gestionar Pymes</Link>
+        <Link className='LinkAd' to="/admin/publicaciones">Gestionar Publicaciones</Link>
+        <button className='LinkAd' onClick={logoutbtn}>Cerrar Sesión</button>
       </nav>
     </div>
   );
