@@ -7,10 +7,10 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Nav({ abrirMenu }) {
     const { id_pyme } = useParams();
+    const { user } = useAuth(); // Usa el contexto aquí
     const location = useLocation();
     const [lineaEstilo, setLineaEstilo] = useState({});
     const menuRef = useRef();
-    const { user } = useAuth(); // Usa el contexto aquí
 
     useEffect(() => {
         const links = menuRef.current.querySelectorAll(".Link");

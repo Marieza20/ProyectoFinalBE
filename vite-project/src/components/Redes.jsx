@@ -11,9 +11,15 @@ function Redes() {
   const [redSocial, setRedSocial] = useState('');
   const [url, setUrl] = useState('');
   const [mostrarForm, setMostrarForm] = useState(false);
+  const userToken=localStorage.getItem("access")
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    })
       .then((response) => {
         if (!response.ok) throw new Error('Error al obtener la pyme');
         return response.json();
@@ -26,7 +32,12 @@ function Redes() {
       })
       .catch((error) => console.error('Error:', error));
 
-    fetch('http://127.0.0.1:8000/api/redes/')
+    fetch('http://127.0.0.1:8000/api/redes/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    })
       .then((response) => {
         if (!response.ok) throw new Error('Error al obtener las redes sociales');
         return response.json();
@@ -44,6 +55,10 @@ function Redes() {
 
     fetch('http://127.0.0.1:8000/api/perfil-redes/', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
       body: formData,
     })
       .then(res => res.json())
@@ -51,14 +66,14 @@ function Redes() {
         console.log('Datos enviados correctamente');
         console.log(data);
         setMostrarForm(false);
-        
+
         const redSeleccionada = todasRedes.find(r => String(r.id) === String(redSocial));
         setRedes(prev => [
           ...prev,
           {
             id: redSocial,
             nombre: redSeleccionada ? redSeleccionada.nombre : 'Desconocido',
-            url
+            url: url
           }
         ]);
         setRedSocial('');

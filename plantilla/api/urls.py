@@ -13,7 +13,7 @@ from .views import (
     ReaccionesListCreateView, ReaccionesRetrieveUpdateDestroyView,
     CalificacionesListCreateView, CalificacionesRetrieveUpdateDestroyView,
     ImagenesListCreateView, ImagenesRetrieveUpdateDestroyView,
-    PymesDetallesListCreateView, PymeDetalleRetrieveView, CustomTokenObtainPairView, UserMeView
+    PymesDetallesListCreateView, PymeDetalleRetrieveView, CustomTokenObtainPairView, UserMeView,
 )
 
 urlpatterns = [
@@ -55,7 +55,7 @@ urlpatterns = [
     path('imagenes/<int:pk>/', ImagenesRetrieveUpdateDestroyView.as_view(), name='imagenes-detail'),
     
     path('pymes-detalles/', PymesDetallesListCreateView.as_view(), name='pymes-detalles'),
-    path('pymes-detalles/<int:pk>/', PymeDetalleRetrieveView.as_view(), name='pyme-detalle'),
+    path('pymes-detalles/<int:pk>/', PymeDetalleRetrieveView.as_view(), name='pyme-detalles'),
     
     path('logout/', LogoutView.as_view()),
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext'; // Importa el contexto
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function LoginUsuario() {
+  const { id_pyme } = useParams();
+  const { user } = useAuth();
   const [nombreUser, setNombreUser] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
@@ -48,8 +50,10 @@ function LoginUsuario() {
       login(userData);
       
       // Redirigir según el tipo de usuario
-      if (userData.is_staff || userData.is_superuser) {
+      if (userData.is_superuser) {
         navigate('/admin/dashboard');
+      } else if (userData.is_staff) {
+        navigate(`/inicioPyme/${user.id_pyme}`);
       } else {
         navigate('/');
       }

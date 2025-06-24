@@ -35,7 +35,7 @@ function RegistroPyme() {
         const data = JSON.parse(text);
         console.log('Datos enviados correctamente');
         console.log(data);
-        navigate(`/inicioPyme/${data.id}`);
+        navigate('/login');
       } catch (e) {
         console.error('Respuesta del backend (no es JSON):', text);
         throw e;

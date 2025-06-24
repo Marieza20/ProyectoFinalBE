@@ -9,9 +9,15 @@ function DatosAdicionales({ id_pyme }) {
   const [portada, setPortada] = useState(null);
   const [datosExistentes, setDatosExistentes] = useState(null);
   const navigate = useNavigate();
-
+  const userToken=localStorage.getItem("access")
+  
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`)
+    fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    })
       .then(res => {
         if (!res.ok) throw new Error('No hay datos');
         return res.json();
@@ -38,6 +44,10 @@ function DatosAdicionales({ id_pyme }) {
 
     fetch('http://127.0.0.1:8000/api/perfil-pymes/', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
       body: formData,
     })
       .then(res => res.json())
@@ -64,6 +74,10 @@ function DatosAdicionales({ id_pyme }) {
 
     fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`, {
       method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
       body: formData,
     })
       .then(async res => {
