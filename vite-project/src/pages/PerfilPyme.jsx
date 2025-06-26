@@ -1,12 +1,10 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext'
 import Portada from '../components/Portada'
 import AsidePerfil from '../components/AsidePerfil'
 import Publicaciones from '../components/Publicaciones'
 
 function PerfilPyme() {
-  const { id_pyme } = useParams();
   const { user } = useAuth();
 
   if (!user) {
@@ -18,7 +16,7 @@ function PerfilPyme() {
         <Portada />
         <div className="grid">
           <AsidePerfil />
-          <Publicaciones id_pyme={id_pyme} />
+          <Publicaciones />
         </div>
     </div>
   )

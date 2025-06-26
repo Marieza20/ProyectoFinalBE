@@ -1,17 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext'
+import Cookies from "js-cookie";
 import '../styles/InfoPyme.css'
 
 function ImgsPyme() {
-    const { id_pyme } = useParams();
     const [pyme, setPyme] = useState(null);
+    const { user } = useAuth();
+    const idPyme = Cookies.get("idPyme")
     const [imagenes, setImagenes] = useState([null, null, null]);
     const [imagenesId, setImagenesId] = useState(null);
     const fileInputs = Array.from({ length: imagenes.length }, () => useRef());
     const [imgsPendientes, setImgsPendientes] = useState([null, null, null]);
+    const userToken = localStorage.getItem("access")
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
+        fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
+            headers: {
+                'Authorization': `Bearer ${userToken}`
+            },
+        })
             .then((response) => {
                 if (!response.ok) throw new Error('Error al obtener la pyme');
                 return response.json();
@@ -29,7 +36,7 @@ function ImgsPyme() {
                 }
             })
             .catch((error) => console.error('Error:', error));
-    }, [id_pyme]);
+    }, []);
 
     const fileChange = (e, idx) => {
         const file = e.target.files[0];
@@ -45,34 +52,46 @@ function ImgsPyme() {
         if (!imgsPendientes.some(Boolean)) return;
 
         const formData = new FormData();
-        formData.append('id_pyme', Number(id_pyme));
-        for (let i = 0; i < 3; i++) {
-            if (imgsPendientes[i]) {
-                formData.append(`imagen${i + 1}`, imgsPendientes[i]);
-            }
-        }
+        formData.append('id_pyme', idPyme);
+        imgsPendientes.forEach((img, i) => {
+            if (img) formData.append(`imagen${i + 1}`, img);
+        });
 
-        fetch(`http://127.0.0.1:8000/api/imagenes/${imagenesId}/`, {
-            method: 'PATCH',
+        const method = imagenesId ? 'PATCH' : 'POST';
+        const url = imagenesId
+            ? `http://127.0.0.1:8000/api/imagenes/${imagenesId}/`
+            : 'http://127.0.0.1:8000/api/imagenes/';
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+            },
             body: formData,
         })
             .then(async res => {
                 const text = await res.json();
-                if (!res.ok) {
-                    console.error('Error del backend:', text);
-                    try {
-                        return JSON.parse(text);
-                    } catch {
-                        return {};
+                try {
+                    const json = JSON.parse(text);
+                    if (!res.ok) {
+                        console.error('Error del backend:', json);
+                    } else {
+                        console.log('Imágenes guardadas:', json);
+
+                        if (!imagenesId && json.id) {
+                            setImagenesId(json.id);
+                        }
+
+                        setImagenes(prev =>
+                            prev.map((img, idx) =>
+                                imgsPendientes[idx] ? URL.createObjectURL(imgsPendientes[idx]) : img
+                            )
+                        );
+                        setImgsPendientes([null, null, null]);
                     }
+                } catch (e) {
+                    console.error('Respuesta no es JSON:', text);
                 }
-                return text;
-            })
-            .then(data => {
-                setImagenes(prev => prev.map((img, idx) =>
-                    imgsPendientes[idx] ? URL.createObjectURL(imgsPendientes[idx]) : img
-                ));
-                setImgsPendientes([null, null, null]);
             })
             .catch(err => {
                 console.error('Error al enviar la imagen', err);
@@ -88,7 +107,7 @@ function ImgsPyme() {
     };
 
 
-    if (!pyme) return <div className='center margencito'>Cargando...</div>;
+    if (!user) return <div className='center margencito'>Cargando...</div>;
 
 
 

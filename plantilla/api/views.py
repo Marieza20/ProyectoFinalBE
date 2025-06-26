@@ -254,11 +254,27 @@ class LogoutView(APIView):
         response.delete_cookie('refresh')
         return response
     
+    
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            data = response.data
-            response.set_cookie('access', data['access'], httponly=True, samesite='Lax')
-            response.set_cookie('refresh', data['refresh'], httponly=True, samesite='Lax')
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            return Response({"detail": "Credenciales inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        data = serializer.validated_data
+        user = serializer.user  # Aquí tienes acceso al usuario autenticado
+
+        try:
+            pyme = user.pyme
+            data['id'] = pyme.id
+        except Pymes.DoesNotExist:
+            return Response({"detail": "No se encontró una pyme asociada a este usuario."}, status=status.HTTP_404_NOT_FOUND)
+
+        response = Response(data, status=status.HTTP_200_OK)
+        response.set_cookie('access', data['access'], httponly=True, samesite='Lax')
+        response.set_cookie('refresh', data['refresh'], httponly=True, samesite='Lax')
+
         return response

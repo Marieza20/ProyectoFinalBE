@@ -38,9 +38,9 @@ function Routing() {
         <Route path='/login' element={<LoginUsuario/>}></Route>
         <Route path='/contactos' element={<Contactos/>}></Route>
         <Route path='/perfil' element={<PerfilUsuario />}></Route>
-        <Route path='/miPerfilPyme/:id_pyme' element={<MiPerfilPyme/>}></Route>
+        <Route path='/miPerfilPyme' element={<MiPerfilPyme/>}></Route>
         <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme/>}></Route>
-        <Route path='/inicioPyme/:id_pyme' element={<InicioPyme/>}></Route>
+        <Route path='/inicioPyme' element={<InicioPyme/>}></Route>
         <Route path='/feed' element={<Feed />}></Route>
       </Routes>
       <Footer />

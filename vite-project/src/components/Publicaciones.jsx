@@ -6,11 +6,11 @@ import '../styles/Publicaciones.css'
 import '../styles/Estrellas.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import GetReacciones from '../services/llamadosReacciones';
-
+import Cookies from "js-cookie";
 
 function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const userToken = localStorage.getItem("access")
-    const { id_pyme } = useParams();
+    const idPyme = Cookies.get("idPyme")
     const { user } = useAuth();
     const [pyme, setPyme] = useState(null);
     const [menuAbierto, setMenuAbierto] = useState(null);
@@ -22,6 +22,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const [misReacciones, setMisReacciones] = useState({});
     const [ratings, setRatings] = useState({});
     const [siguiendo, setSiguiendo] = useState({});
+    
 
     const checkSiguiendo = async (idPyme) => {
         const res = await fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`, {
@@ -102,7 +103,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
 
         }
         fetchPublicaciones();
-    }, [id_pyme, mostrarTodas]);
+    }, [idPyme, mostrarTodas]);
 
 
     // Cargar detalles de la pyme solo si no es mostrarTodas
@@ -110,8 +111,8 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
         async function fetchPublicaciones() {
             try {
                 let url = 'http://127.0.0.1:8000/api/publicaciones/';
-                if (!mostrarTodas && id_pyme) {
-                    url = `http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`;
+                if (!mostrarTodas && idPyme) {
+                    url = `http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`;
                 }
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('Error al obtener las publicaciones');
@@ -127,7 +128,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
             }
         }
         fetchPublicaciones();
-    }, [id_pyme, mostrarTodas]);
+    }, [idPyme, mostrarTodas]);
 
 
     useEffect(() => {

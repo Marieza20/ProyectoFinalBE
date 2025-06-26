@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
+import Cookies from "js-cookie";
 
-function DatosAdicionales({ id_pyme }) {
+function DatosAdicionales() {
+  const { user } = useAuth();
   const [descripcion, setDescripcion] = useState('');
   const [especialidad, setEspecialidad] = useState('');
   const [direccion, setDireccion] = useState('');
   const [perfil, setPerfil] = useState(null);
   const [portada, setPortada] = useState(null);
   const [datosExistentes, setDatosExistentes] = useState(null);
+  const [perfilId, setPerfilId] = useState(null);
   const navigate = useNavigate();
   const userToken=localStorage.getItem("access")
+  const idPyme = Cookies.get("idPyme")
   
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`, {
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
     })
@@ -27,15 +31,16 @@ function DatosAdicionales({ id_pyme }) {
         setDescripcion(data.descripcion || '');
         setEspecialidad(data.especialidad || '');
         setDireccion(data.ubicacion || '');
+        setPerfilId(data.id);
       })
       .catch(err => {
         console.log('No hay perfil existente aún');
       });
-  }, [id_pyme]);
+  }, [userToken, idPyme]);
 
   const AgregarDatos = async () => {
     const formData = new FormData();
-    formData.append('id_pyme', id_pyme);
+    formData.append('id_pyme', idPyme);
     if (perfil) formData.append('fotoPerfil', perfil);
     if (portada) formData.append('fotoPortada', portada);
     formData.append('especialidad', especialidad);
@@ -45,7 +50,6 @@ function DatosAdicionales({ id_pyme }) {
     fetch('http://127.0.0.1:8000/api/perfil-pymes/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
       body: formData,
@@ -72,10 +76,9 @@ function DatosAdicionales({ id_pyme }) {
     formData.append('descripcion', descripcion);
     formData.append('ubicacion', direccion);
 
-    fetch(`http://127.0.0.1:8000/api/perfil-pymes/${id_pyme}/`, {
+    fetch(`http://127.0.0.1:8000/api/perfil-pymes/${perfilId}/`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
       body: formData,
@@ -161,7 +164,7 @@ function DatosAdicionales({ id_pyme }) {
           </div>
         </div>
 
-        {!datosExistentes ? (
+        {!perfilId ? (
           <button className='btn' onClick={AgregarDatos}>Guardar Información</button>
         ) : (
           <>

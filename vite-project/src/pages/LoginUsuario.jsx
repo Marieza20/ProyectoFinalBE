@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext'; // Importa el contexto
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Cookies from "js-cookie";
 
 function LoginUsuario() {
-  const { id_pyme } = useParams();
-  const { user } = useAuth();
   const [nombreUser, setNombreUser] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
@@ -34,7 +33,12 @@ function LoginUsuario() {
       if (!response.ok) throw new Error('Credenciales incorrectas');
       const data = await response.json();
 
-      localStorage.setItem("access",data.access)
+      console.log(data);
+      console.log(data.id);
+
+      Cookies.set("idPyme", data.id)
+
+      localStorage.setItem("access", data.access)
       
 
       // Obtener datos del usuario autenticado
@@ -53,7 +57,7 @@ function LoginUsuario() {
       if (userData.is_superuser) {
         navigate('/admin/dashboard');
       } else if (userData.is_staff) {
-        navigate(`/inicioPyme/${user.id_pyme}`);
+        navigate('/inicioPyme');
       } else {
         navigate('/');
       }

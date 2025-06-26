@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import Cookies from "js-cookie";
 import '../styles/Portada.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -7,9 +8,10 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 function Portada() {
   const { id_pyme } = useParams();
   const [pyme, setPyme] = useState(null);
+  const idPyme = Cookies.get("idPyme")
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`)
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error al obtener la pyme');

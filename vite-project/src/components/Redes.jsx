@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
+import Cookies from "js-cookie";
 import '../styles/Redes.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Redes() {
-  const { id_pyme } = useParams();
   const [pyme, setPyme] = useState(null);
+  const { user } = useAuth();
   const [redes, setRedes] = useState([]);
   const [todasRedes, setTodasRedes] = useState([]);
   const [redSocial, setRedSocial] = useState('');
   const [url, setUrl] = useState('');
   const [mostrarForm, setMostrarForm] = useState(false);
-  const userToken=localStorage.getItem("access")
-
+  const userToken = localStorage.getItem("access")
+  const idPyme = Cookies.get("idPyme")
+  
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`, {
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
@@ -44,14 +46,21 @@ function Redes() {
       })
       .then((data) => setTodasRedes(data))
       .catch((error) => console.error('Error:', error));
-  }, [id_pyme]);
+  }, []);
 
 
   const anadirRed = async () => {
-    const formData = new FormData();
-    formData.append('id_pyme', id_pyme);
-    formData.append('id_redes', redSocial);
-    formData.append('url', url);
+    if (!pyme) {
+      console.error('No se ha cargado la pyme aún');
+      return;
+    }
+
+    console.log('pyme.id:', idPyme);
+    const data = {
+      id_pyme: idPyme,
+      id_redes: redSocial,
+      url: url
+    };
 
     fetch('http://127.0.0.1:8000/api/perfil-redes/', {
       method: 'POST',
@@ -59,7 +68,7 @@ function Redes() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
-      body: formData,
+      body: JSON.stringify(data),
     })
       .then(res => res.json())
       .then(data => {
