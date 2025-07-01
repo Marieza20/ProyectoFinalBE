@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import GetPublicaciones from '../services/llamadosPublicaciones';
 import '../styles/Publicaciones.css'
@@ -13,6 +13,7 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const idPyme = Cookies.get("idPyme")
     const { user } = useAuth();
     const [pyme, setPyme] = useState(null);
+    const { id_pyme } = useParams();
     const [menuAbierto, setMenuAbierto] = useState(null);
     const [publicaciones, setPublicaciones] = useState([]);
     const [editandoId, setEditandoId] = useState(null);
@@ -22,7 +23,6 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     const [misReacciones, setMisReacciones] = useState({});
     const [ratings, setRatings] = useState({});
     const [siguiendo, setSiguiendo] = useState({});
-    
 
     const checkSiguiendo = async (idPyme) => {
         const res = await fetch(`http://127.0.0.1:8000/api/seguidores/?id_pyme=${idPyme}&id_usuario=${user.id}`, {
@@ -98,21 +98,10 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     // Cargar publicaciones 
     useEffect(() => {
         async function fetchPublicaciones() {
-            const publicaciones = await GetPublicaciones()
-            setPublicaciones(publicaciones)
-
-        }
-        fetchPublicaciones();
-    }, [idPyme, mostrarTodas]);
-
-
-    // Cargar detalles de la pyme solo si no es mostrarTodas
-    useEffect(() => {
-        async function fetchPublicaciones() {
             try {
-                let url = 'http://127.0.0.1:8000/api/publicaciones/';
-                if (!mostrarTodas && idPyme) {
-                    url = `http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`;
+                let url = await GetPublicaciones();
+                if (!mostrarTodas && id_pyme) {
+                    url = `http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`;
                 }
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('Error al obtener las publicaciones');
@@ -128,7 +117,10 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
             }
         }
         fetchPublicaciones();
-    }, [idPyme, mostrarTodas]);
+    }, [id_pyme, mostrarTodas]);
+
+
+    // Cargar detalles de la pyme solo si no es mostrarTodas
 
 
     useEffect(() => {
@@ -158,12 +150,10 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
     // Función para dar o quitar el me gusta
     const toggleReaccion = async (idPublicacion) => {
         if (misReacciones[idPublicacion]) {
-            // Quitar reacción (DELETE)
             await fetch(`http://127.0.0.1:8000/api/reacciones/${misReacciones[idPublicacion]}/`, {
                 method: 'DELETE'
             });
         } else {
-            // Agregar reacción (POST)
             await fetch('http://127.0.0.1:8000/api/reacciones/', {
                 method: 'POST',
                 headers: {
@@ -233,8 +223,8 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                         const publicacionesData = await publicacionesResponse.json();
                         setPublicaciones(publicacionesData);
                     }
-                } else if (id_pyme) {
-                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                } else if (idPyme) {
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id}/`);
                     if (pymeResponse.ok) {
                         const pymeData = await pymeResponse.json();
                         setPyme(pymeData);
@@ -263,8 +253,8 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                         const publicacionesData = await publicacionesResponse.json();
                         setPublicaciones(publicacionesData);
                     }
-                } else if (id_pyme) {
-                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`);
+                } else if (idPyme) {
+                    const pymeResponse = await fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id}/`);
                     if (pymeResponse.ok) {
                         const pymeData = await pymeResponse.json();
                         setPyme(pymeData);
@@ -314,6 +304,16 @@ function Publicaciones({ mostrarTodas = false, filtroBusqueda = '' }) {
                                         </div>
                                     </div>
                                     <div className='cardBPost'>
+                                        {publi.categoria && (
+                                            <div className="categoria-publicacion">
+                                                <span className="badge bg-secondary">{publi.categoria}</span>
+                                            </div>
+                                        )}
+                                        <p>{publi.descripcion}</p>
+                                        <div className="img">
+                                            <img src={publi.imagen ? publi.imagen.startsWith('http') ? publi.imagen : `http://127.0.0.1:8000${publi.imagen}` : ''} alt="" />
+                                        </div>
+                                        <Link></Link>
                                         <textarea type="text" value={editDescripcion} onChange={e => setEditDescripcion(e.target.value)} />
                                         <div className="agregarImagen">
                                             <label htmlFor={`editFileInput-${publi.id}`}>

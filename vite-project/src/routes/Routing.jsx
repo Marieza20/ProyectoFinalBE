@@ -19,6 +19,7 @@ import AdminPymesList from '../components/Admin/AdminPymesList'
 import PagoVerificaciones from '../pages/PagoVerificaciones';
 import VerificaInfo from '../pages/VerificaInfo';
 import AdminPublicaciones from '../components/Admin/AdminPublicaciones';
+import AdminRoute from '../components/AdminRoute';
 
 function Routing() {
   return (
@@ -28,19 +29,25 @@ function Routing() {
       <Routes>
         <Route path="/masInfoVerificacion" element={<VerificaInfo />} />
         <Route path="/verificarCuenta" element={<PagoVerificaciones />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route path="/admin" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+
         <Route path="/admin/pymes" element={<AdminPymesList />} />
         <Route path="/admin/publicaciones" element={<AdminPublicaciones />} />
-        <Route path='/' element={<Inicio/>}></Route>
-        <Route path='/sobreNosotros' element={<SobreNosotros/>}></Route>
-        <Route path='/registroPyme' element={<RegistroPyme/>}></Route>
-        <Route path='/registroUser' element={<RegistroUser/>}></Route>
-        <Route path='/login' element={<LoginUsuario/>}></Route>
-        <Route path='/contactos' element={<Contactos/>}></Route>
+        <Route path='/' element={<Inicio />}></Route>
+        <Route path='/sobreNosotros' element={<SobreNosotros />}></Route>
+        <Route path='/registroPyme' element={<RegistroPyme />}></Route>
+        <Route path='/registroUser' element={<RegistroUser />}></Route>
+        <Route path='/login' element={<LoginUsuario />}></Route>
+        <Route path='/contactos' element={<Contactos />}></Route>
         <Route path='/perfil' element={<PerfilUsuario />}></Route>
-        <Route path='/miPerfilPyme' element={<MiPerfilPyme/>}></Route>
-        <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme/>}></Route>
-        <Route path='/inicioPyme' element={<InicioPyme/>}></Route>
+        <Route path='/miPerfilPyme' element={<MiPerfilPyme />}></Route>
+        <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme />}></Route>
+        <Route path='/inicioPyme' element={<InicioPyme />}></Route>
         <Route path='/feed' element={<Feed />}></Route>
       </Routes>
       <Footer />

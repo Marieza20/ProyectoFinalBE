@@ -3,6 +3,12 @@ from .models import Pymes, Categorias, RedesSociales, Seguidores, PerfilPymes, P
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
+userGroup = User.groups.through
+class UserGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = userGroup
+        fields = ['id', 'user', 'group'] 
+
 
 class PymesSerializer(serializers.ModelSerializer):
     correo = serializers.EmailField(required=True)
@@ -24,7 +30,7 @@ class PymesSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        # Extraer datos para crear el User de Django
+        # extraer datos del usuario
         username = validated_data.get('username')
         email = validated_data.get('correo')
         password = validated_data.get('contrasena')
@@ -46,41 +52,39 @@ class PymesSerializer(serializers.ModelSerializer):
             print("ERROR AL CREAR PYME:", e)
             raise e
 
-
-
-
 class CategoriasSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)
 
     class Meta:
         model = Categorias
         fields = '__all__'
-
-
-
-
+        
+    def validate_nombre(self, value):
+        if Categorias.objects.filter(nombre=value).exists():
+            raise serializers.ValidationError("Ya existe una categoría con este nombre.")
+        return value
+    
 class RedesSocialesSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)
 
     class Meta:
         model = RedesSociales
         fields = '__all__'
-
-
-
+    
+    def validate_nombre(self, value):
+        if RedesSociales.objects.filter(nombre=value).exists():
+            raise serializers.ValidationError("Ya existe una red social con este nombre.")
+        return value
 
 class SeguidoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seguidores
         fields = '__all__'
 
-    def validar(self, data):
+    def validate(self, data):
         if Seguidores.objects.filter(id_pyme=data['id_pyme'], id_usuario=data['id_usuario']).exists():
             raise serializers.ValidationError("Ya existe esta relación de seguidor.")
         return data
-
-
-
 
 class PerfilPymesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
@@ -107,31 +111,34 @@ class PerfilPymesSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Ya existe un perfil para esta pyme.")
         return data
 
-
-
-
 class PerfilRedesSerializer(serializers.ModelSerializer):
     url = serializers.URLField()
 
     class Meta:
         model = PerfilRedes
         fields = '__all__'
-
-
-
+        
+    def validate_url(self, value):
+        if not value.startswith(('http://', 'https://')):
+            raise serializers.ValidationError("La URL debe comenzar con 'http://' o 'https://'.")
+        return value
 
 class ImagenesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Imagenes
         fields = '__all__'
 
-    def validar(self, data):
+    def validate(self, data):
         if Imagenes.objects.filter(id_publicacion=data['id_publicacion'], imagen=data['imagen']).exists():
             raise serializers.ValidationError("Esta imagen ya está asociada a la publicación.")
         return data
-
-
-
+    
+    def validate_imagen(self, value):
+        if not value:
+            raise serializers.ValidationError("La imagen no puede estar vacía.")
+        if not value.name.lower().endswith(('.png', '.jpg', '.jpeg')):
+            raise serializers.ValidationError("El archivo debe ser una imagen (PNG, JPG, JPEG).")
+        return value
 
 class PublicacionesSerializer(serializers.ModelSerializer):
     descripcion = serializers.CharField()
@@ -148,40 +155,31 @@ class PublicacionesSerializer(serializers.ModelSerializer):
             return perfil.fotoPerfil.url
         return ''
     
-    def validar_descripcion(self, value):
+    def validate_descripcion(self, value):
         if not value.strip():
             raise serializers.ValidationError("La descripción no puede estar vacía.")
         return value
-
-
-
-
+    
 class PubliCategoriasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publi_Categorias
         fields = '__all__'
 
-    def validar(self, data):
+    def validate(self, data):
         if Publi_Categorias.objects.filter(id_publicacion=data['id_publicacion'], id_categoria=data['id_categoria']).exists():
             raise serializers.ValidationError("Esta relación ya existe.")
         return data
-
-
-
-
+    
 class ReaccionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reacciones
         fields = '__all__'
 
-    def validar(self, data):
+    def validate(self, data):
         if Reacciones.objects.filter(id_publicacion=data['id_publicacion'], id_usuario=data['id_usuario']).exists():
             raise serializers.ValidationError("Ya existe esta reacción.")
         return data
-
-
-
-
+    
 class CalificacionesSerializer(serializers.ModelSerializer):
     Cantidad = serializers.IntegerField(min_value=1)
 
@@ -194,10 +192,6 @@ class CalificacionesSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("La cantidad debe ser positiva.")
         return value
     
-
-        
-        
-
 class UsersSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -208,10 +202,7 @@ class UsersSerializers(serializers.ModelSerializer):
         
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
-
-
-
-
+    
 class RedesSocialesNestedSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(source='id_redes.nombre')
 
@@ -219,8 +210,10 @@ class RedesSocialesNestedSerializer(serializers.ModelSerializer):
         model = PerfilRedes
         fields = ['nombre', 'url']
         
-        
-        
+    def validate_url(self, value):
+        if not value.startswith(('http://', 'https://')):
+            raise serializers.ValidationError("La URL debe comenzar con 'http://' o 'https://'.")
+        return value
         
 class PymeDetalleSerializer(serializers.ModelSerializer):
     perfil = serializers.SerializerMethodField()

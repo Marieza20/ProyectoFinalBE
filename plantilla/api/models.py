@@ -37,14 +37,14 @@ class RedesSociales(models.Model):
     
     
 class Seguidores(models.Model):
-    id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 
 
 class PerfilRedes (models.Model):
-    id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     id_redes = models.ForeignKey(RedesSociales, on_delete=models.CASCADE)
     url = models.CharField(max_length=100)
 
@@ -55,7 +55,7 @@ class PerfilRedes (models.Model):
 
 
 class Imagenes(models.Model):
-    id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     imagen1 = models.ImageField(upload_to='imagenes/')
     imagen2 = models.ImageField(upload_to='imagenes/')
     imagen3 = models.ImageField(upload_to='imagenes/')
@@ -67,7 +67,7 @@ class Imagenes(models.Model):
 
 
 class PerfilPymes (models.Model):
-    id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     descripcion = models.TextField()
     especialidad = models.CharField(max_length=100 )
     ubicacion = models.CharField(max_length=100)
@@ -81,7 +81,7 @@ class PerfilPymes (models.Model):
 
 
 class Publicaciones(models.Model):
-    id_pyme = models.ForeignKey(Pymes, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Pymes, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to='publicaciones/')
     descripcion = models.TextField()
     fecha_Publicacion = models.DateTimeField(auto_now_add=True)

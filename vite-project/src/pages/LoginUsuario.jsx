@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext'; // Importa el contexto
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Cookies from "js-cookie";
+import Swal from 'sweetalert2'
 
 function LoginUsuario() {
   const [nombreUser, setNombreUser] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Usa el método login del contexto
+  const { login } = useAuth();
 
   const toggleMostrarContrasena = () => {
     setMostrarContrasena(prev => !prev);
@@ -30,16 +31,16 @@ function LoginUsuario() {
         credentials: 'include',
         body: JSON.stringify(info)
       });
-      if (!response.ok) throw new Error('Credenciales incorrectas');
+      //console.log(response);
+
+      if (!response.ok) {
+        console.log('Credenciales incorrectas');
+      }
+
       const data = await response.json();
+      //console.log(data);
 
-      console.log(data);
-      console.log(data.id);
-
-      Cookies.set("idPyme", data.id)
-
-      localStorage.setItem("access", data.access)
-      
+      localStorage.setItem("access", data.access);
 
       // Obtener datos del usuario autenticado
       const userResponse = await fetch('http://127.0.0.1:8000/api/users/me/', {
@@ -48,21 +49,29 @@ function LoginUsuario() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${data.access}`
         },
-        credentials: 'include', // Si usas JWT en cookie
+        credentials: 'include',
       });
       const userData = await userResponse.json();
-      login(userData);
+      console.log(userData);
+
       
+
+      login(userData);
+
       // Redirigir según el tipo de usuario
       if (userData.is_superuser) {
-        navigate('/admin/dashboard');
+        navigate('/admin');
       } else if (userData.is_staff) {
         navigate('/inicioPyme');
       } else {
         navigate('/');
       }
     } catch (error) {
-      console.log('Usuario o contraseña incorrectos');
+      Swal.fire({
+        icon: "question",
+        text: "Usuario o contraseña incorrectos",
+        draggable: true
+      });
     }
   }
 

@@ -29,8 +29,6 @@ async function postUsuarios(username, first_name, last_name, email, password) {
         email,
         password
     }
-
-    console.log(obj);
     
     try {
         const response = await fetch("http://127.0.0.1:8000/api/users/", {

@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 function MiPerfilPyme() {
   const [mostrarCrearPost, setMostrarCrearPost] = useState(false);
   const onCrearPostClick = () => setMostrarCrearPost((prev) => !prev);
-  const idPyme = Cookies.get("idPyme")
+  //const idPyme = Cookies.get("idPyme")
   
   return (
     <div>

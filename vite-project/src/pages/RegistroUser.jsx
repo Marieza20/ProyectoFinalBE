@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import '../styles/Registro.css'
-import llamadosUsuarios from '../services/llamadosUsuarios'
-import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link, useNavigate } from 'react-router-dom'
+import llamadosUsuarios from '../services/llamadosUsuarios'
+import '../styles/Registro.css'
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Swal from 'sweetalert2'
 
 function RegistroUser() {
   const [username, setUsername] = useState('')
@@ -20,10 +21,14 @@ function RegistroUser() {
 
   async function registrar() {
     const respuestaServer = await llamadosUsuarios.postUsuarios(username, first_name, last_name, email, password)
-    console.log(respuestaServer);  
+    Swal.fire({
+      text: "SweetAlert2 is working!",
+      timer: 1000 
+  });
     navigate('/login');
   }
 
+  
 
   return (
     <div className='margen'>

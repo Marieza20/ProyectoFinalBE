@@ -22,10 +22,8 @@ async function getPerfilPyme() {
 
 //////////LLAMADO POST//////////
 async function postPerfilPyme(imagen) {
-
     const formData = new FormData();
     formData.append('imagen', imagen); 
-
 
     try {
         const response = await fetch("http://127.0.0.1:8000/api/perfil-pymes/", {

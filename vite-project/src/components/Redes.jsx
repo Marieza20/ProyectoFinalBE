@@ -6,17 +6,19 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Redes() {
   const [pyme, setPyme] = useState(null);
-  const { user } = useAuth();
+  const { userId } = useAuth();
   const [redes, setRedes] = useState([]);
   const [todasRedes, setTodasRedes] = useState([]);
   const [redSocial, setRedSocial] = useState('');
   const [url, setUrl] = useState('');
   const [mostrarForm, setMostrarForm] = useState(false);
   const userToken = localStorage.getItem("access")
+  console.log(userToken);
+  
   const idPyme = Cookies.get("idPyme")
   
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${userId}/`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
@@ -55,9 +57,9 @@ function Redes() {
       return;
     }
 
-    console.log('pyme.id:', idPyme);
+    console.log('pyme.id:', userId);
     const data = {
-      id_pyme: idPyme,
+      id_pyme: userId,
       id_redes: redSocial,
       url: url
     };

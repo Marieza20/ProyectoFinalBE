@@ -9,9 +9,15 @@ function Portada() {
   const { id_pyme } = useParams();
   const [pyme, setPyme] = useState(null);
   const idPyme = Cookies.get("idPyme")
+  const userToken = localStorage.getItem("access")
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`)
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${id_pyme}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error al obtener la pyme');

@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 import Cookies from "js-cookie";
 
 function DatosAdicionales() {
-  const { user } = useAuth();
+  const { userId } = useAuth();
   const [descripcion, setDescripcion] = useState('');
   const [especialidad, setEspecialidad] = useState('');
   const [direccion, setDireccion] = useState('');
@@ -14,10 +14,9 @@ function DatosAdicionales() {
   const [perfilId, setPerfilId] = useState(null);
   const navigate = useNavigate();
   const userToken=localStorage.getItem("access")
-  const idPyme = Cookies.get("idPyme")
   
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
+    fetch(`http://127.0.0.1:8000/api/pymes-detalles/${userId}/`, {
       headers: {
         'Authorization': `Bearer ${userToken}`
       },
@@ -36,11 +35,11 @@ function DatosAdicionales() {
       .catch(err => {
         console.log('No hay perfil existente aún');
       });
-  }, [userToken, idPyme]);
+  }, [userToken, userId]);
 
   const AgregarDatos = async () => {
     const formData = new FormData();
-    formData.append('id_pyme', idPyme);
+    formData.append('id_pyme', userId);
     if (perfil) formData.append('fotoPerfil', perfil);
     if (portada) formData.append('fotoPortada', portada);
     formData.append('especialidad', especialidad);

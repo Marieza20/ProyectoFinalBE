@@ -11,7 +11,7 @@ from .models import (
 from .serializers import (
     PymesSerializer, CategoriasSerializer, RedesSocialesSerializer, SeguidoresSerializer,
     PerfilPymesSerializer, PerfilRedesSerializer, PublicacionesSerializer, PubliCategoriasSerializer,
-    ReaccionesSerializer, CalificacionesSerializer, UsersSerializers, ImagenesSerializer, PymeDetalleSerializer,
+    ReaccionesSerializer, CalificacionesSerializer, UsersSerializers, ImagenesSerializer, PymeDetalleSerializer, UserGroupSerializer
 )
 from django.contrib.auth.models import User
 from .permission import IsAdminUserGroup, IsNormalUserGroup, IsPymeUserGroup
@@ -25,11 +25,16 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 
+userGroup = User.groups.through
+
+class UserGroupView(ListCreateAPIView):
+    queryset = userGroup.objects.all()
+    serializer_class = UserGroupSerializer
+    
 class IsAuthenticatedUser(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated
    
-
 class UserMeView(APIView):
     permission_classes = [IsAuthenticatedUser]
 
@@ -41,11 +46,13 @@ class PymesViewSet(ModelViewSet):
     queryset = Pymes.objects.all()
     serializer_class = PymesSerializer
     parser_classes = (MultiPartParser, FormParser)
+    #permission_classes = [IsAuthenticatedUser, IsPymeUserGroup]
 
 class PymesListCreateView(ListCreateAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymesSerializer
     parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [AllowAny]
     
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
@@ -54,25 +61,21 @@ class PymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymesSerializer
     parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [IsAuthenticatedUser]
+    permission_classes = [IsAuthenticatedUser, IsPymeUserGroup]
     
     def get_queryset(self):
         return Pymes.objects.filter(usuario=self.request.user)
-
-
 
 # Categorias
 class CategoriasListCreateView(ListCreateAPIView):
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
-    permission_classes = [IsAuthenticatedUser]
+    permission_classes = [IsAuthenticatedUser, IsPymeUserGroup]
 
 class CategoriasRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Categorias.objects.all()
     serializer_class = CategoriasSerializer
-    permission_classes = [IsAuthenticatedUser]
-
-
+    permission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
 # RedesSociales
 class RedesSocialesListCreateView(ListCreateAPIView):
@@ -83,7 +86,7 @@ class RedesSocialesListCreateView(ListCreateAPIView):
 class RedesSocialesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = RedesSociales.objects.all()
     serializer_class = RedesSocialesSerializer
-    permission_classes = [IsAuthenticatedUser]
+    permission_classes = [IsAuthenticatedUser, IsAdminUserGroup]
 
 # Seguidores
 class SeguidoresListCreateView(ListCreateAPIView):
@@ -121,8 +124,6 @@ class PerfilPymesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
-
 
 # PerfilRedes
 class PerfilRedesListCreateView(ListCreateAPIView):
@@ -199,7 +200,7 @@ class UsersListCreateView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-        # Asigna el grupo "IsNormalUserGroup" por defecto
+        # Asigna el grupo IsNormalUserGroup por defecto
         try:
             group = Group.objects.get(name="IsNormalUserGroup")
             user.groups.add(group)
@@ -242,18 +243,20 @@ class ImagenesRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class PymesDetallesListCreateView(generics.ListAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymeDetalleSerializer
+    permission_classes = [AllowAny]
+    
     
 class PymeDetalleRetrieveView(generics.RetrieveAPIView):
     queryset = Pymes.objects.all()
     serializer_class = PymeDetalleSerializer
+    permission_classes = [IsAuthenticatedUser]
 
 class LogoutView(APIView):
     def post(self, request):
         response = Response({"detail": "Logout successful"})
-        response.delete_cookie('access')  # O el nombre de tu cookie JWT
+        response.delete_cookie('access')  # nombre de la cookie JWT
         response.delete_cookie('refresh')
         return response
-    
     
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -261,20 +264,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         try:
             serializer.is_valid(raise_exception=True)
-        except Exception as e:
+        except Exception:
             return Response({"detail": "Credenciales inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
 
         data = serializer.validated_data
-        user = serializer.user  # Aquí tienes acceso al usuario autenticado
-
-        try:
-            pyme = user.pyme
-            data['id'] = pyme.id
-        except Pymes.DoesNotExist:
-            return Response({"detail": "No se encontró una pyme asociada a este usuario."}, status=status.HTTP_404_NOT_FOUND)
+        user = serializer.user  # usuario autenticado
 
         response = Response(data, status=status.HTTP_200_OK)
+
+        # Guardamos las cookies necesarias
         response.set_cookie('access', data['access'], httponly=True, samesite='Lax')
         response.set_cookie('refresh', data['refresh'], httponly=True, samesite='Lax')
+        response.set_cookie('user_id', str(user.id), httponly=True, samesite='Lax')
 
         return response

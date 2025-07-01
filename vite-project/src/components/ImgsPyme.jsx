@@ -6,7 +6,7 @@ import '../styles/InfoPyme.css'
 function ImgsPyme() {
     const [pyme, setPyme] = useState(null);
     const { user } = useAuth();
-    const idPyme = Cookies.get("idPyme")
+    const { userId } = useAuth();
     const [imagenes, setImagenes] = useState([null, null, null]);
     const [imagenesId, setImagenesId] = useState(null);
     const fileInputs = Array.from({ length: imagenes.length }, () => useRef());
@@ -14,7 +14,7 @@ function ImgsPyme() {
     const userToken = localStorage.getItem("access")
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/pymes-detalles/${idPyme}/`, {
+        fetch(`http://127.0.0.1:8000/api/pymes-detalles/${userId}/`, {
             headers: {
                 'Authorization': `Bearer ${userToken}`
             },
@@ -52,7 +52,7 @@ function ImgsPyme() {
         if (!imgsPendientes.some(Boolean)) return;
 
         const formData = new FormData();
-        formData.append('id_pyme', idPyme);
+        formData.append('id_pyme', userId);
         imgsPendientes.forEach((img, i) => {
             if (img) formData.append(`imagen${i + 1}`, img);
         });
