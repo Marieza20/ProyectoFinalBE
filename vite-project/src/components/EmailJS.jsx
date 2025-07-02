@@ -23,7 +23,7 @@ function EmailJS() {
     }
 
     const Datos = {
-      nomgv2v1v2bbre: nombre.current.value,
+      nombre: nombre.current.value,
       correo: correo.current.value,
       mensaje: mensaje.current.value
     }

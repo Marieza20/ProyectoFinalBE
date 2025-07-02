@@ -12,12 +12,15 @@ async function GetPublicaciones() {
                 'Authorization': `Bearer ${userToken}`
             }
         });
+        
 
         if (!response.ok) {
             throw new Error("Error fetching publicaciones");
         }
 
-        const publicaciones = await response.json();        
+        const publicaciones = await response.json();     
+        console.log(publicaciones);
+           
         return publicaciones;
     } catch (error) {
         console.error('Error fetching publicaciones:', error);

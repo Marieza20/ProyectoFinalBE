@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Swal from 'sweetalert2'
-import llamadosUserGroup from '../services/llamadosUserGroup';
 
 function RegistroPyme() {
   const [username, setUserName] = useState('');
@@ -27,6 +26,7 @@ function RegistroPyme() {
     formData.append('contrasena', contrasena);
     formData.append('carnet', imagen);
 
+    
     fetch('http://127.0.0.1:8000/api/pymes/', {
       method: 'POST',
       body: formData,
@@ -35,7 +35,6 @@ function RegistroPyme() {
         const text = await res.text();
         try {
           const data = JSON.parse(text);
-          const respuestaServer = await llamadosUserGroup.postUserGroup(user_id, 3)
           Swal.fire({
             icon: "success",
             text: "Datos enviados correctamente",

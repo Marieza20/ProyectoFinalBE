@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import DashboardAdmin from './DashboardAdmin';
+import llamadosPymesDetalles from '../../services/llamadosPymesDetalles';
 
 function AdminPymesList() {
   const [pymes, setPymes] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/pymes-detalles/')
-      .then(res => res.json())
-      .then(data => {
-        setPymes(data);
-      })
-      .catch(err => console.error('Error al obtener pymes:', err));
+    async function FetchDataPymes() {
+      const datos = await llamadosPymesDetalles.getPymesDetalles();
+      setPymes(datos)
+      console.log(datos);
+      
+    }
+    FetchDataPymes();
   }, []);
+
+  function editar() {
+    
+  }
+
+  function eliminar() {
+    
+  }
 
   return (
     <div className='margen'>
       <DashboardAdmin />
+
+
       <h2 className='titulito margencitob'>Listado de Pymes</h2>
 
       <div className='pymes'>
@@ -68,6 +80,36 @@ function AdminPymesList() {
           </div>
         ))}
       </div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Username</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Carnet</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pymes.map((pyme) => (
+              <tr  key={pyme.id}>
+                <th scope="row">{pyme.id}</th>
+                <td>{pyme.username}</td>
+                <td>{pyme.nombre}</td>
+                <td>{pyme.telefono}</td>
+                <td>{pyme.correo}</td>
+                <td>{pyme.telefono}</td>
+                <td>
+                  <button onClick={editar}>Editar</button>
+                  <button onClick={eliminar}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
     </div>
   );
 }

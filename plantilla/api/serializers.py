@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Pymes, Categorias, RedesSociales, Seguidores, PerfilPymes, PerfilRedes, Imagenes, Publicaciones, Publi_Categorias, Reacciones, Calificaciones
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import make_password
 
 userGroup = User.groups.through
@@ -11,14 +11,16 @@ class UserGroupSerializer(serializers.ModelSerializer):
 
 
 class PymesSerializer(serializers.ModelSerializer):
-    correo = serializers.EmailField(required=True)
     contrasena = serializers.CharField(min_length=6, write_only=True)
-    telefono = serializers.CharField(min_length=8)
-
+    usuario_id = serializers.IntegerField(source='usuario.id', read_only=True)
+    
     class Meta:
         model = Pymes
-        fields = '__all__'
-    
+        fields = ['id', 'username', 'nombre', 'telefono', 'correo', 'contrasena', 'carnet', 'usuario_id']
+        extra_kwargs = {
+            'usuario': {'write_only': True},  # ocultamos el objeto en respuesta
+        }
+        
     def validate_contrasena(self, value):
         if len(value) < 8:
             raise serializers.ValidationError("La contraseña debe tener al menos 8 caracteres.")
@@ -30,27 +32,29 @@ class PymesSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        # extraer datos del usuario
         username = validated_data.get('username')
         email = validated_data.get('correo')
         password = validated_data.get('contrasena')
-
-        # Crear el usuario Django
+        
+        
         user = User.objects.create(
             username=username,
             email=email,
             password=make_password(password),
             is_staff=True
         )
-
-        # Guardar la pyme
-        validated_data.pop('usuario', None)
-        print("validated_data antes de crear la pyme:", validated_data)
+        
         try:
-            return super().create(validated_data)
-        except Exception as e:
-            print("ERROR AL CREAR PYME:", e)
-            raise e
+            grupo = Group.objects.get(id=3)
+            user.groups.add(grupo)
+        except Group.DoesNotExist:
+            print("El grupo con ID 3 no existe.")
+            
+        print(user.id)
+        validated_data['usuario'] = user
+        validated_data.pop('contrasena', None)
+
+        return super().create(validated_data)
 
 class CategoriasSerializer(serializers.ModelSerializer):
     nombre = serializers.CharField(max_length=100)

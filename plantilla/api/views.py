@@ -34,6 +34,17 @@ class UserGroupView(ListCreateAPIView):
 class IsAuthenticatedUser(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated
+    
+class MiPymeView(APIView):
+    permission_classes = [IsAuthenticatedUser]
+
+    def get(self, request):
+        try:
+            pyme = request.user.pyme
+            serializer = PymesSerializer(pyme)
+            return Response(serializer.data)
+        except Pymes.DoesNotExist:
+            return Response({"detail": "No tiene pyme asociada."}, status=404)
    
 class UserMeView(APIView):
     permission_classes = [IsAuthenticatedUser]
@@ -93,11 +104,31 @@ class SeguidoresListCreateView(ListCreateAPIView):
     queryset = Seguidores.objects.all()
     serializer_class = SeguidoresSerializer
     permission_classes = [IsAuthenticatedUser]
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        id_pyme = self.request.query_params.get('id_pyme')
+        id_usuario = self.request.query_params.get('id_usuario')
+        if id_pyme is not None:
+            queryset = queryset.filter(id_pyme=id_pyme)
+        if id_usuario is not None:
+            queryset = queryset.filter(id_usuario=id_usuario)
+        return queryset
 
 class SeguidoresRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Seguidores.objects.all()
     serializer_class = SeguidoresSerializer
     permission_classes = [IsAuthenticatedUser]
+    
+    #def get_queryset(self):
+        #queryset = super().get_queryset()
+        #id_pyme = self.request.query_params.get('id_pyme')
+        #id_usuario = self.request.query_params.get('id_usuario')
+        #if id_pyme is not None:
+            #queryset = queryset.filter(id_pyme=id_pyme)
+        #if id_usuario is not None:
+            #queryset = queryset.filter(id_usuario=id_usuario)
+        #return queryset
 
 # PerfilPymes
 class PerfilPymesListCreateView(ListCreateAPIView):

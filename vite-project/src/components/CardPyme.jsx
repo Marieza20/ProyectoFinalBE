@@ -9,11 +9,11 @@ function CardPyme({ pymes }) {
 
   return (
     <div className='margencito'>
-        <div className='pymes'>
-          {pymes.map((pyme) =>(
+      <div className='pymes'>
+        {pymes.map((pyme) => (
           <div className="cardP" key={pyme.id}>
             <div className="headCardP">
-                <img src={`http://127.0.0.1:8000${pyme.perfil?.fotoPerfil}`} alt="" />
+              <img src={`http://127.0.0.1:8000${pyme.perfil?.fotoPerfil}`} alt="" />
             </div>
             <div className='bodyCardP'>
               <h3 className='titulito'>{pyme.nombre}</h3>
@@ -45,8 +45,8 @@ function CardPyme({ pymes }) {
               <Link className='Link' to={`/perfilPyme/${pyme.id}`}><button className='btn'>Conoce más</button></Link>
             </div>
           </div>
-          ))}
-        </div>
+        ))}
+      </div>
     </div>
   )
 }

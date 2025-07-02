@@ -21,10 +21,10 @@ async function getUserGroup() {
 
 
 //////////LLAMADO POST//////////
-async function postUserGroup(user_id, group_id) {
+async function postUserGroup(user, group) {
     const obj = {
-        user_id,
-        group_id
+        user,
+        group
     }
     
     try {

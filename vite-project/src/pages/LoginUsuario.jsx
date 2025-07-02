@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
+import llamadosPymes from '../services/llamadosPymes';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Cookies from "js-cookie";
 import Swal from 'sweetalert2'
@@ -11,6 +12,17 @@ function LoginUsuario() {
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { userId } = useAuth();
+  const [pymes, setPymes] = useState([]);
+  
+  useEffect(() => {
+    async function FetchDataPymes() {
+      const datos = await llamadosPymes.getPymes();
+      setPymes(datos)
+      console.log(datos);
+    }
+    FetchDataPymes();
+  }, []);
 
   const toggleMostrarContrasena = () => {
     setMostrarContrasena(prev => !prev);
@@ -38,7 +50,7 @@ function LoginUsuario() {
       }
 
       const data = await response.json();
-      //console.log(data);
+      console.log(data);
 
       localStorage.setItem("access", data.access);
 
@@ -54,18 +66,21 @@ function LoginUsuario() {
       const userData = await userResponse.json();
       console.log(userData);
 
-      
+
+
 
       login(userData);
 
       // Redirigir según el tipo de usuario
       if (userData.is_superuser) {
-        navigate('/admin');
-      } else if (userData.is_staff) {
-        navigate('/inicioPyme');
+        //navigate('/admin');
+      } else if (userData.is_staff && pymes.id == userId) {
+        //navigate('/inicioPyme');
       } else {
-        navigate('/');
+        //navigate('/');
       }
+      console.log(pymes[usuario]);
+
     } catch (error) {
       Swal.fire({
         icon: "question",

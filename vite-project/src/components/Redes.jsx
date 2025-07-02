@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from "./AuthContext";
-import Cookies from "js-cookie";
+import llamadosPymesDetalles from '../services/llamadosPymesDetalles'
 import '../styles/Redes.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -13,10 +13,7 @@ function Redes() {
   const [url, setUrl] = useState('');
   const [mostrarForm, setMostrarForm] = useState(false);
   const userToken = localStorage.getItem("access")
-  console.log(userToken);
-  
-  const idPyme = Cookies.get("idPyme")
-  
+
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/pymes-detalles/${userId}/`, {
       headers: {

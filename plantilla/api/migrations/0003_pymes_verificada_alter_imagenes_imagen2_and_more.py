@@ -10,11 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='pymes',
-            name='verificada',
-            field=models.BooleanField(default=False),
-        ),
         migrations.AlterField(
             model_name='imagenes',
             name='imagen2',

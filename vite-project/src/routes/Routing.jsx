@@ -16,8 +16,6 @@ import MiPerfilPyme from '../pages/MiPerfilPyme';
 import Feed from '../pages/Feed';
 import AdminDashboard from '../pages/AdminDashboard';
 import AdminPymesList from '../components/Admin/AdminPymesList'
-import PagoVerificaciones from '../pages/PagoVerificaciones';
-import VerificaInfo from '../pages/VerificaInfo';
 import AdminPublicaciones from '../components/Admin/AdminPublicaciones';
 import AdminRoute from '../components/AdminRoute';
 
@@ -27,8 +25,6 @@ function Routing() {
       <ScrollToTop />
       <Menu />
       <Routes>
-        <Route path="/masInfoVerificacion" element={<VerificaInfo />} />
-        <Route path="/verificarCuenta" element={<PagoVerificaciones />} />
 
         <Route path="/admin" element={
           <AdminRoute>
@@ -45,7 +41,7 @@ function Routing() {
         <Route path='/login' element={<LoginUsuario />}></Route>
         <Route path='/contactos' element={<Contactos />}></Route>
         <Route path='/perfil' element={<PerfilUsuario />}></Route>
-        <Route path='/miPerfilPyme' element={<MiPerfilPyme />}></Route>
+        <Route path='/miPerfilPyme/:id_pyme' element={<MiPerfilPyme />}></Route>
         <Route path='/perfilPyme/:id_pyme' element={<PerfilPyme />}></Route>
         <Route path='/inicioPyme' element={<InicioPyme />}></Route>
         <Route path='/feed' element={<Feed />}></Route>

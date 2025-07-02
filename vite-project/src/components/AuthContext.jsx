@@ -19,7 +19,6 @@ export function AuthProvider({ children }) {
     setUser(userData);
     Cookies.set("user", JSON.stringify(userData), { expires: 60 });
 
-    // Si no has leído el user_id directamente del backend, lo puedes sacar de userData.id
     if (userData.id) {
       setUserId(userData.id);
       Cookies.set("user_id", userData.id, { expires: 60 });
